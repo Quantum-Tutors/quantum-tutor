@@ -1,0 +1,3 @@
+1. add feature that asks series of question to the user before asnwering to eval his level of knowledge in that subject of matter.
+2. Create a tool that estimates the current state of the conversation, initial, probing, exploration like that.
+3. 
