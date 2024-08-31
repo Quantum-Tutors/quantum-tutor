@@ -1,0 +1,6 @@
+DB:
+  MONGO_VALUES:
+    HOSTNAME: ""
+    USERNAME: ""
+    PASSWORD: ""
+    DBNAME: ""
