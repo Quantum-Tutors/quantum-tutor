@@ -1,4 +1,4 @@
-# Project Name
+# Quantum Tutor
 
 ## Overview
 
