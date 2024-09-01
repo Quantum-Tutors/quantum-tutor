@@ -1,0 +1,32 @@
+.container{
+	display: flex;
+	height: 15rem;
+	width: 12rem;
+	justify-content: space-between;
+	flex-direction: column;
+	background-color: #28292a;
+	border-radius: 20px;
+	align-items: center;
+	padding: 1rem;
+
+	&:hover{
+		background-color: #353638;
+	}
+}
+
+.feature_text{
+	font-size: 2rem;
+	color: #908f8f;
+	
+}
+
+.icon_box{
+	width: 100%;
+	display: inline-flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.icon{
+	font-size: 3rem !important;
+}

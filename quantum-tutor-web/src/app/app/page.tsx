@@ -1,13 +1,12 @@
 import React from 'react'
-import ChatContainer from '../../components/ChatContainer';
-import LeftNav from '../../components/LeftNav';
+import FeatureBox from '@/src/components/FeatureBox';
+import WelcomePage from './welcome/page';
 
 
 const HomePage = () => {
   return (
     <>
-      <LeftNav/>
-      <ChatContainer/>
+      <WelcomePage/>
     </>
   )
 }
