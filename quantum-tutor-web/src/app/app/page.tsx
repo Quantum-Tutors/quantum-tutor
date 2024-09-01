@@ -1,13 +1,11 @@
 import React from 'react'
-import ChatContainer from '../../components/ChatContainer';
-import LeftNav from '../../components/LeftNav';
+import FeatureBox from '@/src/components/FeatureBox';
 
 
 const HomePage = () => {
   return (
     <>
-      <LeftNav/>
-      <ChatContainer/>
+      <FeatureBox text='Learn about socratic learning' Icon={<></>}/>
     </>
   )
 }

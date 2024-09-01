@@ -1,0 +1,23 @@
+.container{
+	display: flex;
+	height: 12rem;
+	width: 13rem;
+	justify-content: space-between;
+	flex-direction: column;
+	background-color: #d7dfe9;
+	border-radius: 20px;
+	align-items: center;
+	padding: 1rem;
+
+	&_feature_text{
+		color: #e3e3e3;
+		
+	}
+}
+
+.icon_box{
+	width: 100%;
+	display: inline-flex;
+	justify-content: flex-end;
+	align-items: center;
+}
