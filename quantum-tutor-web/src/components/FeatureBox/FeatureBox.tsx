@@ -1,22 +1,23 @@
 import { Box, Typography } from '@mui/material';
-import {ReactElement, ReactNode} from 'react';
 import styles from '../../styles/FeatureBox.module.scss';
-import ExploreIcon from '@mui/icons-material/Explore';
+import { SvgIconComponent } from '@mui/icons-material';
 
 interface Props {
   text: string;
-  Icon: ReactElement;
+  Icon:  SvgIconComponent;
 }
 
-export default function FeatureBox({text, Icon}: Props) {
+const FeatureBox: React.FC<Props> = ({ text, Icon }) => {
   return (
     <Box className={styles.container}>
-      <Typography component={'div'} variant='h6' className='feature_text'>
+      <Typography component={'div'} variant='h6' className={styles.feature_text}>
         {text}
       </Typography>
       <Box className={styles.icon_box}>
-        <ExploreIcon />
+        <Icon className={styles.icon}/>
       </Box>
     </Box>
-  ); 
+  );
 }
+
+export default FeatureBox;

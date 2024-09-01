@@ -1,18 +1,23 @@
 .container{
 	display: flex;
-	height: 12rem;
-	width: 13rem;
+	height: 15rem;
+	width: 12rem;
 	justify-content: space-between;
 	flex-direction: column;
-	background-color: #d7dfe9;
+	background-color: #28292a;
 	border-radius: 20px;
 	align-items: center;
 	padding: 1rem;
 
-	&_feature_text{
-		color: #e3e3e3;
-		
+	&:hover{
+		background-color: #353638;
 	}
+}
+
+.feature_text{
+	font-size: 2rem;
+	color: #908f8f;
+	
 }
 
 .icon_box{
@@ -20,4 +25,8 @@
 	display: inline-flex;
 	justify-content: flex-end;
 	align-items: center;
+}
+
+.icon{
+	font-size: 3rem !important;
 }
