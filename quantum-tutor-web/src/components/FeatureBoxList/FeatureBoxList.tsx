@@ -1,6 +1,6 @@
 import { List, ListItem } from '@mui/material'
 import React from 'react'
-import styles from '../../styles/FeatureBoxList.module.scss';
+import styles from '@/styles/FeatureBoxList.module.scss';
 import FeatureBox from '../FeatureBox/FeatureBox';
 import { SvgIconComponent } from '@mui/icons-material';
 
