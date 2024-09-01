@@ -1,5 +1,6 @@
+import * as dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import 'dotenv/config';
+dotenv.config();
 // const dbUserName = process.env.DB_USER_NAME
 // const dbPassword = process.env.DB_PASSWORD
 // const dbHostName = process.env.DB_HOST_NAME
