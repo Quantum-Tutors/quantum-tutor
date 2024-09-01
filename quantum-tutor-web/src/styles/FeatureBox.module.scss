@@ -1,16 +1,27 @@
-.container{
+%container_base {
 	display: flex;
 	height: 15rem;
 	width: 12rem;
 	justify-content: space-between;
 	flex-direction: column;
-	background-color: #28292a;
 	border-radius: 20px;
 	align-items: center;
 	padding: 1rem;
+}
 
+.container_dark{
+	@extend %container_base;
+	background-color: #28292a;
 	&:hover{
-		background-color: #353638;
+		background-color: #232222;
+	}
+}
+
+.container_light {
+	@extend %container_base;
+	background-color: #e6e7e7;
+	&:hover {
+		background-color: #c9cbcf;
 	}
 }
 

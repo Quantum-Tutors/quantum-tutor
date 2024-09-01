@@ -16,18 +16,29 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import * as React from 'react';
-import styles from '../../styles/LeftNav.module.scss';
+import styles from '@/styles/LeftNav.module.scss';
+import { useTheme } from '@mui/material/styles';
+interface Props {
+  toggleTheme : () => void;
+}
 
-const LeftNav = () => {
+const LeftNav = ({ toggleTheme }: Props) => {
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
 
+  const theme = useTheme();
+
   const DrawerList = (
-    <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
-      <Typography className={styles.chatHeader}>Chat</Typography>
+    <Box sx={{ width: 250 }} role='presentation' onClick={toggleDrawer(false)}>
+      <Typography
+        className={styles.chatHeader}
+        color={theme.palette.secondary.light}
+      >
+        Chat
+      </Typography>
       <List>
         {['Data structures', 'Java', 'React', 'GCP'].map((text) => (
           <ListItem key={text} disablePadding>
@@ -35,7 +46,10 @@ const LeftNav = () => {
               <ListItemIcon>
                 <SchoolIcon />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText
+                sx={{ color: theme.palette.secondary.main }}
+                primary={text}
+              />
             </ListItemButton>
           </ListItem>
         ))}
@@ -44,11 +58,14 @@ const LeftNav = () => {
       <div className={styles.leftNavBottom}>
         <List>
           <ListItem key={'Help'} disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={() => toggleTheme()}>
               <ListItemIcon>
                 <HelpIcon />
               </ListItemIcon>
-              <ListItemText primary={'help'} />
+              <ListItemText
+                sx={{ color: theme.palette.secondary.main }}
+                primary={'Toggle'}
+              />
             </ListItemButton>
           </ListItem>
           <ListItem key={'settings'} disablePadding>
@@ -56,7 +73,10 @@ const LeftNav = () => {
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>
-              <ListItemText primary={'settings'} />
+              <ListItemText
+                sx={{ color: theme.palette.secondary.main }}
+                primary={'Settings'}
+              />
             </ListItemButton>
           </ListItem>
         </List>
@@ -65,30 +85,44 @@ const LeftNav = () => {
   );
 
   return (
-    <div>
-      <IconButton onClick={toggleDrawer(true)} color="primary">
+    <div style={{width: "min-content"}}>
+      <IconButton onClick={toggleDrawer(true)} color='primary' sx={{position: "absolute"}}>
         <MenuIcon />
       </IconButton>
-      <Drawer className={styles.leftNav} sx={{
-        "& .MuiPaper-root": {
-          backgroundColor: "#1e1f20",
-          color: "#fff",
-        },
-        "& .MuiBackdrop-root": {
-          backgroundColor: "#131314",
-          color: "#fff",
-        }
-       }} open={open} onClose={toggleDrawer(false)}>
-        <IconButton className={styles.toggle} onClick={toggleDrawer(false)} color="primary">
+      <Drawer
+        sx={{
+          '& .MuiPaper-root': {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.primary.main,
+          },
+          '& .MuiBackdrop-root': {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.primary.main,
+          },
+        }}
+        open={open}
+        onClose={toggleDrawer(false)}
+      >
+        <IconButton
+          className={styles.toggle}
+          onClick={toggleDrawer(false)}
+          color="primary"
+        >
           <MenuIcon />
         </IconButton>
-        <Button className={styles.newChat} variant="contained" startIcon={<AddIcon />} size='small'>
+        <Button
+          className={styles.newChat}
+          variant='contained'
+          startIcon={<AddIcon />}
+          size='small'
+          color='secondary'
+        >
           New chat
         </Button>
         {DrawerList}
       </Drawer>
     </div>
   );
-}
+};
 
 export default LeftNav;
