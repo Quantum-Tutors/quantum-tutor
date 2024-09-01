@@ -9,6 +9,7 @@ const PromptField = () => {
         "& .MuiInputBase-root": {
           borderRadius:"25px",
           color: "#fff",
+          backgroundColor:"#1e1f20",
         }
       }}
       multiline

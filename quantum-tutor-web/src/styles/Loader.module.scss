@@ -1,0 +1,23 @@
+.loader {
+  width: 30rem;
+  gap: 10px;
+}
+
+.loader hr {
+  border-radius: 4px;
+  border: none;
+  background-color: #f6f7f8;
+  background: linear-gradient(to right, #b1d5ee, #c953e98a, #9ed7ff);
+  background-size: 800px 50px;
+  height: 20px;
+  animation: loader 4s infinite linear;
+}
+
+@keyframes loader{
+  0%{
+      background-position: -800px 0px;
+  }
+  100%{
+      background-position: 800px 0px;
+  }
+}
