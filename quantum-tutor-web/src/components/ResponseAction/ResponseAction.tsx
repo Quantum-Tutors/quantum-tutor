@@ -1,7 +1,7 @@
-import React from 'react'
-import ThumbUpOffAltOutlinedIcon from '@mui/icons-material/ThumbUpOffAltOutlined';
 import ThumbDownOffAltOutlinedIcon from '@mui/icons-material/ThumbDownOffAltOutlined';
+import ThumbUpOffAltOutlinedIcon from '@mui/icons-material/ThumbUpOffAltOutlined';
 import IconButton from '@mui/material/IconButton';
+import React from 'react'
 import styles from '@/styles/ResponseAction.module.scss';
 import MoreOption from '../MoreOption';
 import { useTheme } from '@mui/material/styles';
@@ -28,4 +28,4 @@ const ResponseAction = () => {
   );
 }
 
-export default ResponseAction
+export default ResponseAction;
