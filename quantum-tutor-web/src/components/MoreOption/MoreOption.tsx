@@ -8,6 +8,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+import { useTheme } from '@mui/material/styles';
 
 const MoreOption = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -18,19 +19,23 @@ const MoreOption = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const theme = useTheme();
   return (
     <>
       <IconButton
-        size="large"
+        size='large'
         aria-controls={open ? 'basic-menu' : undefined}
-        aria-haspopup="true"
+        aria-haspopup='true'
         aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}>
-        <MoreVertIcon fontSize="inherit" style={{ color: "#fff" }} />
+        onClick={handleClick}
+      >
+        <MoreVertIcon
+          fontSize='inherit'
+          style={{ color: theme.palette.primary.main }}
+        />
       </IconButton>
       <Menu
-        id="basic-menu"
+        id='basic-menu'
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
@@ -40,19 +45,19 @@ const MoreOption = () => {
       >
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
-            <ContentCopyIcon fontSize="small" />
+            <ContentCopyIcon fontSize='small' />
           </ListItemIcon>
           <ListItemText>Copy</ListItemText>
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
-            <ReportProblemIcon fontSize="small" />
+            <ReportProblemIcon fontSize='small' />
           </ListItemIcon>
           <ListItemText>Report</ListItemText>
         </MenuItem>
       </Menu>
     </>
-  )
+  );
 }
 
 export default MoreOption;

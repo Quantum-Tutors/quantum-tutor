@@ -1,10 +1,10 @@
 import React from 'react'
-import styles from '../../styles/ChatContainer.module.scss';
 import Loader from '../Loader';
-import PromptField from '../PromptField';
 import { assets } from '../../../assets';
 import Image from 'next/image';
 import ResponseAction from '../ResponseAction/ResponseAction';
+import PromptField from '../PromptField';
+import styles from '@/styles/ChatContainer.module.scss';
 
 const ChatContainer = () => {
   return (
