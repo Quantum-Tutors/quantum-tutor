@@ -2,3 +2,24 @@
   display: flex;
   justify-content: center;
 }
+
+.chatArea {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.userQuery {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.modelResponse {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
