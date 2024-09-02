@@ -1,6 +1,6 @@
 "use client";
 import { Box, Typography } from '@mui/material';
-import styles from '@/styles/FeatureBox.module.scss';
+import styles from 'styles/FeatureBox.module.scss';
 import { SvgIconComponent } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 

@@ -1,7 +1,7 @@
 "use client";
 import { darkTheme, lightTheme } from '@/styles/GlobalTheme';
-import ChatContainer from '../../components/ChatContainer';
-import LeftNav from '../../components/LeftNav';
+import ChatContainer from 'components/ChatContainer';
+import LeftNav from 'components/LeftNav';
 import * as React from 'react';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import { Theme } from '@mui/material';
