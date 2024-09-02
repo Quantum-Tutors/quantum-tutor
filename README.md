@@ -25,5 +25,12 @@ This project integrates LangChain, LangGraph, Ollama, Next.js, MongoDB, and Llam
 
 1. **Clone the repository**
    ```bash
-   git clone [<repository-url>](https://github.com/Quantum-Tutors/quantum-tutor.git)
-   cd quantum-tutor
+   git clone https://github.com/Quantum-Tutors/quantum-tutor.git
+   ```
+2. **Navigate to project**
+   ```bash
+   cd quantum-tutor-web
+   ```
+   ```bash
+   cd llm-server
+   ```
