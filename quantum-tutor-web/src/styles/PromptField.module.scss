@@ -1,8 +1,24 @@
 .promptField {
   width: 45rem;
-  position: fixed !important;
-  bottom: 1.5rem;
-  margin: 0 auto !important;
+  bottom: 2rem;
+  left: 20%;
+  margin: 0 auto!important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background-color: #e9eef6;
+  padding: 10px 20px;
+  border-radius: 50px;
+}
+
+.promptField input{
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 8px;
+  font-size: 18px;
 }
 
 .MuiTextField-root {
