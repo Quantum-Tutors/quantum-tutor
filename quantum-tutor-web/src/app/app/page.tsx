@@ -14,20 +14,21 @@ const Page = () => {
   ];
   const theme = useTheme();
   return (
-    <Box className={styles.container} sx={{backgroundColor: theme.palette.primary.light}}>
+    <Box className={styles.wrapper_container} sx={{backgroundColor: theme.palette.primary.light}}>
+    <Box className={styles.container} >
       <Box className={styles.welcome_text}>
         <Typography
           sx={{
             fontWeight: '700',
             background: 'linear-gradient(to bottom, #194c33, #bbb)',
             WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
+            WebkitTextFillColor: 'transparent'
           }}
           component={'div'}
           variant='h2'
           className={styles.greeting}
         >
-          Hello Natheem
+          Hello Gary
           <Typography
             sx={{ fontWeight: '700' }}
             component={'div'}
@@ -40,6 +41,7 @@ const Page = () => {
       </Box>
       <FeatureBoxList featureBoxList={featureBoxList} />
     </Box>
+  </Box>
   );
 };
 
