@@ -45,7 +45,7 @@ Start the FastAPI server using Uvicorn:
 
 ```bash
 cd llm-server/data/
-uvicorn main:app --reload
+uvicorn convo-generator:app --reload
 ```
 
 The server will run on [http://127.0.0.1:8000](http://127.0.0.1:8000).
