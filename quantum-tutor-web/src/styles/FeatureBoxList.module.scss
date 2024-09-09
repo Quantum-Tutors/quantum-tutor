@@ -1,4 +1,6 @@
 .feature_box_list{
     display: flex;
-    justify-content: space-between;
+    gap: 1.1rem;
+    align-items: center;
+    width: max-content  ;
 }
