@@ -1,18 +1,15 @@
-import Image from 'next/image';
 import React from 'react'
-import { assets } from '../../../assets';
 import styles from '../../styles/ChatContainer.module.scss';
-import Loader from '../Loader';
-import PromptField from '../PromptField';
-import ResponseAction from '../ResponseAction';
-import UserQuery from '../UserQuery';
 import ModelResponse from '../ModelResponse';
 import Module from '../Module';
+import ResponseAction from '../ResponseAction';
+import UserQuery from '../UserQuery';
 
 const ChatContainer = () => {
   return (
     <div className={styles.chatContainer}>
       <div className={styles.chatArea}>
+        <br />
         <div>
           <UserQuery />
           <ModelResponse />
@@ -26,7 +23,6 @@ const ChatContainer = () => {
         <br />
         <br />
       </div>
-      <PromptField />
     </div>
   )
 }

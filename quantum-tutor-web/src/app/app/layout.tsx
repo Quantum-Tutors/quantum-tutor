@@ -1,6 +1,5 @@
 "use client";
 import { darkTheme, lightTheme } from '@/styles/GlobalTheme';
-import ChatContainer from 'components/ChatContainer';
 import LeftNav from 'components/LeftNav';
 import * as React from 'react';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
@@ -21,7 +20,6 @@ export default function Layout({
     <ThemeProvider theme={theme}>
       <LeftNav toggleTheme={toggleTheme} />
       {children }
-			<ChatContainer/>
     </ThemeProvider>
   );
 }

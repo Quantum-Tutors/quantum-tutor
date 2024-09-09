@@ -1,10 +1,11 @@
-from langchain_community.llms import Ollama
-from langchain.prompts import SystemMessagePromptTemplate, HumanMessagePromptTemplate, ChatPromptTemplate
-from langchain.agents import AgentExecutor, initialize_agent
+# from langchain_community.llms import Ollama
+from langchain_ollama import ChatOllama
+from langchain.prompts import SystemMessagePromptTemplate, HumanMessagePromptTemplate, ChatPromptTemplate, MessagesPlaceholder
+# from langchain.agents import AgentAction, AgentExecutor, initialize_agent, create_tool_calling_agent
+from langchain_core.messages import BaseMessage
 from langchain.tools import Tool
+from typing import TypedDict, Annotated, List, Union
 
-from langchain.tools import Tool
-from langchain.llms import Ollama
 
 def conversation_state_tracker(chat_history):
     """
@@ -20,31 +21,27 @@ def conversation_state_tracker(chat_history):
         * **Probing** - Asking deeper questions to uncover more information.
         * **Concluding** - Wrapping up the conversation and reaching a conclusion.
     """
-    prompt = """
+    prompt = f"""
         Analyze the following conversation history:
         {chat_history}
-
-        Determine the current conversation state. Consider factors such as the topic, depth of discussion, and user engagement. Possible states include:
+        Determine the current conversation state in Socratic learning Method to decide what to do next. 
+        Consider factors such as the topic, depth of discussion, and user engagement. 
+        Respond with only on of the possible states:
         * **Initial**
         * **Exploring**
         * **Probing**
         * **Concluding**
     """
-    response = llm(prompt)
-    print(response)
+    response = model.invoke(prompt)
     return response.strip()
 
-# Wrap the function as a Tool using Tool.from_function
 conversation_state_tracker_tool = Tool.from_function(
     func=conversation_state_tracker, 
     name="conversation_state_tracker", 
     description="Tracks the current state of the conversation based on the chat history."
 )
+tools=[conversation_state_tracker_tool]
 
-# Create conversation state tracker tool
-tools = [conversation_state_tracker_tool]
-
-# Create system prompt and initial messages
 system_prompt = SystemMessagePromptTemplate.from_template("""
     You will act as a Socratic tutor, guiding the user towards understanding their own errors or misconceptions or in learning a new concept.
 
@@ -76,38 +73,14 @@ system_prompt = SystemMessagePromptTemplate.from_template("""
     """
 )
 
-# Initialize Ollama model
-llm = Ollama(model="llama3.1")
 
-# Create chat template and agent executor
-chat_template = ChatPromptTemplate.from_messages([system_prompt,HumanMessagePromptTemplate.from_template("Hello! I'm ready to start our Socratic learning session.. Shall we start?")])
-# Initialize an agent using the tools and the conversation chain
-agent = initialize_agent(
-    tools=tools, 
-    llm=llm, 
-    agent="zero-shot-react-description",  # Example agent type, adjust as needed
-    chat_prompt=chat_template
-)
+from langchain_core.messages import HumanMessage
+from langgraph.checkpoint.memory import MemorySaver
 
-# Create an AgentExecutor with the initialized agent
-agent_executor = AgentExecutor(agent=agent, tools=tools)
+# Create the agent
+memory = MemorySaver()
+model = ChatOllama(model="llama3.1")
 
+model = model.bind_tools(tools)
 
-user_chat_history = []
-# Start the conversation
-while True:
-    user_input = input("You: ")
-    if user_input.lower() == "quit":
-        break
-
-    # Update conversation history
-    user_chat_history.append(user_input)
-
-    # Determine conversation state using the tool
-    conversation_state = agent_executor.invoke({"input": user_input})
-
-    # user_chat_history.append()
-    # Respond to the user based on the conversation state
-    # (Implement logic to generate appropriate responses based on the state)
-
-    print(f"Current Conversation State: {conversation_state}")
+response = model.invoke([HumanMessage(content="hi!")])

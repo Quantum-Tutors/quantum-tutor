@@ -1,9 +1,10 @@
 "use client";
+import { Explore } from '@mui/icons-material';
 import { Box, Typography, useTheme } from '@mui/material';
 import React from 'react';
 import styles from './page.module.scss';
 import FeatureBoxList from '@/components/FeatureBoxList';
-import { Explore } from '@mui/icons-material';
+import ChatBottom from '@/components/ChatBottom';
 
 const Page = () => {
   const featureBoxList = [
@@ -40,6 +41,7 @@ const Page = () => {
         </Typography>
       </Box>
       <FeatureBoxList featureBoxList={featureBoxList} />
+      <ChatBottom/>
     </Box>
   </Box>
   );
