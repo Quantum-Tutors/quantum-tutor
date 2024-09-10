@@ -6,9 +6,14 @@ from pymongo import MongoClient
 import random
 import uuid
 
+import os
+from dotenv import load_dotenv
+load_dotenv(os.path.join('../config/','.env'))  
+
 app = FastAPI()
 
-client = MongoClient("mongodb+srv://Namasivaayam007:6383512055@cluster0.zaxrt3p.mongodb.net/")
+MONGODB_CONN_STR  = os.getenv('MONGODB_CONN_STR')
+client = MongoClient(MONGODB_CONN_STR)
 db = client["quantum-tutor-test"]
 chat_sessions = db["chat_sessions"]
 messages = db["messages"]

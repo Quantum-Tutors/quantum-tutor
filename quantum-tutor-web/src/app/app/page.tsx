@@ -15,35 +15,35 @@ const Page = () => {
   ];
   const theme = useTheme();
   return (
-    <>
-      <Box className={styles.container} sx={{ backgroundColor: theme.palette.primary.light }}>
-        <Box className={styles.welcome_text}>
+    <Box className={styles.wrapper_container} sx={{backgroundColor: theme.palette.primary.light}}>
+    <Box className={styles.container} >
+      <Box className={styles.welcome_text}>
+        <Typography
+          sx={{
+            fontWeight: '700',
+            background: 'linear-gradient(to bottom, #194c33, #bbb)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}
+          component={'div'}
+          variant='h2'
+          className={styles.greeting}
+        >
+          Hello Gary
           <Typography
-            sx={{
-              fontWeight: '700',
-              background: 'linear-gradient(to bottom, #194c33, #bbb)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
+            sx={{ fontWeight: '700' }}
             component={'div'}
-            variant='h2'
-            className={styles.greeting}
+            variant='h3'
+            className={styles._subtext}
           >
-            Hello Natheem
-            <Typography
-              sx={{ fontWeight: '700' }}
-              component={'div'}
-              variant='h3'
-              className={styles._subtext}
-            >
-              Ready To Learn?
-            </Typography>
+            Ready To Learn?
           </Typography>
-        </Box>
-        <FeatureBoxList featureBoxList={featureBoxList} />
-        <ChatBottom/>
+        </Typography>
       </Box>
-    </>
+      <FeatureBoxList featureBoxList={featureBoxList} />
+      <ChatBottom/>
+    </Box>
+  </Box>
   );
 };
 
