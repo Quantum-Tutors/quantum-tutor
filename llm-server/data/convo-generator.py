@@ -1,95 +1,147 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
-from datetime import datetime, timedelta
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel, Field
+from datetime import datetime
+from typing import Optional, List
+from pymongo import MongoClient
 import random
 import uuid
 
+import os
+from dotenv import load_dotenv
+load_dotenv(os.path.join('../config/','.env'))  
+
 app = FastAPI()
 
-# Models
+MONGODB_CONN_STR  = os.getenv('MONGODB_CONN_STR')
+client = MongoClient(MONGODB_CONN_STR)
+db = client["quantum-tutor-test"]
+chat_sessions = db["chat_sessions"]
+messages = db["messages"]
+modules = db["modules"]
+
+chat_sessions.delete_many({})
+messages.delete_many({})
+modules.delete_many({})
+
 class Message(BaseModel):
-    id: str
-    chatId: str
+    msgId: str = Field(default_factory=lambda: generate_id("msg"))
+    chatId: Optional[str] = None
     sender: str
     text: str
-    createdAt: str
+    moduleId: Optional[str] = None
+    createdAt: Optional[str] = Field(default_factory=lambda: current_timestamp())
+    sequence: Optional[int] = None
 
 class Module(BaseModel):
-    id: str
+    moduleId: str = Field(default_factory=lambda: generate_id("module"))
     chatId: str
     title: str
-    messages: list
+    messages: List[str] = Field(default_factory=list)
+    createdAt: Optional[str] = Field(default_factory=lambda: current_timestamp())
+    sequence: Optional[int] = None
 
 class ChatSession(BaseModel):
-    id: str
+    chatId: str = Field(default_factory=lambda: generate_id("chat"))
     userId: str
     title: str
-    createdAt: str
-    messages: list
+    createdAt: Optional[str] = Field(default_factory=lambda: current_timestamp())
+    messages: List[str] = Field(default_factory=list)
+    modules: List[str] = Field(default_factory=list)
+    currentModule: Optional[str] = None
 
-# Utility functions
-def generate_random_id(prefix):
+class UserPrompt(BaseModel):
+    message: Message
+
+def generate_id(prefix):
     return f"{prefix}_{uuid.uuid4().hex[:6]}"
 
-def get_current_time():
-    return datetime.utcnow().isoformat() + "Z"
+def current_timestamp():
+    return datetime.now().isoformat() + "Z"
 
-def create_random_message(chat_id, sender):
-    return Message(
-        id=generate_random_id("msg"),
-        chatId=chat_id,
-        sender=sender,
-        text=f"{sender.capitalize()}: This is a sample message from {sender}.",
-        createdAt=get_current_time()
-    )
+def should_start_module():
+    return random.choices([True, False], weights=[60, 40])[0]
 
-def create_random_module(chat_id):
-    module_id = generate_random_id("module")
-    messages = [
-        create_random_message(module_id, "user").model_dump(),
-        create_random_message(module_id, "bot").model_dump()
-    ]
-    return Module(
-        id=module_id,
-        chatId=chat_id,
-        title="**Introduction to Machine Learning**",
-        messages=[msg["id"] for msg in messages]
-    ), messages
+def should_end_module(current_module_length):
+    return random.choices([True, False], weights=[40, 60])[0] if current_module_length >= 3 else False
 
-def create_random_chat_session():
-    chat_id = generate_random_id("cs")
-    messages = []
-    module_messages = []
+@app.post("/chat")
+def chat_with_bot(user_prompt: UserPrompt):
+    user_message = user_prompt.message.model_dump()
+    chat_id = user_message.get("chatId")
 
-    for i in range(random.randint(3, 5)):
-        if random.choice([True, True, True, False]):
-            message = create_random_message(chat_id, "user").model_dump()
-            messages.append(message["id"])
-            module, mod_msgs = create_random_module(chat_id)
-            module_messages.extend(mod_msgs)
-            messages.append(module.id)
+    if not chat_id:
+        chat_id = generate_id("chat")
+        chat_session = ChatSession(
+            chatId=chat_id,
+            userId=generate_id("user"),
+            title="New Chat Session"
+        )
+        chat_sessions.insert_one(chat_session.model_dump())
+        user_message["chatId"] = chat_id
+        user_message["sequence"] = 1
+        messages.insert_one(user_message)
+        chat_sessions.update_one({"chatId": chat_id}, {"$push": {"messages": user_message["msgId"]}})
+    else:
+        chat_session_data = chat_sessions.find_one({"chatId": chat_id})
+        if not chat_session_data:
+            raise HTTPException(status_code=404, detail="Chat session not found")
+        chat_session = ChatSession(**chat_session_data)
+        user_message["sequence"] = len(list(messages.find({"chatId": chat_id}))) + 1
+        messages.insert_one(user_message)
+        chat_sessions.update_one({"chatId": chat_id}, {"$push": {"messages": user_message["msgId"]}})
+
+    if should_start_module() and not getattr(chat_session, "currentModule", None):
+        module = Module(
+            chatId=chat_id,
+            title="Random Module Title"
+        )
+        modules.insert_one(module.model_dump())
+        current_module = module.moduleId
+        bot_message = Message(
+            chatId=chat_id,
+            moduleId=current_module,
+            sender="bot",
+            text="This is the start of a module.",
+            sequence=len(list(messages.find({"chatId": chat_id}))) + 1
+        )
+        messages.insert_one(bot_message.model_dump())
+        modules.update_one({"moduleId": current_module}, {"$push": {"messages": bot_message.msgId}})
+        chat_sessions.update_one({"chatId": chat_id}, {"$set": {"currentModule": module.moduleId}})
+        response = {"module": {"moduleId": current_module, "messages": [bot_message.model_dump()]}}
+        
+    else:
+        current_module = getattr(chat_session, "currentModule", None)
+        if current_module:
+            module_length = len(modules.find_one({"moduleId": current_module})["messages"])
+            bot_message = Message(
+                chatId=chat_id, 
+                moduleId=current_module,
+                sender="bot",
+                text="This is a module-specific response.",
+                sequence=len(list(messages.find({"chatId": chat_id}))) + 1
+            )
+            messages.insert_one(bot_message.model_dump())
+            modules.update_one({"moduleId": current_module}, {"$push": {"messages": bot_message.msgId}})
+            chat_sessions.update_one({"chatId": chat_id}, {"$push": {"messages": bot_message.msgId}})
+            response = {"module": {"moduleId": current_module, "messages": [bot_message.model_dump()]}}
+            if should_end_module(module_length):
+                chat_sessions.update_one({"chatId": chat_id}, {"$unset": {"currentModule": ""}})
         else:
-            message_user = create_random_message(chat_id, "user").model_dump()
-            message_bot = create_random_message(chat_id, "bot").model_dump()
-            messages.extend([message_user["id"], message_bot["id"]])
-            module_messages.extend([message_user, message_bot])
+            bot_message = Message(
+                chatId=chat_id,
+                sender="bot",
+                text="This is a normal bot response.",
+                sequence=len(list(messages.find({"chatId": chat_id}))) + 1
+            )
+            messages.insert_one(bot_message.model_dump())
+            chat_sessions.update_one({"chatId": chat_id}, {"$push": {"messages": bot_message.msgId}})
+            response = {"message": bot_message.model_dump()}
 
-    return ChatSession(
-        id=chat_id,
-        userId=generate_random_id("user"),
-        title="**Bot Tutorial**",
-        createdAt=get_current_time(),
-        messages=messages
-    ), module_messages
-
-@app.get("/random-chat-session")
-async def get_random_chat_session():
-    chat_session, messages = create_random_chat_session()
-    response = {
-        "chatSession": chat_session.model_dump(),
-        "messages": messages
-    }
     return response
+
+@app.get("/chats")
+def get_chats():
+    return list(chat_sessions.find({}, {"_id": 1, "title": 1, "createdAt": 1}))
 
 if __name__ == "__main__":
     import uvicorn

@@ -10,5 +10,6 @@ langsmith==0.1.108
 ollama==0.3.2
 groq==0.10.0
 pydantic==2.8.2
+pymongo==4.8.0
 python-dotenv==1.0.1
 uvicorn==0.30.6
