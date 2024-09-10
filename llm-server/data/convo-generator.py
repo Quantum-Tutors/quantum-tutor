@@ -107,7 +107,7 @@ def chat_with_bot(user_prompt: UserPrompt):
         messages.insert_one(bot_message.model_dump())
         modules.update_one({"moduleId": current_module}, {"$push": {"messages": bot_message.msgId}})
         chat_sessions.update_one({"chatId": chat_id}, {"$set": {"currentModule": module.moduleId}})
-        response = {"module": {"moduleId": current_module, "messages": [bot_message.model_dump()]}}
+        response = {"module": {"moduleId": current_module, "status":True, "messages": [bot_message.model_dump()]}}
         
     else:
         current_module = getattr(chat_session, "currentModule", None)
@@ -123,9 +123,10 @@ def chat_with_bot(user_prompt: UserPrompt):
             messages.insert_one(bot_message.model_dump())
             modules.update_one({"moduleId": current_module}, {"$push": {"messages": bot_message.msgId}})
             chat_sessions.update_one({"chatId": chat_id}, {"$push": {"messages": bot_message.msgId}})
-            response = {"module": {"moduleId": current_module, "messages": [bot_message.model_dump()]}}
+            response = {"module": {"moduleId": current_module, "status":True, "messages": [bot_message.model_dump()]}}
             if should_end_module(module_length):
                 chat_sessions.update_one({"chatId": chat_id}, {"$unset": {"currentModule": ""}})
+                response["status"] = False
         else:
             bot_message = Message(
                 chatId=chat_id,
