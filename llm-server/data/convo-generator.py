@@ -19,9 +19,9 @@ chat_sessions = db["chat_sessions"]
 messages = db["messages"]
 modules = db["modules"]
 
-# chat_sessions.delete_many({})
-# messages.delete_many({})
-# modules.delete_many({})
+chat_sessions.delete_many({})
+messages.delete_many({})
+modules.delete_many({})
 
 class Message(BaseModel):
     msgId: str = Field(default_factory=lambda: generate_id("msg"))
