@@ -8,7 +8,7 @@ import uuid
 
 import os
 from dotenv import load_dotenv
-load_dotenv(os.path.join('../config/','.env'))  
+load_dotenv(os.path.join('../config/','.env'))
 
 app = FastAPI()
 
@@ -19,9 +19,9 @@ chat_sessions = db["chat_sessions"]
 messages = db["messages"]
 modules = db["modules"]
 
-chat_sessions.delete_many({})
-messages.delete_many({})
-modules.delete_many({})
+# chat_sessions.delete_many({})
+# messages.delete_many({})
+# modules.delete_many({})
 
 class Message(BaseModel):
     msgId: str = Field(default_factory=lambda: generate_id("msg"))
@@ -107,14 +107,16 @@ def chat_with_bot(user_prompt: UserPrompt):
         messages.insert_one(bot_message.model_dump())
         modules.update_one({"moduleId": current_module}, {"$push": {"messages": bot_message.msgId}})
         chat_sessions.update_one({"chatId": chat_id}, {"$set": {"currentModule": module.moduleId}})
+        response = {"module": {"moduleId": current_module, "messages": [bot_message.model_dump()]}}
+
         response = {"module": {"moduleId": current_module, "status":True, "messages": [bot_message.model_dump()]}}
-        
+
     else:
         current_module = getattr(chat_session, "currentModule", None)
         if current_module:
             module_length = len(modules.find_one({"moduleId": current_module})["messages"])
             bot_message = Message(
-                chatId=chat_id, 
+                chatId=chat_id,
                 moduleId=current_module,
                 sender="bot",
                 text="This is a module-specific response.",
