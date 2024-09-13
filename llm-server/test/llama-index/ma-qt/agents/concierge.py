@@ -3,10 +3,13 @@ from llama_index.core.workflow import (
     Workflow, 
     Event, 
 )
+
+from llama_index.core.agent import ReActAgentWorker
 from llama_index.core.agent import FunctionCallingAgentWorker
 from llama_index.core.tools import FunctionTool
+from llama_index.core import PromptTemplate
 
-from pydantic_models import ConciergeEvent
+from utils.pydantic_models import ConciergeEvent
 
 from colorama import Fore, Style
 from typing import List, Callable
@@ -56,14 +59,16 @@ class ConciergeAgent():
         for t in tools:
             self.tools.append(FunctionTool.from_defaults(fn=t))
 
-        agent_worker = FunctionCallingAgentWorker.from_tools(
+        agent_worker = ReActAgentWorker.from_tools(
             self.tools,
             llm=self.context.data["llm"],
-            allow_parallel_tool_calls=False,
-            system_prompt=self.system_prompt
+            # verbose=True,
+            # allow_parallel_tool_calls=False,
+            # system_prompt=self.system_prompt
         )
-        self.agent = agent_worker.as_agent()        
-
+        agent_worker.update_prompts({"system_prompt": PromptTemplate(system_prompt)})
+        self.agent = agent_worker.as_agent()
+        
     def handle_event(self, ev: Event):
         self.current_event = ev
 
