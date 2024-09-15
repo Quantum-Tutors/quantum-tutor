@@ -1,20 +1,18 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styles from '../../styles/ChatContainer.module.scss';
-import ModelResponse from '../ModelResponse';
+import { DataProvider } from '../../contexts/ExchangeContext';
 import Module from '../Module';
-import ResponseAction from '../ResponseAction';
-import UserQuery from '../UserQuery';
+import Exchange from '../Exchange';
+
 
 const ChatContainer = () => {
   return (
     <div className={styles.chatContainer}>
       <div className={styles.chatArea}>
         <br />
-        <div>
-          <UserQuery />
-          <ModelResponse />
-          <ResponseAction />
-        </div>
+        <DataProvider>
+          <Exchange/>
+        </DataProvider>
         <Module />
         <Module />
         <Module />

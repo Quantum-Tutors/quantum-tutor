@@ -8,6 +8,7 @@ import styles from '../../styles/Module.module.scss'
 import UserQuery from '../UserQuery';
 import ModelResponse from '../ModelResponse';
 import ResponseAction from '../ResponseAction';
+import Exchange from '../Exchange';
 
 const Module = () => {
   return (
@@ -36,14 +37,10 @@ const Module = () => {
           Linked List
         </AccordionSummary>
         <div className={styles.exchange}>
-          <UserQuery/>
-          <ModelResponse/>
-          <ResponseAction/>
+          <Exchange/>
         </div>
         <div className={styles.exchange}>
-          <UserQuery/>
-          <ModelResponse/>
-          <ResponseAction/>
+          <Exchange/>
         </div>
       </Accordion>
     </div>
