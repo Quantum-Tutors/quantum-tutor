@@ -3,6 +3,7 @@ from llama_index.core.workflow import Event
 from pydantic import BaseModel, Field
 from typing import Optional, List, Any
 
+from utils.funcs import *
 
 class InitializeEvent(Event):
     pass
