@@ -3,6 +3,7 @@
 	justify-content: center;
 	padding: 2rem 4rem;
 	height: 100vh;
+	position: relative;
 }
 .container {
 	margin-top: 2rem;
@@ -12,4 +13,9 @@
 
 .welcome_text{
 	margin-bottom: 2rem;
+}
+
+
+.signout{
+	height: max-content;
 }
