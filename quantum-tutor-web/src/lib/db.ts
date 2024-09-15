@@ -11,7 +11,7 @@ const cache: {
 } = {};
 
 async function connectDB() {
-  const databaseUrl = `mongodb://localhost:27017`; // process.env.DB_URL
+  const databaseUrl = process.env.MONGODB_URI; // process.env.DB_URL
   // const databaseUrl = `mongodb+srv://${dbUserName}:${dbPassword}@${dbHostName}/${dbName}`;
   if (!databaseUrl) {
     throw new Error('No databaseURL');
