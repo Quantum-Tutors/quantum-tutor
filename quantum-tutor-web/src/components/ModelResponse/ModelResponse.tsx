@@ -13,6 +13,9 @@ const ModelResponse = () => {
 
   const { data, isLoading } = dataContext;
 
+  console.log("Bot Response");
+  console.log(data);
+
   return (
     <>
       <div className={styles.modelResponse}>
@@ -20,7 +23,7 @@ const ModelResponse = () => {
         {isLoading ?
           <Loader /> :
           <Typography variant="body1" gutterBottom>
-            {data?.message}
+            {data?.message.text}
           </Typography>
         }
       </div>
