@@ -5,12 +5,22 @@ from typing import Optional, List
 from pymongo import MongoClient
 import random
 import uuid
+from fastapi.middleware.cors import CORSMiddleware
 
 import os
 from dotenv import load_dotenv
 load_dotenv(os.path.join('../config/','.env'))
 
 app = FastAPI()
+
+# Allow all origins, methods, and headers (unsafe, for development)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
 
 MONGODB_CONN_STR  = os.getenv('MONGODB_CONN_STR')
 client = MongoClient(MONGODB_CONN_STR)
