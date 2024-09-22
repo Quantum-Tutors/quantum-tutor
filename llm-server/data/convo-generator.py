@@ -29,9 +29,9 @@ chat_sessions = db["chat_sessions"]
 messages = db["messages"]
 modules = db["modules"]
 
-chat_sessions.delete_many({})
-messages.delete_many({})
-modules.delete_many({})
+# chat_sessions.delete_many({})
+# messages.delete_many({})
+# modules.delete_many({})
 
 class Message(BaseModel):
     msgId: str = Field(default_factory=lambda: generate_id("msg"))
@@ -154,6 +154,7 @@ def chat_with_bot(user_prompt: UserPrompt):
 
 @app.get("/chats")
 def get_chats():
+    print(list(chat_sessions.find({}, {"_id": 1, "title": 1, "createdAt": 1})))
     return list(chat_sessions.find({}, {"_id": 1, "title": 1, "createdAt": 1}))
 
 if __name__ == "__main__":
