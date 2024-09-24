@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/mongodb-adapter": "^3.4.2",
     "@emotion/cache": "^11.13.1",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
@@ -17,10 +18,13 @@
     "@mui/material-nextjs": "^6.0.1",
     "dotenv": "^16.4.5",
     "i18next": "^23.14.0",
+    "mongodb": "^6.8.1",
     "mongoose": "^8.6.0",
     "next": "14.2.7",
+    "next-auth": "^5.0.0-beta.20",
     "next-i18next": "^15.3.1",
     "next-swagger-doc": "^0.4.0",
+    "quantum-tutor-web": "file:",
     "react": "^18",
     "react-dom": "^18",
     "react-i18next": "^15.0.1",

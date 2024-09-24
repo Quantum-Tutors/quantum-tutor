@@ -6,7 +6,6 @@ const page = () => {
   return (
     <>
       <ChatContainer/>
-      <ChatBottom/>
     </>
   )
 }

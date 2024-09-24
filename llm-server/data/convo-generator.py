@@ -5,12 +5,22 @@ from typing import Optional, List
 from pymongo import MongoClient
 import random
 import uuid
+from fastapi.middleware.cors import CORSMiddleware
 
 import os
 from dotenv import load_dotenv
 load_dotenv(os.path.join('../config/','.env'))
 
 app = FastAPI()
+
+# Allow all origins, methods, and headers (unsafe, for development)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
 
 MONGODB_CONN_STR  = os.getenv('MONGODB_CONN_STR')
 client = MongoClient(MONGODB_CONN_STR)
@@ -19,9 +29,9 @@ chat_sessions = db["chat_sessions"]
 messages = db["messages"]
 modules = db["modules"]
 
-chat_sessions.delete_many({})
-messages.delete_many({})
-modules.delete_many({})
+# chat_sessions.delete_many({})
+# messages.delete_many({})
+# modules.delete_many({})
 
 class Message(BaseModel):
     msgId: str = Field(default_factory=lambda: generate_id("msg"))
@@ -144,6 +154,7 @@ def chat_with_bot(user_prompt: UserPrompt):
 
 @app.get("/chats")
 def get_chats():
+    print(list(chat_sessions.find({}, {"_id": 1, "title": 1, "createdAt": 1})))
     return list(chat_sessions.find({}, {"_id": 1, "title": 1, "createdAt": 1}))
 
 if __name__ == "__main__":
