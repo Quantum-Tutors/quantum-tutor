@@ -24,6 +24,7 @@
     "next-auth": "^5.0.0-beta.20",
     "next-i18next": "^15.3.1",
     "next-swagger-doc": "^0.4.0",
+    "quantum-tutor-web": "file:",
     "react": "^18",
     "react-dom": "^18",
     "react-i18next": "^15.0.1",

@@ -8,10 +8,7 @@ import { DataContext } from '@/contexts/ExchangeContext';
 import styles from '../../styles/ModelResponse.module.scss';
 import ResponseAction from '../ResponseAction';
 
-const ModelResponse = () => {
-  const dataContext = useContext(DataContext);
-
-  const { data, isLoading } = dataContext;
+const ModelResponse = ({data, isLoading}) => {
 
   console.log("Bot Response");
   console.log(data);

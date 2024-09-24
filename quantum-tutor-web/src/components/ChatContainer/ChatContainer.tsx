@@ -1,18 +1,15 @@
-import React, { useContext } from 'react'
+import React, { useContext } from 'react';
 import styles from '../../styles/ChatContainer.module.scss';
 import { DataProvider } from '../../contexts/ExchangeContext';
 import Module from '../Module';
 import Exchange from '../Exchange';
-
 
 const ChatContainer = () => {
   return (
     <div className={styles.chatContainer}>
       <div className={styles.chatArea}>
         <br />
-        <DataProvider>
-          <Exchange/>
-        </DataProvider>
+        <Exchange />
         <Module />
         <Module />
         <Module />
@@ -22,7 +19,7 @@ const ChatContainer = () => {
         <br />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default ChatContainer;
