@@ -34,3 +34,32 @@ This project integrates LangChain, LangGraph, Ollama, Next.js, MongoDB, and Llam
    ```bash
    cd llm-server
    ```
+
+# LLM SERVER & LLAMA DEPLOY
+1. Install Docker
+2. cd llama_deploy/
+3. docker compose -f ./docker-compose.yml --project-directory ./ up --build -d --remove-orphans
+4. cd ../
+5. python server.py
+
+
+## PAYLOAD:
+
+### URL: http://0.0.0.0:5000/chat
+
+1. **First Request**:
+```json
+{
+    "sender": "user",
+    "text": "Hii, I wanna learn Data structures?"
+}
+```
+2. **Second Request**:
+```json
+{
+    "sender": "user",
+    "text": "yeah, I have heard about arrays",
+    "userId": "usr_e23ce7", //get it from the previous response
+    "chatId": "chat_429c87" //get it from the previous response
+}
+```
