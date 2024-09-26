@@ -8,10 +8,9 @@ import { DataContext } from '@/contexts/ExchangeContext';
 import styles from '../../styles/ModelResponse.module.scss';
 import ResponseAction from '../ResponseAction';
 
-const ModelResponse = ({data, isLoading}) => {
+const ModelResponse = ({text, isLoading}: {text: string, isLoading: boolean}) => {
 
-  console.log("Bot Response");
-  console.log(data);
+  console.log('Bot Response', text);
 
   return (
     <>
@@ -20,7 +19,7 @@ const ModelResponse = ({data, isLoading}) => {
         {isLoading ?
           <Loader /> :
           <Typography variant="body1" gutterBottom>
-            {data?.message.text}
+            {text}
           </Typography>
         }
       </div>

@@ -9,42 +9,45 @@ import UserQuery from '../UserQuery';
 import ModelResponse from '../ModelResponse';
 import ResponseAction from '../ResponseAction';
 import Exchange from '../Exchange';
+import { ModuleT } from '@/types';
 
-const Module = () => {
+const Module = ({ conversation }: { conversation: ModuleT }) => {
   return (
     <div>
       <Accordion className={styles.module} sx={{
         "& .MuiAccordion-region": {
           color: "#fff",
           backgroundColor:"#222638",
-        },
+          },
         "& .MuiButtonBase-root": {
           color: "#fff",
           backgroundColor:"#222638",
-        },
+          },
         "& .MuiPaper-root": {
           backgroundColor:"#222638",
-        },
+          },
         "& .MuiAccordion-root": {
           backgroundColor:"#222638",
-        },
+          },
       }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2-content"
           id="panel2-header"
         >
-          Linked List
+          {/* To DO */}
+          Linked List 
         </AccordionSummary>
-        <div className={styles.exchange}>
-          <Exchange/>
-        </div>
-        <div className={styles.exchange}>
-          <Exchange/>
-        </div>
+        {conversation?.messages?.map((exchange)=>{
+          return (
+            <div className={styles.exchange}>
+              <Exchange conversation={exchange} propmt='' />
+            </div>
+          );
+        })}
       </Accordion>
     </div>
   );
-}
+};
 
 export default Module;
