@@ -4,53 +4,26 @@ import LeftNav from 'components/LeftNav';
 import * as React from 'react';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import { Theme } from '@mui/material';
+import { IPromptContext } from '@/types';
 import ChatBottom from '@/components/ChatBottom';
 
-type Module = {
-  moduleId: string;
-  status: boolean;
-  message: Array<Message>
-};
 
-type Message = {
-  msgId: string,
-  chatId: string,
-  text: string,
-  sender: string,
-  moduleId: string,
-  createdAt: string,
-  sequence: number
-}
-
-interface IPromptContext {
-  data: {
-    module: Module
-  } | {
-    message: Message
-  };
-  chatId: string;
-  prompt: string;
-  isLoading: boolean;
-}
-
-
-export const PromptContext =
-  React.createContext<IPromptContext>({
-    data: {
-      message: {
-        msgId: '',
-        chatId: '',
-        text: '',
-        sender: '',
-        moduleId: '',
-        createdAt: '',
-        sequence: 0,
-      },
+export const PromptContext = React.createContext<IPromptContext>({
+  data: [{
+    message: {
+      msgId: '',
+      chatId: '',
+      text: '',
+      sender: '',
+      moduleId: '',
+      createdAt: '',
+      sequence: 0,
     },
-    chatId: '',
-    prompt: '',
-    isLoading: true,
-  });
+  }],
+  chatId: '',
+  prompt: '',
+  isLoading: true,
+});
 
 export default function Layout({
   children,
@@ -60,7 +33,7 @@ export default function Layout({
   const [theme, setTheme] = React.useState<Theme>(darkTheme);
   const [userPrompt, setUserPrompt] = React.useState<string>('');
   const [isLoading, setIsLoading] = React.useState(true);
-  const [data, setData] = React.useState<any>({});
+  const [data, setData] = React.useState<any[]>([]);
   const [userChatId, setUserChatId] = React.useState('');
 
   const makeConversation = async (prompt: string) => {
@@ -80,14 +53,54 @@ export default function Layout({
           },
         }),
       });
-      console.log('User request body');
-      const data = await response.json();
-      setData(data);
-      console.log(data);
-      if (!data?.module){
-        setUserChatId(data?.message?.chatId);
-      }
+      // get response
+      const responseJson = await response.json();
+      console.log(
+        responseJson
+      );
       
+      // add response to array
+      if (responseJson?.module?.messages?.length > 0) {
+        // module
+        setUserChatId(responseJson?.module?.messages[0]?.chatId);
+        let flag = false;
+        const moduleId = responseJson?.module?.moduleId;
+        let updatedData = data.map(
+          (d) => {
+            if(d?.module?.moduleId === moduleId){
+              let newData = d;
+              newData.module.messages.push({
+                "chatId": responseJson?.module?.messages[0]?.chatId,
+                "sender": "user",
+                "text": prompt
+              })
+              newData.module.messages.push(responseJson?.module?.messages[0]);
+              flag = true;
+              return newData;
+            }
+            else return d;
+          }
+        );
+        if(!flag){
+          let tempData = responseJson;
+          tempData.module?.messages?.unshift({
+            "chatId": responseJson?.module?.messages[0]?.chatId,
+            "sender": "user",
+            "text": prompt
+          });
+          updatedData.push(tempData);
+        }
+        console.log("udpated data",updatedData);
+        
+        setData(updatedData);
+
+      } else {
+        // normal conversation
+        setUserChatId(responseJson?.message?.chatId);
+        setData([...data, responseJson]);
+      }
+
+      console.log(data);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {

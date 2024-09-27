@@ -4,8 +4,7 @@ import { assets } from '../../../assets';
 import styles from '../../styles/UserQuery.module.scss';
 import Typography from '@mui/material/Typography';
 
-const UserQuery = ({question}) => {
-  
+const UserQuery = ({ propmt }: { propmt : string}) => {
   return (
     <div className={styles.userQuery}>
       <Image
@@ -16,10 +15,10 @@ const UserQuery = ({question}) => {
         style={{ borderRadius: '20px' }}
       />
       <Typography variant='body1' gutterBottom>
-        {question}
+        {propmt}
       </Typography>
     </div>
   );
-}
+};
 
 export default UserQuery;
