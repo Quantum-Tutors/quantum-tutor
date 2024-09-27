@@ -1,0 +1,21 @@
+1. add feature that asks series of question to the user before asnwering to eval his level of knowledge in that subject of matter.
+2. Create a tool that estimates the current state of the conversation, initial, probing, exploration like that.
+3. Add Guard Rails: https://www.guardrailsai.com/docs/how_to_guides/llm_api_wrappers
+3. Add Guard Rails: https://www.guardrailsai.com/docs/how_to_guides/llm_api_wrappers
+
+
+
+
+
+1. Keep an supervisor agent, and create individual agents instead of tools and try the same thing.
+2. change the condn map in generate_assessments agent
+
+
+
+return context and store globally or in db
+makme it work in docker
+
+
+complete docker setup
+    - llm server backend couldn't communicate with llama deploy in docker
+    - front-end Bold, Italic, modules, etc..
