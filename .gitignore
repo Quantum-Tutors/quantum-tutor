@@ -29,7 +29,7 @@ yarn-error.log*
 # local env files
 .env*.local
 
-llm-backend/test/llama-index/ref
+llm-backend/test
 
 # vercel
 .vercel
