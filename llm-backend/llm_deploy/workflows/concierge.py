@@ -18,9 +18,9 @@ from llama_deploy import (
     ControlPlaneConfig,
 )
 
-from workflows.utils.pydantic_models import InitializeEvent, ConciergeEvent
-from workflows.utils.funcs import convert_to_chat_history
-from workflows.utils.prompts import *
+from llm_deploy.workflows.utils.pydantic_models import InitializeEvent, ConciergeEvent
+from llm_deploy.workflows.utils.funcs import convert_to_chat_history
+from llm_deploy.workflows.utils.prompts import *
 
 from colorama import Fore, Back, Style
 

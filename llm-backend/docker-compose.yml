@@ -1,7 +1,7 @@
 services:
-  llm_server:
-    image: llm_server:latest
-    command: sh -c "python -m llm_server.server"
+  server:
+    image: server:latest
+    command: sh -c "python -m server.app"
     env_file:
       - ./server/config/.env
     network_mode: "host"
@@ -23,11 +23,11 @@ services:
     command: sh -c "python -m core_systems.main"
     network_mode: "host"
     volumes:
-      - ./llama_deploy/core_systems:/core_systems
+      - ./llm_deploy/core_systems:/core_systems
     platform: linux/amd64
     build:
       context: .
-      dockerfile: ./llama_deploy/core_systems/Dockerfile
+      dockerfile: ./llm_deploy/core_systems/Dockerfile
     healthcheck:
       test: wget --no-verbose --tries=1 http://localhost:8000/ || exit 1  # Use localhost
       interval: 30s
@@ -39,10 +39,10 @@ services:
     image: concierge_workflow:latest
     command: sh -c "python -m workflows.concierge"
     env_file:
-      - ./llama_deploy/workflows/.env
+      - ./llm_deploy/workflows/.env
     network_mode: "host"
     volumes:
-      - ./llama_deploy/workflows:/workflows
+      - ./llm_deploy/workflows:/workflows
       - ~/.config/gcloud:/root/.config/gcloud
     platform: linux/amd64
     # depends_on:
@@ -50,7 +50,7 @@ services:
     #     condition: service_healthy
     build:
       context: .
-      dockerfile: ./llama_deploy/workflows/Dockerfile
+      dockerfile: ./llm_deploy/workflows/Dockerfile
     healthcheck:
       test: wget --no-verbose --tries=1 http://localhost:8002/ || exit 1  # Use localhost
       interval: 30s

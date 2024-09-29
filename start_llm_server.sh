@@ -1,2 +1,1 @@
-cd llm-server/data/
-uvicorn convo-generator:app --reload
+docker compose -f ./llm-backend/docker-compose.yml --project-directory ./llm-backend up --build -d --remove-orphans

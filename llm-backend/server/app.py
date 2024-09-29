@@ -8,13 +8,23 @@ from llama_deploy import (
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from llm_server.utils.pydantic_models import ChatSession, Message
-from llm_server.utils.funcs import generate_id
-from llm_server.data.mongo_client import get_mongo_client
+from server.utils.pydantic_models import ChatSession, Message
+from server.utils.funcs import generate_id
+from server.data.mongo_client import get_mongo_client
 
 chat_sessions, messages, modules = get_mongo_client()
 
 app = FastAPI()
+
+origins = ["http://localhost:3000"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins, 
+    allow_credentials=True, 
+    allow_methods=["*"], 
+    allow_headers=["*"], 
+)
 
 origins = ["http://localhost:3000"]
 

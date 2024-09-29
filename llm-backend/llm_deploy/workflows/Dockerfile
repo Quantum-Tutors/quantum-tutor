@@ -9,7 +9,7 @@ RUN apt-get update && apt-get --no-install-recommends install build-essential py
     pip install --no-cache-dir --upgrade pip && \
     apt-get -yq update && apt-get -yqq install ssh
 
-COPY ./llama_deploy/workflows/requirements.txt ./
+COPY ./llm_deploy/workflows/requirements.txt ./
 RUN pip install -r requirements.txt
 
 RUN apt-get update && apt-get install -y wget
@@ -22,4 +22,4 @@ RUN groupadd -r appuser && useradd --no-create-home -g appuser -r appuser
 USER appuser
 
 WORKDIR /
-COPY ./llama_deploy/workflows ./workflows
+COPY ./llm_deploy/workflows ./workflows
