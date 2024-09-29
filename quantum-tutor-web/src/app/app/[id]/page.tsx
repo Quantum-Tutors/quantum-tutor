@@ -1,13 +1,16 @@
+import React, { useEffect } from 'react';
 import ChatContainer from '@/components/ChatContainer';
-import React from 'react'
-import ChatBottom from '@/components/ChatBottom';
+import { GetChatSession } from './actions';
 
 const page = () => {
+  
+  const chatSession = GetChatSession('chat_ea7e32');
+
   return (
     <>
-      <ChatContainer/>
+      <ChatContainer chatSession={chatSession} />
     </>
-  )
-}
+  );
+};
 
 export default page;

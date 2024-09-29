@@ -4,24 +4,24 @@ import UserQuery from '../UserQuery';
 import ModelResponse from '../ModelResponse';
 import styles from '../../styles/Exchange.module.scss';
 import { useTheme } from '@mui/material/styles';
-import { MessageT } from '@/types';
 
 const SingleExchange = ({
-  conversation,
-  propmt,
+  sender,
+  message,
   isLoading,
 }: {
-  conversation: MessageT;
-  propmt: string;
+  sender: string;
+  message: string;
   isLoading: boolean;
 }) => {
   const theme = useTheme();
-  console.log('exchange', conversation);
-
   return (
     <div className={styles.exchange}>
-        <UserQuery propmt={propmt} />
-        <ModelResponse text={conversation.text} isLoading={isLoading} />
+      {sender === 'user' ? (
+        <UserQuery propmt={message} />
+      ) : (
+        <ModelResponse text={message} isLoading={isLoading} />
+      )}
     </div>
   );
 };
