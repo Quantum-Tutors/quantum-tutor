@@ -10,19 +10,21 @@ import ChatBottom from '@/components/ChatBottom';
 
 export const PromptContext = React.createContext<IPromptContext>({
   data: [{
-    message: {
-      msgId: '',
-      chatId: '',
-      text: '',
-      sender: '',
-      moduleId: '',
-      createdAt: '',
-      sequence: 0,
-    },
+    msgId: '',
+    chatId: '',
+    text: '',
+    userId: '',
+    sender: '',
+    moduleId: '',
+    createdAt: '',
+    sequence: 0,
   }],
   chatId: '',
   prompt: '',
   isLoading: true,
+  setData: function (): void {
+    throw new Error('Function not implemented.');
+  }
 });
 
 export default function Layout({
@@ -32,25 +34,24 @@ export default function Layout({
 }>) {
   const [theme, setTheme] = React.useState<Theme>(darkTheme);
   const [userPrompt, setUserPrompt] = React.useState<string>('');
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(false);
   const [data, setData] = React.useState<any[]>([]);
-  const [userChatId, setUserChatId] = React.useState('');
+  const [userChatId, setUserChatId] = React.useState(null);
 
   const makeConversation = async (prompt: string) => {
+    // setIsLoading(true);
     setUserPrompt(prompt);
     try {
-      const response = await fetch('http://127.0.0.1:8000/chat', {
+      const response = await fetch('http://127.0.0.1:5000/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          message: {
             sender: 'user',
             text: prompt,
             chatId: userChatId,
             // moduleId,
-          },
         }),
       });
       // get response
@@ -97,7 +98,16 @@ export default function Layout({
       } else {
         // normal conversation
         setUserChatId(responseJson?.message?.chatId);
-        setData([...data, responseJson]);
+        let messageData = [
+          ...data,
+          {
+            chatId: responseJson?.message?.chatId,
+            sender: 'user',
+            text: prompt,
+          },
+          responseJson?.message,
+        ];
+        setData(messageData);
       }
 
       console.log(data);
@@ -107,6 +117,7 @@ export default function Layout({
       setIsLoading(false);
     }
   };
+
   const toggleTheme = () => {
     setTheme(theme === darkTheme ? lightTheme : darkTheme);
   };
@@ -119,6 +130,7 @@ export default function Layout({
           data: data,
           prompt: userPrompt,
           chatId: userChatId,
+          setData: setData,
           isLoading: isLoading,
         }}
       >

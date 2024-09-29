@@ -1,55 +1,35 @@
 import mongoose, { Document, Schema } from 'mongoose';
-import { v4 as uuidv4 } from 'uuid';
-
-
-interface IReport {
-  category: string[];
-}
 
 export interface IMessage extends Document {
-  messageId: string;
-  ai: string;
-  user: string;
-  feedback?: number;
-  report?: IReport[];
+  msgId: string;
+  chatId: string;
+  sender: string;
+  text: string;
+  moduleId?: string;
+  createdAt: string;
+  sequence: Number;
 }
-
-const ReportSchema: Schema<IReport> = new Schema({
-  category: {
-    type: [String],
-    required: true,
-  },
-});
 
 const MessageSchema: Schema<IMessage> = new Schema(
   {
-    messageId: {
+    msgId: {
       type: String,
-      default: uuidv4,
       unique: true,
       required: true,
     },
-    ai: {
+    chatId: {
       type: String,
       required: true,
     },
-    user: {
+    sender: String,
+    text: String,
+    moduleId: {
       type: String,
-      required: true,
-      unique: true,
+      required: false,
     },
-    feedback: {
-      type: Number,
-    },
-    report: {
-      type: [ReportSchema],
-    },
+    createdAt: String,
+    sequence: Number
   },
-  {
-    timestamps: true,
-  }
 );
 
-const Message = mongoose.model<IMessage>('Message', MessageSchema);
-
-export default Message;
+export default mongoose.models.messages || mongoose.model<IMessage>('messages', MessageSchema);
