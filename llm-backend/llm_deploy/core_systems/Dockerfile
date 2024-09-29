@@ -9,7 +9,7 @@ RUN apt-get update && apt-get --no-install-recommends install build-essential py
     pip install --no-cache-dir --upgrade pip && \
     apt-get -yq update && apt-get -yqq install ssh
 
-COPY ./llama_deploy/core_systems/requirements.txt ./
+COPY ./llm_deploy/core_systems/requirements.txt ./
 RUN pip install -r requirements.txt
 
 RUN apt-get update && apt-get install -y wget
@@ -23,4 +23,4 @@ USER appuser
 
 WORKDIR /
 
-COPY ./llama_deploy/core_systems ./core_systems
+COPY ./llm_deploy/core_systems ./core_systems
