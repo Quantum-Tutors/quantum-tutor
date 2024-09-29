@@ -1,29 +1,15 @@
 import sys, os, logging
-# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
-
-# import os
-# from dotenv import load_dotenv
-# load_dotenv(os.path.join('../config','.env'))
-# print(os.getenv('GOOGLE_API_KEY'))
 
 from llama_index.core.workflow import (
     step, 
     Context, 
     Workflow, 
-    Event, 
     StartEvent, 
     StopEvent
 )
-# from llama_index.llms.groq import Groq
-# from llama_index.llms.ollama import Ollama
-# from llama_index.llms.azure_openai import AzureOpenAI
 from llama_index.llms.gemini import Gemini
 
 from llama_index.core.agent import ReActAgentWorker
-# from llama_index.core.agent import FunctionCallingAgentWorker
-# from llama_index.core.tools import FunctionTool
-from llama_index.core.llms import ChatMessage, MessageRole
-from llama_index.core.chat_engine.types import AgentChatResponse
 
 
 from llama_deploy import (
@@ -32,24 +18,11 @@ from llama_deploy import (
     ControlPlaneConfig,
 )
 
-from workflows.utils.pydantic_models import *
+from workflows.utils.pydantic_models import InitializeEvent, ConciergeEvent
+from workflows.utils.funcs import convert_to_chat_history
 from workflows.utils.prompts import *
 
-import json
-from typing import Optional, Any, List, Tuple
 from colorama import Fore, Back, Style
-
-def convert_to_chat_history(chat_history: str) -> Tuple[List[ChatMessage], str] | Tuple[None, str]:
-    messages=None
-    if isinstance(chat_history, str):
-        messages = json.loads(chat_history)
-    if isinstance(chat_history, list):
-        messages = chat_history
-    if len(messages)==1:
-        return None, messages[-1]['content']
-    chat_history = [ChatMessage(role=roles[message['role']], content=message['content']) for message in messages[:-1]]
-    print([roles[message['role']] for message in messages])
-    return chat_history, messages[-1]['content']
 
 class ConciergeWorkflow(Workflow):
 

@@ -6,13 +6,9 @@ from llama_deploy import (
 )
 
 from fastapi import FastAPI, HTTPException
-from utils.pydantic_models import *
-from data.mongo_client import get_mongo_client
-
-import os
-from dotenv import load_dotenv
-load_dotenv(os.path.join('./config/','.env'))
-
+from llm_server.utils.pydantic_models import ChatSession, Message
+from llm_server.utils.funcs import generate_id
+from llm_server.data.mongo_client import get_mongo_client
 
 chat_sessions, messages, modules = get_mongo_client()
 
@@ -56,8 +52,8 @@ def chat_with_bot(user_message: Message):
         for msg_id in chat_session_data['messages']:
             message = messages.find_one({"msgId": msg_id})
             if message:
-                # role = 'user' if message['userId'] == chat_session_data['userId'] else 'bot'
                 chat_history.append({'role': message['sender'], 'content': message['text']})
+        print('existing chat session, chat history: ',chat_history)
             
     response = session.run("concierge_workflow", chat_history=chat_history, chat_id=chat_id)
     
@@ -80,4 +76,4 @@ def get_chats():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("server:app", host="0.0.0.0", port=5000, reload=True)
+    uvicorn.run(app, host="0.0.0.0", port=5000)
