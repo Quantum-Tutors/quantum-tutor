@@ -10,5 +10,4 @@ class ConciergeEvent(Event):
     
 class ModelResponse(BaseModel):
     response: str
-    isModule: bool = False
-    moduleTitle: str 
+    moduleTitle: str

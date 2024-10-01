@@ -114,11 +114,9 @@ concierge_system_prompt = PromptTemplate("""
             - Always return your response in the following Pydantic class format:
                 class ModelResponse(BaseModel):
                     response: str
-                    isModule: bool = False
                     moduleTitle: str
             - Your "response" field should contain the actual reply.
-            - "isModule" should be set to True when a module is ongoing and False when the module has ended.
-            - "moduleTitle" should reflect the topic of the module if a specific topic is being discussed; otherwise, it should be None.
+            - "moduleTitle" should reflect the topic of the module if a specific topic is being discussed; otherwise, it should be ''.
         
     Avoid:
         - Starting a module for a very vast topics for example while discussing entire Data Structures, Investment, etc.
