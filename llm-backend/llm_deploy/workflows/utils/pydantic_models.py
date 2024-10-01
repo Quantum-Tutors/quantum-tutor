@@ -1,5 +1,6 @@
 from typing import Optional, Any
 from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field
 from llama_index.core.workflow import Event
 
 class InitializeEvent(Event):

@@ -36,6 +36,7 @@ app.add_middleware(
 llama_deploy_aclient = LlamaDeployClient(ControlPlaneConfig())
 
 
+
 @app.post("/chat")
 def chat_with_bot(user_message: Message):
     user_message = user_message.model_dump()
@@ -79,7 +80,7 @@ def chat_with_bot(user_message: Message):
                 for message in messages.find({"chatId": chat_id}).sort("sequence"):
                     chat_history.append({
                         "role": message["sender"],
-                        "content": f'{message["text"]} Module: {bool(message["moduleId"])}, Title: {modules.find_one({"moduleId": message["moduleId"]}, {"title": 1, "_id": 0}) if message["moduleId"] else None}',
+                        "content": f'{message["text"]} ModuleTitle: {modules.find_one({"moduleId": message["moduleId"]}, {"title": 1, "_id": 0}) if message["moduleId"] else None}',
                     })
                 logging.info(f"Chat history updated for chatId: {chat_id}")
             except Exception as e:
@@ -213,23 +214,23 @@ def chat_with_bot(user_message: Message):
 
 
 
-@app.get("/chats")
+@app.get("/chats/{user_id}")
 def get_chats(user_id: str):
     return list(
         chat_sessions.find(
-            {"userId": user_id}, {"chatId": 1, "title": 1, "modules": 1, "createdAt": 1}
+            {"userId": user_id}, {"chatId": 1, "title": 1, "modules": 1, "createdAt": 1, "_id":0}
         )
     )
 
 
-@app.get("/modules")
+@app.get("/modules/{module_id}")
 def get_chats(module_id: str):
-    return list(modules.find({"moduleId": module_id}))
+    return list(modules.find({"moduleId": module_id},{"_id":0}))
 
 
 @app.get("/chat/{chat_id}/module-titles")
 def get_module_titles(chat_id: str):
-    chat = chat_sessions.find_one({"chatId": chat_id}, {"modules": 1})
+    chat = chat_sessions.find_one({"chatId": chat_id}, {"modules": 1, "_id": 0})
     if not chat:
         return {"error": "Chat session not found"}
     module_ids = chat.get("modules", [])
@@ -258,4 +259,6 @@ def wipe_db():
 if __name__ == "__main__":
     import uvicorn
 
+
     uvicorn.run(app, host="0.0.0.0", port=5000)
+

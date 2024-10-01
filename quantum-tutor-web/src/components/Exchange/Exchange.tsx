@@ -6,7 +6,7 @@ import styles from '../../styles/Exchange.module.scss';
 import { useTheme } from '@mui/material/styles';
 import { MessageT } from '@/types';
 
-const Exchange = ({ conversation, propmt, isLoading }: { conversation : MessageT, propmt: string, isLoading: boolean}) => {
+const Exchange = ({ conversation, isLoading }: { conversation : MessageT, isLoading: boolean}) => {
   const theme = useTheme();
   console.log("exchange", conversation);
   

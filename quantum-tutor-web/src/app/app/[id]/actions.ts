@@ -9,7 +9,6 @@ export async function GetChatSession(Chatid: string) {
 		await connectDB();
 		const chatHistory = await ChatSessionModel.findOne({ chatId: Chatid }, {_id: 0});
 		let moduleMessages: any[] = [];
-		console.log(chatHistory.messages);
 		
 		if(chatHistory){
 			const allMessages = chatHistory.messages?.map((msg: string) =>
@@ -17,18 +16,32 @@ export async function GetChatSession(Chatid: string) {
       );
 			const messages = await Promise.all(allMessages);
 
-			console.log("Got something", messages);
 			if (messages?.length) moduleMessages.push(...messages);
-
+			console.log(chatHistory.modules);
+			
 			const allModules = chatHistory.modules?.map((module: string) =>
         Module.findOne({ moduleId: module }, { _id: 0 }).lean()
       );
-      const modules = await Promise.all(allModules);
+			const modules = await Promise.all(allModules);
+			// messages
+			console.log(modules);
 			
-			if(modules?.length) moduleMessages.push(...modules);
+			let messagesListForModules = modules.map((mod)=> mod?.messages);
+			messagesListForModules = [].concat(...messagesListForModules);
+
+			console.log(messagesListForModules);
+			
+			const allModulesMessages = messagesListForModules?.map((messageId: string) =>
+        Message.findOne({"msgId": messageId},{_id: 0}).lean()
+      );
+
+      const allModuleMessages = await Promise.all(allModulesMessages);
+
+			
+			if (allModuleMessages?.length) moduleMessages.push(...allModuleMessages);
 		}
-		console.log(moduleMessages);
 		
+		console.log(moduleMessages);
 		return moduleMessages;
 	}
 	catch(err){
