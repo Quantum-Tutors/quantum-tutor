@@ -9,9 +9,7 @@ const ChatBottom = ({ setUserPropmt }: { setUserPropmt : (value: string)=> void}
   return (
     <div
       className={
-        theme.palette.mode === 'light'
-          ? styles.bottom_white
-          : styles.bottom_black
+        styles.bottom
       }
     >
       <PromptField setUserPropmt={setUserPropmt} />

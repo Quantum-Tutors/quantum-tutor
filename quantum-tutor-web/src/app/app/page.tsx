@@ -1,5 +1,5 @@
 'use client';
-import { Explore } from '@mui/icons-material';
+import { Explore, Lightbulb, School } from '@mui/icons-material';
 import { Box, Button, Typography, useTheme } from '@mui/material';
 import React, { useContext, useEffect } from 'react';
 import styles from './page.module.scss';
@@ -27,22 +27,22 @@ const Page = () => {
 
   const featureBoxList = [
     { text: 'Learn about socratic learning', Icon: Explore },
-    { text: 'Learn about socratic learning', Icon: Explore },
-    { text: 'Learn about socratic learning', Icon: Explore },
-    { text: 'Learn about socratic learning', Icon: Explore },
+    { text: 'Learn DSA', Icon: Lightbulb },
+    { text: 'Learn about Object Oriented Programming', Icon: School },
+    { text: 'Learn the fundamentals of Programming', Icon: Explore },
   ];
   const theme = useTheme();
   return (
     <Box
       className={styles.wrapper_container}
-      sx={{ backgroundColor: theme.palette.primary.light }}
+      sx={{ backgroundColor: "#0e0c16"  }}
     >
       <Box className={styles.container}>
         <Box className={styles.welcome_text}>
           <Typography
             sx={{
               fontWeight: '700',
-              background: 'linear-gradient(to bottom, #194c33, #bbb)',
+              background: 'linear-gradient(to bottom,  #217bfe, #e55571)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}
@@ -50,7 +50,7 @@ const Page = () => {
             variant='h2'
             className={styles.greeting}
           >
-            Hello Gary
+            {`Hello ${session.data?.user?.name}`}
             <Typography
               sx={{ fontWeight: '700' }}
               component={'div'}
@@ -63,22 +63,12 @@ const Page = () => {
         </Box>
         <FeatureBoxList featureBoxList={featureBoxList} />
       </Box>
-      <Button
-        onClick={async () => {
-          await signOut();
-        }}
-        sx={{
-          background: '#53c28b',
-          color: 'white',
-          padding: '10px 15px',
-          border: 'none',
-          fontSize: '1.5',
-          borderRadius: '20px',
-        }}
-        className={styles.signout}
-      >
-        Signout
-      </Button>
+      
+      {/* <Button onClick={async () => {
+                    await signOut("google")
+                }} sx={{ background: '#53c28b', color: 'white', padding: '10px 15px', border: 'none', fontSize: '1.5', borderRadius: '20px' }} className={styles.button}>
+                    SignOut
+                </Button> */}
     </Box>
   );
 };

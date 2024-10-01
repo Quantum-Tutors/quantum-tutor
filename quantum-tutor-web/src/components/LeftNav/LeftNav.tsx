@@ -32,7 +32,7 @@ const LeftNav = ({ toggleTheme }: Props) => {
   const theme = useTheme();
 
   const DrawerList = (
-    <Box sx={{ width: 250 }} role='presentation' onClick={toggleDrawer(false)}>
+    <Box sx={{ width: 250}} role='presentation' onClick={toggleDrawer(false)}>
       <Typography
         className={styles.chatHeader}
         color={theme.palette.secondary.light}
@@ -58,15 +58,15 @@ const LeftNav = ({ toggleTheme }: Props) => {
       <div className={styles.leftNavBottom}>
         <List>
           <ListItem key={'Help'} disablePadding>
-            <ListItemButton onClick={() => toggleTheme()}>
-              <ListItemIcon>
+            {/* <ListItemButton onClick={() => toggleTheme()}> */}
+              {/* <ListItemIcon>
                 <HelpIcon />
-              </ListItemIcon>
-              <ListItemText
+              </ListItemIcon> */}
+              {/* <ListItemText
                 sx={{ color: theme.palette.secondary.main }}
                 primary={'Toggle'}
-              />
-            </ListItemButton>
+              /> */}
+            {/* </ListItemButton> */}
           </ListItem>
           <ListItem key={'settings'} disablePadding>
             <ListItemButton>
@@ -85,8 +85,9 @@ const LeftNav = ({ toggleTheme }: Props) => {
   );
 
   return (
+
     <div style={{width: "min-content"}}>
-      <IconButton onClick={toggleDrawer(true)} color='primary' sx={{position: "absolute"}}>
+      <IconButton onClick={toggleDrawer(true)} sx={{position: "fixed", zIndex: 100, top: 5, left: 5}}>
         <MenuIcon />
       </IconButton>
       <Drawer
@@ -99,6 +100,10 @@ const LeftNav = ({ toggleTheme }: Props) => {
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.primary.main,
           },
+          '& .MuiDrawer-paper': {
+          backgroundColor: '#0e0c16', // Custom color
+          color: 'grey', // Text color inside the drawer
+        },
         }}
         open={open}
         onClose={toggleDrawer(false)}
@@ -116,6 +121,7 @@ const LeftNav = ({ toggleTheme }: Props) => {
           startIcon={<AddIcon />}
           size='small'
           color='secondary'
+      
         >
           New chat
         </Button>
