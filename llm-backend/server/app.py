@@ -170,11 +170,11 @@ def chat_with_bot(user_message: Message):
     return response
 
 
-@app.get("/chats")
+@app.get("/chats/{user_id}")
 def get_chats(user_id: str):
     return list(
         chat_sessions.find(
-            {"userId": user_id}, {"chatId": 1, "title": 1, "modules": 1, "createdAt": 1}
+            {"userId": user_id}, {"chatId": 1, "title": 1, "modules": 1, "createdAt": 1, "_id":0}
         )
     )
 

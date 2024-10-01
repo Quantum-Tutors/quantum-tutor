@@ -16,4 +16,6 @@ export interface IPromptContext {
   prompt: string;
   isLoading: boolean;
   setData: (data: any) => void;
+  moduleList: string[];
+  currentModuleId: string;
 }
