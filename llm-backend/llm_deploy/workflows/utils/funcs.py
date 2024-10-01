@@ -14,6 +14,5 @@ def convert_to_chat_history(chat_history: str) -> Tuple[List[ChatMessage], str] 
         messages = chat_history
     if len(messages)==1:
         return None, messages[-1]['content']
-    chat_history = [ChatMessage(role=roles[message['role']], content=message['content']) for message in messages]
-    print(chat_history, messages)
+    chat_history = [ChatMessage(role=roles[message['role']], content=f"""{message['content']}""") for message in messages[:-1]]
     return chat_history, messages[-1]['content']

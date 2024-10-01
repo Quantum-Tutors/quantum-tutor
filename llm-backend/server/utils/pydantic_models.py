@@ -7,11 +7,12 @@ from server.utils.funcs import *
 
 class Message(BaseModel):
     msgId: str = Field(default_factory=lambda: generate_id("msg"))
-    userId: str = Field(default_factory=lambda: generate_id("usr"))
     chatId: Optional[str] = None
+    moduleId: Optional[str] = None
+    userId: str = Field(default_factory=lambda: generate_id("usr"))
     sender: str
     text: str
-    moduleId: Optional[str] = None
+    model: str
     createdAt: Optional[str] = Field(default_factory=lambda: current_timestamp())
     sequence: Optional[int] = None
 

@@ -1,4 +1,6 @@
-import sys, os, logging
+import os
+from dotenv import load_dotenv
+load_dotenv(os.path.join('./llm_deploy/workflows/','.env'))
 
 from llama_index.core.workflow import (
     step, 
@@ -7,10 +9,8 @@ from llama_index.core.workflow import (
     StartEvent, 
     StopEvent
 )
-from llama_index.llms.gemini import Gemini
-
+ 
 from llama_index.core.agent import ReActAgentWorker
-
 
 from llama_deploy import (
     deploy_workflow,
@@ -18,7 +18,8 @@ from llama_deploy import (
     ControlPlaneConfig,
 )
 
-from llm_deploy.workflows.utils.pydantic_models import InitializeEvent, ConciergeEvent
+from llm_deploy.workflows.utils.llms import models
+from llm_deploy.workflows.utils.pydantic_models import InitializeEvent, ConciergeEvent, ModelResponse
 from llm_deploy.workflows.utils.funcs import convert_to_chat_history
 from llm_deploy.workflows.utils.prompts import *
 
@@ -28,8 +29,7 @@ class ConciergeWorkflow(Workflow):
 
     @step(pass_context=True)
     async def initialize(self, ctx: Context, ev: InitializeEvent) -> ConciergeEvent:
-        # print(os.getenv('GOOGLE_API_KEY'))
-        ctx.data["llm"] = Gemini(os.getenv('GOOGLE_API_KEY'))
+        ctx.data["llm"] = models[ctx.data["model"]]
         ctx.data['chat_history'], ctx.data['user_message'] = convert_to_chat_history(ctx.data['chat_history'])
         print("Initializing Workflow.")
         return ConciergeEvent()
@@ -37,8 +37,8 @@ class ConciergeWorkflow(Workflow):
     @step(pass_context=True)
     async def concierge(self, ctx: Context, ev: ConciergeEvent | StartEvent) -> InitializeEvent | StopEvent:
         if isinstance(ev, StartEvent):
+            ctx.data["model"] = ev.get('model','gemini-1.5-flash-002')
             ctx.data['chat_history']= ev.get('chat_history', [{'role':'user','content':'Hi'}]) # chat_history in string format.
-            # print(ctx.data['chat_history'], type(ctx.data['chat_history']))
             return InitializeEvent()
         
         if ("concierge" not in ctx.data):
@@ -54,10 +54,10 @@ class ConciergeWorkflow(Workflow):
 
         print(Fore.MAGENTA + str(response) + Style.RESET_ALL)
 
-        return StopEvent(result=str(response))
+        return StopEvent(result=response)
 
 def build_concierge_workflow() -> ConciergeWorkflow:
-    return ConciergeWorkflow(timeout=60, verbose=True)
+    return ConciergeWorkflow(timeout=180, verbose=True)
 
 
 async def deploy_agentic_workflow():
@@ -72,7 +72,6 @@ async def deploy_agentic_workflow():
         ),
         control_plane_config=ControlPlaneConfig(host="0.0.0.0"),
     )
-
 
 if __name__ == "__main__":
     import asyncio, time

@@ -13,3 +13,4 @@ llama-index-utils-workflow==0.2.1
 llama-parse==0.5.2
 pydantic==2.8.2
 pymongo==4.8.0
+python-dotenv==1.0.1

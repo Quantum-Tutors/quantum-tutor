@@ -38,8 +38,8 @@ services:
   concierge_workflow:
     image: concierge_workflow:latest
     command: sh -c "python -m workflows.concierge"
-    env_file:
-      - ./llm_deploy/workflows/.env
+    # env_file:
+    #   - ./llm_deploy/workflows/.env
     network_mode: "host"
     volumes:
       - ./llm_deploy/workflows:/workflows
