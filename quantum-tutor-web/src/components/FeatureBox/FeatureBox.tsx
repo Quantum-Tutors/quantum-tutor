@@ -13,8 +13,8 @@ const FeatureBox: React.FC<Props> = ({ text, Icon }) => {
   const theme = useTheme();
 
   return (
-    <Box className={theme.palette.mode === 'dark' ? styles.container_dark : styles.container_light}>
-      <Typography component={'div'} variant='h6'>
+    <Box className={styles.container}>
+      <Typography component={'div'} variant='h6' sx={{color:"grey", fontSize:"15px"}}>
         {text}
       </Typography>
       <Box className={styles.icon_box}>

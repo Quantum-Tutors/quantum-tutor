@@ -1,4 +1,4 @@
-%container_base {
+.container {
 	display: flex;
 	height: 10rem;
 	width: 8rem;
@@ -7,27 +7,15 @@
 	border-radius: 20px;
 	align-items: center;
 	padding: 1rem;
-}
-
-.container_dark{
-	@extend %container_base;
-	background-color: #28292a;
+	background-color: #181622;
 	&:hover{
-		background-color: #232222;
-	}
-}
-
-.container_light {
-	@extend %container_base;
-	background-color: #e6e7e7;
-	&:hover {
-		background-color: #c9cbcf;
+		background-color: #201e2a;
 	}
 }
 
 .feature_text{
-	font-size: 2rem;
-	color: #908f8f;
+	font-size: 1rem;
+	color: #181622;
 	
 }
 
@@ -39,5 +27,6 @@
 }
 
 .icon{
-	font-size: 3rem !important;
+	font-size: 2rem !important;
+	color: grey;
 }

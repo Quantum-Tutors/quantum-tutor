@@ -3,9 +3,11 @@ import { darkTheme, lightTheme } from '@/styles/GlobalTheme';
 import LeftNav from 'components/LeftNav';
 import * as React from 'react';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
-import { Theme } from '@mui/material';
+import { Box, Button, Theme } from '@mui/material';
 import { IPromptContext } from '@/types';
 import ChatBottom from '@/components/ChatBottom';
+import { signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 
 export const PromptContext = React.createContext<IPromptContext>({
@@ -48,10 +50,10 @@ export default function Layout({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            sender: 'user',
-            text: prompt,
-            chatId: userChatId,
-            // moduleId,
+          sender: 'user',
+          text: prompt,
+          chatId: userChatId,
+          // moduleId,
         }),
       });
       // get response
@@ -59,7 +61,7 @@ export default function Layout({
       console.log(
         responseJson
       );
-      
+
       // add response to array
       if (responseJson?.module?.messages?.length > 0) {
         // module
@@ -68,7 +70,7 @@ export default function Layout({
         const moduleId = responseJson?.module?.moduleId;
         let updatedData = data.map(
           (d) => {
-            if(d?.module?.moduleId === moduleId){
+            if (d?.module?.moduleId === moduleId) {
               let newData = d;
               newData.module.messages.push({
                 "chatId": responseJson?.module?.messages[0]?.chatId,
@@ -82,7 +84,7 @@ export default function Layout({
             else return d;
           }
         );
-        if(!flag){
+        if (!flag) {
           let tempData = responseJson;
           tempData.module?.messages?.unshift({
             "chatId": responseJson?.module?.messages[0]?.chatId,
@@ -91,8 +93,8 @@ export default function Layout({
           });
           updatedData.push(tempData);
         }
-        console.log("udpated data",updatedData);
-        
+        console.log("udpated data", updatedData);
+
         setData(updatedData);
 
       } else {
@@ -124,19 +126,44 @@ export default function Layout({
 
   return (
     <ThemeProvider theme={theme}>
-      <LeftNav toggleTheme={toggleTheme} />
-      <PromptContext.Provider
-        value={{
-          data: data,
-          prompt: userPrompt,
-          chatId: userChatId,
-          setData: setData,
-          isLoading: isLoading,
+      <Box sx={{
+      }}>
+        <LeftNav toggleTheme={toggleTheme} />
+        <PromptContext.Provider
+          value={{
+            data: data,
+            prompt: userPrompt,
+            chatId: userChatId,
+            setData: setData,
+            isLoading: isLoading,
+          }}
+        >
+          {children}
+        </PromptContext.Provider>
+        <ChatBottom setUserPropmt={makeConversation} />
+        <Button
+        onClick={async () => {
+          await signOut();
+        }}
+        sx={{
+          position:"fixed",
+          right:20,
+          top: 20,
+          background: '#217bfe',
+          color: 'white',
+          padding: '10px 20px',
+          border: 'none',
+          fontSize: '12px',
+          fontWeight:600,
+          borderRadius: '12px',
+          height:"max-content",
+          zIndex: 100
         }}
       >
-        {children}
-      </PromptContext.Provider>
-      <ChatBottom setUserPropmt={makeConversation} />
+        Signout
+      </Button>
+
+      </Box>
     </ThemeProvider>
   );
 }

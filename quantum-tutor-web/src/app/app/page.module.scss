@@ -1,21 +1,17 @@
-.wrapper_container{
+.wrapper_container {
 	display: flex;
 	justify-content: center;
 	padding: 2rem 4rem;
 	height: 100vh;
 	position: relative;
 }
+
 .container {
 	margin-top: 2rem;
 	display: flex;
 	flex-direction: column;
 }
 
-.welcome_text{
+.welcome_text {
 	margin-bottom: 2rem;
-}
-
-
-.signout{
-	height: max-content;
 }
