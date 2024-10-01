@@ -21,9 +21,11 @@ export const PromptContext = React.createContext<IPromptContext>({
     createdAt: '',
     sequence: 0,
   }],
-  chatId: '',
+  moduleList: [],
   prompt: '',
+  chatId: "",
   isLoading: true,
+  currentModuleId: "",
   setData: function (): void {
     throw new Error('Function not implemented.');
   }
@@ -34,18 +36,23 @@ export default function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+    const session = useSession();
+
   const [theme, setTheme] = React.useState<Theme>(darkTheme);
   const [userPrompt, setUserPrompt] = React.useState<string>('');
   const [isLoading, setIsLoading] = React.useState(false);
   const [data, setData] = React.useState<any[]>([]);
   const [userChatId, setUserChatId] = React.useState(null);
+  const [moduleIds, setmoduleIds] = React.useState<string[]>([]);
+  const [moduleId, setCurrentModuleId] = React.useState("");
 
   const makeConversation = async (prompt: string) => {
     // setIsLoading(true);
     setUserPrompt(prompt);
     try {
-      const response = await fetch('http://127.0.0.1:5000/chat', {
+      const response = await fetch('http://localhost:5000/chat', {
         method: 'POST',
+        mode: 'cors',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -53,6 +60,9 @@ export default function Layout({
           sender: 'user',
           text: prompt,
           chatId: userChatId,
+          model: 'llama-3.1-70b-versatile',
+          moduleId: moduleIds[moduleIds.length - 1],
+          userId: session.data?.user?.id
           // moduleId,
         }),
       });
@@ -64,39 +74,31 @@ export default function Layout({
 
       // add response to array
       if (responseJson?.module?.messages?.length > 0) {
-        // module
+        // current module
+        const currentModuleId = responseJson?.module?.moduleId;
         setUserChatId(responseJson?.module?.messages[0]?.chatId);
-        let flag = false;
-        const moduleId = responseJson?.module?.moduleId;
-        let updatedData = data.map(
-          (d) => {
-            if (d?.module?.moduleId === moduleId) {
-              let newData = d;
-              newData.module.messages.push({
-                "chatId": responseJson?.module?.messages[0]?.chatId,
-                "sender": "user",
-                "text": prompt
-              })
-              newData.module.messages.push(responseJson?.module?.messages[0]);
-              flag = true;
-              return newData;
-            }
-            else return d;
-          }
-        );
-        if (!flag) {
-          let tempData = responseJson;
-          tempData.module?.messages?.unshift({
-            "chatId": responseJson?.module?.messages[0]?.chatId,
-            "sender": "user",
-            "text": prompt
-          });
-          updatedData.push(tempData);
+        setCurrentModuleId(currentModuleId);
+
+        // handle module Ids
+        let tempModulesIds = moduleIds
+        if (!tempModulesIds.find((moduleId) => moduleId === currentModuleId)) {
+          tempModulesIds.push(currentModuleId);
         }
-        console.log("udpated data", updatedData);
+        setmoduleIds(tempModulesIds);
 
-        setData(updatedData);
-
+        let messageData = [
+          ...data,
+          {
+            chatId: responseJson?.module?.messages[0]?.chatId,
+            sender: 'user',
+            text: prompt,
+            moduleId: currentModuleId,
+            sequence: data[data.length -1 ]?.sequence ? data[data.length -1 ]?.sequence + 1 : 1
+          },
+          responseJson?.module?.messages[0],
+        ];
+        setData(messageData);
+        
       } else {
         // normal conversation
         setUserChatId(responseJson?.message?.chatId);
@@ -106,13 +108,12 @@ export default function Layout({
             chatId: responseJson?.message?.chatId,
             sender: 'user',
             text: prompt,
+            sequence: data[data.length -1 ]?.sequence ? data[data.length -1 ]?.sequence + 1 : 1
           },
           responseJson?.message,
         ];
         setData(messageData);
       }
-
-      console.log(data);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -133,9 +134,11 @@ export default function Layout({
           value={{
             data: data,
             prompt: userPrompt,
-            chatId: userChatId,
             setData: setData,
             isLoading: isLoading,
+            chatId: userChatId,
+            moduleList: moduleIds,
+            currentModuleId: moduleId
           }}
         >
           {children}

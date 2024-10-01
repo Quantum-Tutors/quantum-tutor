@@ -10,11 +10,7 @@ export interface IModule extends Document {
 }
 
 const ModuleSchema: Schema<IModule> = new Schema({
-  moduleId: {
-    type: String,
-    unique: true,
-    required: true,
-  },
+  moduleId: String,
   chatId: {
     type: String,
     required: true,
@@ -22,11 +18,8 @@ const ModuleSchema: Schema<IModule> = new Schema({
   title: String,
   messages: [String],
   createdAt: String,
-  sequence: {
-    type: Number,
-		required: false
-  },
+  sequence: Number
 });
 
-export default mongoose.models.messages ||
+export default mongoose.models.modules ||
   mongoose.model<IModule>('modules', ModuleSchema);

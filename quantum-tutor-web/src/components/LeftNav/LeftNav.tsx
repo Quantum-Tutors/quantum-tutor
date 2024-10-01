@@ -17,6 +17,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import * as React from 'react';
 import styles from '@/styles/LeftNav.module.scss';
+import { useRouter } from 'next/navigation';
 import { useTheme } from '@mui/material/styles';
 interface Props {
   toggleTheme : () => void;
@@ -24,15 +25,33 @@ interface Props {
 
 const LeftNav = ({ toggleTheme }: Props) => {
   const [open, setOpen] = React.useState(false);
-
+  const [chats, setchats] = React.useState<any[]>([])
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
+  const router = useRouter();
+
+  React.useEffect(() => {
+    const getChats = async () => {
+      const response = await fetch(`http://localhost:5000/chats/usr_3924a43353`, {
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      // get response
+      const responseJson = await response.json();
+      setchats(responseJson);
+    }
+
+    if(!chats.length) getChats();
+  }, [])
+  
 
   const theme = useTheme();
 
   const DrawerList = (
-    <Box sx={{ width: 250}} role='presentation' onClick={toggleDrawer(false)}>
+    <Box sx={{ width: 250 }} role='presentation' onClick={toggleDrawer(false)}>
       <Typography
         className={styles.chatHeader}
         color={theme.palette.secondary.light}
@@ -40,15 +59,15 @@ const LeftNav = ({ toggleTheme }: Props) => {
         Chat
       </Typography>
       <List>
-        {['Data structures', 'Java', 'React', 'GCP'].map((text) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
+        {chats?.map((chat: any) => (
+          <ListItem key={chat?.chatId} disablePadding>
+            <ListItemButton onClick={() => router.push(`/app/${chat?.chatId}`)}>
               <ListItemIcon>
                 <SchoolIcon />
               </ListItemIcon>
               <ListItemText
                 sx={{ color: theme.palette.secondary.main }}
-                primary={text}
+                primary={chat?.title}
               />
             </ListItemButton>
           </ListItem>
@@ -57,17 +76,7 @@ const LeftNav = ({ toggleTheme }: Props) => {
       <Divider />
       <div className={styles.leftNavBottom}>
         <List>
-          <ListItem key={'Help'} disablePadding>
-            {/* <ListItemButton onClick={() => toggleTheme()}> */}
-              {/* <ListItemIcon>
-                <HelpIcon />
-              </ListItemIcon> */}
-              {/* <ListItemText
-                sx={{ color: theme.palette.secondary.main }}
-                primary={'Toggle'}
-              /> */}
-            {/* </ListItemButton> */}
-          </ListItem>
+          <ListItem key={'Help'} disablePadding></ListItem>
           <ListItem key={'settings'} disablePadding>
             <ListItemButton>
               <ListItemIcon>
@@ -85,9 +94,11 @@ const LeftNav = ({ toggleTheme }: Props) => {
   );
 
   return (
-
-    <div style={{width: "min-content"}}>
-      <IconButton onClick={toggleDrawer(true)} sx={{position: "fixed", zIndex: 100, top: 5, left: 5}}>
+    <div style={{ width: 'min-content' }}>
+      <IconButton
+        onClick={toggleDrawer(true)}
+        sx={{ position: 'fixed', zIndex: 100, top: 5, left: 5 }}
+      >
         <MenuIcon />
       </IconButton>
       <Drawer
@@ -101,9 +112,9 @@ const LeftNav = ({ toggleTheme }: Props) => {
             color: theme.palette.primary.main,
           },
           '& .MuiDrawer-paper': {
-          backgroundColor: '#0e0c16', // Custom color
-          color: 'grey', // Text color inside the drawer
-        },
+            backgroundColor: '#0e0c16', // Custom color
+            color: 'grey', // Text color inside the drawer
+          },
         }}
         open={open}
         onClose={toggleDrawer(false)}
@@ -111,17 +122,20 @@ const LeftNav = ({ toggleTheme }: Props) => {
         <IconButton
           className={styles.toggle}
           onClick={toggleDrawer(false)}
-          color="primary"
+          color='primary'
         >
           <MenuIcon />
         </IconButton>
         <Button
+          onClick={() => {
+            router.push(`/app/New_chat`)
+            setOpen(false);
+          }}
           className={styles.newChat}
           variant='contained'
           startIcon={<AddIcon />}
           size='small'
           color='secondary'
-      
         >
           New chat
         </Button>
