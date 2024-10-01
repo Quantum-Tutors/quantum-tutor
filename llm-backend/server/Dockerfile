@@ -1,7 +1,7 @@
 
 FROM python:3.12-slim AS runtime
 
-EXPOSE 8000
+EXPOSE 5000
 
 WORKDIR /
 
@@ -12,8 +12,8 @@ RUN apt-get update && \
 
 RUN groupadd -r appuser && useradd --no-create-home -g appuser -r appuser
 
-# RUN mkdir llm_deploy
-COPY ./llm_deploy/core_systems ./llm_deploy/core_systems
-RUN pip install -r ./llm_deploy/core_systems/requirements.txt 
+# RUN mkdir server
+COPY ./server ./server
+RUN pip install -r ./server/requirements.txt 
 
 USER appuser
