@@ -2,8 +2,8 @@ services:
   server:
     image: server:latest
     command: sh -c "python -m server.app"
-    env_file:
-      - ./server/config/.env
+    # env_file:
+    #   - ./server/config/.env
     network_mode: "host"
     volumes:
       - ./server:/server

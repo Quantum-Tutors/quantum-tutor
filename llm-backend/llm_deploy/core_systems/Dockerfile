@@ -5,22 +5,15 @@ EXPOSE 8000
 
 WORKDIR /
 
-RUN apt-get update && apt-get --no-install-recommends install build-essential python3-dev libpq-dev -y && \
+RUN apt-get update && \
+    apt-get --no-install-recommends install build-essential python3-dev libpq-dev wget ssh libpq5 -y && \
     pip install --no-cache-dir --upgrade pip && \
-    apt-get -yq update && apt-get -yqq install ssh
-
-COPY ./llm_deploy/core_systems/requirements.txt ./
-RUN pip install -r requirements.txt
-
-RUN apt-get update && apt-get install -y wget
-
-RUN apt-get update -y && \
-    apt-get install --no-install-recommends libpq5 -y && \
-    rm -rf /var/lib/apt/lists/*  # Install libpq for psycopg2
+    rm -rf /var/lib/apt/lists/*
 
 RUN groupadd -r appuser && useradd --no-create-home -g appuser -r appuser
+
+# RUN mkdir llm_deploy
+COPY ./llm_deploy/core_systems ./llm_deploy/core_systems
+RUN pip install -r ./llm_deploy/core_systems/requirements.txt 
+
 USER appuser
-
-WORKDIR /
-
-COPY ./llm_deploy/core_systems ./core_systems
