@@ -47,6 +47,7 @@ export default function Layout({
   const [moduleId, setCurrentModuleId] = React.useState("");
 
   const makeConversation = async (prompt: string) => {
+    const userId = await session?.data?.user?.id;
     // setIsLoading(true);
     setUserPrompt(prompt);
     try {
@@ -62,7 +63,7 @@ export default function Layout({
           chatId: userChatId,
           model: 'llama-3.1-70b-versatile',
           moduleId: moduleIds[moduleIds.length - 1],
-          userId: session.data?.user?.id
+          userId: userId,
           // moduleId,
         }),
       });
@@ -136,7 +137,7 @@ export default function Layout({
             prompt: userPrompt,
             setData: setData,
             isLoading: isLoading,
-            chatId: userChatId,
+            chatId: userChatId || "",
             moduleList: moduleIds,
             currentModuleId: moduleId
           }}

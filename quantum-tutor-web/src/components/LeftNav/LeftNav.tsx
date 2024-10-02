@@ -19,6 +19,8 @@ import * as React from 'react';
 import styles from '@/styles/LeftNav.module.scss';
 import { useRouter } from 'next/navigation';
 import { useTheme } from '@mui/material/styles';
+import { useSession } from 'next-auth/react';
+
 interface Props {
   toggleTheme : () => void;
 }
@@ -30,22 +32,28 @@ const LeftNav = ({ toggleTheme }: Props) => {
     setOpen(newOpen);
   };
   const router = useRouter();
+  const session = useSession();
 
   React.useEffect(() => {
     const getChats = async () => {
-      const response = await fetch(`http://localhost:5000/chats/usr_3924a43353`, {
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `http://localhost:5000/chats/${session.data?.user?.id}`,
+        {
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json',
+          },
         }
-      });
+      );
       // get response
       const responseJson = await response.json();
-      setchats(responseJson);
-    }
+    console.log(responseJson);
 
-    if(!chats.length) getChats();
-  }, [])
+      setchats(responseJson);
+    };
+
+    if (!chats.length) getChats();
+  }, [session.data?.user?.id]);
   
 
   const theme = useTheme();

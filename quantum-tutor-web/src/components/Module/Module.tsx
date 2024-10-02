@@ -1,16 +1,39 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react';
 import Accordion from '@mui/material/Accordion';
-import AccordionActions from '@mui/material/AccordionActions';
 import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import styles from '../../styles/Module.module.scss'
+import styles from '../../styles/Module.module.scss';
 import Exchange from '../Exchange';
 import { MessageT } from '@/types';
 
-const Module = ({ conversation }: { conversation: MessageT[]}) => {
+const Module = ({ conversation }: { conversation: MessageT[] }) => {
+  const [moduleName, setmoduleName] = useState('Loading....');
 
-  
+  useEffect(() => {
+    const getModuleTitle = async () => {
+      const response = await fetch(
+        `/api/module?moduleId=${conversation[0].moduleId}`,
+        {
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      const data = await response.json();
+      if (data?.length > 0) setmoduleName(data[0]?.title);
+      else  setmoduleName(data?.title);
+      console.log(data, 'modd');
+
+    };
+
+    try {
+      getModuleTitle();
+    } catch (err) {
+      console.log(err);
+    }
+  }, [conversation[0].moduleId]);
+
   return (
     <div>
       <Accordion
@@ -37,16 +60,17 @@ const Module = ({ conversation }: { conversation: MessageT[]}) => {
           aria-controls='panel2-content'
           id='panel2-header'
         >
-          {/* To DO */}
-          Linked List
+          {moduleName}
         </AccordionSummary>
-        {conversation?.map((exchange) => {
-          return (
-            <div className={styles.exchange}>
-              <Exchange conversation={exchange} isLoading={false} />
-            </div>
-          );
-        })}
+        {conversation
+          ?.sort((a, b) => a.sequence - b.sequence)
+          .map((exchange) => {
+            return (
+              <div className={styles.exchange}>
+                <Exchange conversation={exchange} isLoading={false} />
+              </div>
+            );
+          })}
       </Accordion>
     </div>
   );
