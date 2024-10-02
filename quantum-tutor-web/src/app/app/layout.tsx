@@ -46,13 +46,14 @@ export default function Layout({
   const [userChatId, setUserChatId] = React.useState(null);
   const [moduleIds, setmoduleIds] = React.useState<string[]>([]);
   const [moduleId, setCurrentModuleId] = React.useState("");
+  const [currentModel, setcurrentModel] = React.useState("llama-3.1-70b-versatile");
 
   const makeConversation = async (prompt: string) => {
     const userId = await session?.data?.user?.id;
     // setIsLoading(true);
     setUserPrompt(prompt);
     try {
-      const response = await fetch(`${process.env.LLM_SERVER_URL}/chat`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_LLM_SERVER_URL}/chat`, {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -62,7 +63,7 @@ export default function Layout({
           sender: 'user',
           text: prompt,
           chatId: userChatId,
-          model: 'llama-3.1-70b-versatile',
+          model: currentModel,
           moduleId: moduleIds[moduleIds.length - 1],
           userId: userId,
           // moduleId,
@@ -129,46 +130,47 @@ export default function Layout({
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{
-        backgroundColor:"#0e0c16"
-      }}>
-        <LeftNav toggleTheme={toggleTheme} />
+      <Box
+        sx={{
+          backgroundColor: '#0e0c16',
+        }}
+      >
+        <LeftNav model={currentModel} toggleTheme={toggleTheme} setModel={setcurrentModel} />
         <PromptContext.Provider
           value={{
             data: data,
             prompt: userPrompt,
             setData: setData,
             isLoading: isLoading,
-            chatId: userChatId || "",
+            chatId: userChatId || '',
             moduleList: moduleIds,
-            currentModuleId: moduleId
+            currentModuleId: moduleId,
           }}
         >
           {children}
         </PromptContext.Provider>
         <PromptField setUserPropmt={makeConversation} />
         <Button
-        onClick={async () => {
-          await signOut();
-        }}
-        sx={{
-          position:"fixed",
-          right:20,
-          top: 20,
-          background: '#217bfe',
-          color: 'white',
-          padding: '10px 20px',
-          border: 'none',
-          fontSize: '12px',
-          fontWeight:600,
-          borderRadius: '12px',
-          height:"max-content",
-          zIndex: 100
-        }}
-      >
-        Signout
-      </Button>
-
+          onClick={async () => {
+            await signOut();
+          }}
+          sx={{
+            position: 'fixed',
+            right: 20,
+            top: 20,
+            background: '#217bfe',
+            color: 'white',
+            padding: '10px 20px',
+            border: 'none',
+            fontSize: '12px',
+            fontWeight: 600,
+            borderRadius: '12px',
+            height: 'max-content',
+            zIndex: 100,
+          }}
+        >
+          Signout
+        </Button>
       </Box>
     </ThemeProvider>
   );
