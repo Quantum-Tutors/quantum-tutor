@@ -5,9 +5,9 @@ import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
-const ModuleList = ({modules }: { expanded: Boolean, modules: Array<String> }) => {
+const ModuleList = ({modules, closeNav, currentModel, setModel }: { closeNav: () => void, currentModel: string, setModel: (model: string)=> void, modules: Array<string> }) => {
     const [moduleListExpanded, setModuleListExpanded] = React.useState(false);
-
+    
     return (
         <ListItem>
         { !moduleListExpanded ?
@@ -17,29 +17,30 @@ const ModuleList = ({modules }: { expanded: Boolean, modules: Array<String> }) =
                     </ListItemIcon>
                     <ListItemText
                         sx={{}}
-                        primary={'ModuleList'}
+                        primary={'Select Model'}
                     />
                 </ListItemButton>
             :
-            <List>
-                <ListItem>
+            <List sx={{display: "flex", flexDirection: "column"}}>
+                <ListItem sx={{paddingBottom: "1px"}}>
                 <ListItemButton onClick={()=>{setModuleListExpanded(!moduleListExpanded)}}>
                     <ListItemIcon>
                         <ArrowDropUpIcon />
                     </ListItemIcon>
                     <ListItemText
                         sx={{}}
-                        primary={'ModuleList'}
+                        primary={'Select Model'}
                     />
                 </ListItemButton>
                 </ListItem >
-            {modules.map((module) => (
-                <ListItem>
-                    <ListItemButton>
+            {modules?.map((module) => (
+                <ListItem sx={{boxShadow: module === currentModel ? "0 4px 15px rgba(159, 155, 155, 0.3)" : "none", paddingBottom: "1px", marginBottom: "0px", paddingTop: "1px"}}>
+                    <ListItemButton onClick={()=> {
+                        setModel(module)
+                        closeNav();
+                    }}>
                     <ListItemIcon>
-                        {
-                            <ViewModuleIcon/>
-                        }
+                        <ViewModuleIcon/>
                     </ListItemIcon>
                     <ListItemText
                         sx={{}}

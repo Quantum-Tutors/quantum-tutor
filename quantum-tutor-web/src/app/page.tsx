@@ -2,8 +2,6 @@
 import { Box, Button, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import styles from './page.module.scss'
-import Image from 'next/image'
-import DashboardImage from '../../public/hero.png'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation';
 import { TypeAnimation } from "react-type-animation";
@@ -55,22 +53,22 @@ const Dashboard = () => {
                         <TypeAnimation
                             sequence={[
                                 // Same substring at the start will only be typed out once, initially
-                                "Human:We produce food for Mice",
+                                "Human: Hi",
                                 2000,
                                 () => {
                                     setTypingStatus("bot");
                                 },
-                                "Bot:We produce food for Hamsters",
+                                "Bot: Hello, what brings you here today? Are you looking to learn something new or clarify any concepts?",
                                 2000,
                                 () => {
                                     setTypingStatus("human2");
                                 },
-                                "Human2:We produce food for Guinea Pigs",
+                                "Human2: I want to learn DSA",
                                 2000,
                                 () => {
                                     setTypingStatus("bot");
                                 },
-                                "Bot:We produce food for Chinchillas",
+                                "Bot: That's a great topic. Data Structures and Algorithms (DSA) is a fundamental subject in computer science.",
                                 2000,
                                 () => {
                                     setTypingStatus("human1");
