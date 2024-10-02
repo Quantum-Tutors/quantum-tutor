@@ -4,6 +4,7 @@ import HelpIcon from '@mui/icons-material/Help';
 import MenuIcon from '@mui/icons-material/Menu';
 import SchoolIcon from '@mui/icons-material/School';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { Switch, FormControlLabel } from '@mui/material';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -21,16 +22,43 @@ import { useRouter } from 'next/navigation';
 import { useTheme } from '@mui/material/styles';
 import ModuleList from '../ModuleList';
 import { useSession } from 'next-auth/react';
+import { styled } from '@mui/material/styles';
 
 interface Props {
   toggleTheme: () => void;
   setModel: (model: string) => void;
   model: string;
+  setRag: (ragState: boolean) => void;
+  ragEnabled: boolean;
+  setData: (data: any) => void;
 }
 
-const LeftNav = ({ toggleTheme, setModel, model }: Props) => {
+const CustomSwitch = styled(Switch)(({ theme }) => ({
+  '& .MuiSwitch-switchBase': {
+    color: '#e4e1f0', // Red color for off
+    '&.Mui-checked': {
+      color: '#217bfe', // Green color for on
+    },
+    '&.Mui-checked + .MuiSwitch-track': {
+      backgroundColor: '#217bfe', // Green color for on
+    },
+  },
+  '& .MuiSwitch-track': {
+    backgroundColor: '#eae5e5', // Red color for off
+  },
+}));
+
+const LeftNav = ({
+  toggleTheme,
+  setRag,
+  ragEnabled,
+  setModel,
+  model,
+  setData
+}: Props) => {
   const [open, setOpen] = React.useState(false);
   const [chats, setchats] = React.useState<any[]>([]);
+
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
@@ -99,7 +127,12 @@ const LeftNav = ({ toggleTheme, setModel, model }: Props) => {
       <List>
         {chats?.map((chat: any) => (
           <ListItem key={chat?.chatId} disablePadding>
-            <ListItemButton onClick={() => router.push(`/app/${chat?.chatId}`)}>
+            <ListItemButton
+              onClick={() => {
+                router.push(`/app/${chat?.chatId}`);
+                setOpen(false);
+              }}
+            >
               <ListItemIcon>
                 <SchoolIcon />
               </ListItemIcon>
@@ -113,7 +146,12 @@ const LeftNav = ({ toggleTheme, setModel, model }: Props) => {
       </List>
       <Divider />
       <div className={styles.leftNavBottom}>
-        <ModuleList closeNav={()=> setOpen(false)} currentModel={model} setModel={setModel} modules={models} />
+        <ModuleList
+          closeNav={() => setOpen(false)}
+          currentModel={model}
+          setModel={setModel}
+          modules={models}
+        />
       </div>
     </Box>
   );
@@ -153,7 +191,8 @@ const LeftNav = ({ toggleTheme, setModel, model }: Props) => {
         </IconButton>
         <Button
           onClick={() => {
-            router.push(`/app/New_chat`);
+            router.push(`/app`);
+            setData([]);
             setOpen(false);
           }}
           className={styles.newChat}
@@ -164,6 +203,17 @@ const LeftNav = ({ toggleTheme, setModel, model }: Props) => {
         >
           New chat
         </Button>
+        <div style={{ textAlign: 'center', paddingTop: '10px' }}>
+          <FormControlLabel
+            control={
+              <CustomSwitch
+                checked={ragEnabled}
+                onChange={() => setRag(!ragEnabled)}
+              />
+            }
+            label={ragEnabled ? 'Disable RAG' : 'Enable RAG'}
+          />
+        </div>
         {DrawerList}
       </Drawer>
     </div>
