@@ -56,6 +56,13 @@ export default function ChatHistory({ data }: { data: MessageT[] }) {
     <div className={styles.chatContainer}>
       <div className={styles.chatArea}>
 				{renderChatMessages(data)}
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
       </div>
     </div>
   );
