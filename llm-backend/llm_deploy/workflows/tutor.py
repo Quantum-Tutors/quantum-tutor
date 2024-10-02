@@ -1,7 +1,3 @@
-import os
-from dotenv import load_dotenv
-load_dotenv(os.path.join('./llm_deploy/workflows/','.env'))
-
 from llama_index.core.workflow import (
     step, 
     Context, 
@@ -11,7 +7,6 @@ from llama_index.core.workflow import (
 )
  
 from llama_index.core.agent import ReActAgentWorker
-from llama_index.llms.gemini import Gemini
 
 from llama_deploy import (
     deploy_workflow,
