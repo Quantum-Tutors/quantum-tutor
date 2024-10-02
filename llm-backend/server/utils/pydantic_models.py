@@ -17,7 +17,7 @@ class Message(BaseModel):
     sequence: Optional[int] = None
 
 class Module(BaseModel):
-    moduleId: str = Field(default_factory=lambda: generate_id("module"))
+    moduleId: Optional[str] = Field(default_factory=lambda: generate_id("module"))
     chatId: str
     title: str
     messages: List[str] = Field(default_factory=list)
@@ -25,7 +25,7 @@ class Module(BaseModel):
     sequence: Optional[int] = None
 
 class ChatSession(BaseModel):
-    chatId: str = Field(default_factory=lambda: generate_id("chat"))
+    chatId: Optional[str] = Field(default_factory=lambda: generate_id("chat"))
     userId: str
     title: str
     createdAt: Optional[str] = Field(default_factory=lambda: current_timestamp())

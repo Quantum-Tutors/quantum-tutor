@@ -15,6 +15,9 @@ from server.utils.funcs import generate_id
 from server.utils.constants import available_models
 
 import json
+import logging
+
+logger = logging.getLogger(__name__)
 
 chat_sessions, messages, modules = get_mongo_client()
 
@@ -33,141 +36,182 @@ app.add_middleware(
 llama_deploy_aclient = LlamaDeployClient(ControlPlaneConfig())
 
 
+
 @app.post("/chat")
 def chat_with_bot(user_message: Message):
     user_message = user_message.model_dump()
+    chat_id, user_id, model = (
+        user_message["chatId"],
+        user_message["userId"],
+        user_message["model"],
+    )
 
-    chat_id = user_message["chatId"]
-    user_id = user_message["userId"]
-    model = user_message["model"]
-
-    session = llama_deploy_aclient.get_or_create_session(chat_id)
-    # session = llama_deploy_aclient.get_or_create_session(chat_id)
+    session = llama_deploy_aclient.create_session()
     chat_history = []
 
-    if not chat_id:
-        chat_id = generate_id("chat")
-        chat_session = ChatSession(
-            chatId=chat_id, userId=user_id, title="New Chat Session"
-        )
-        chat_sessions.insert_one(chat_session.model_dump())
-        user_message["chatId"] = chat_id
-        user_message["sequence"] = 1
-        messages.insert_one(user_message)
-        chat_sessions.update_one(
-            {"chatId": chat_id}, {"$push": {"messages": user_message["msgId"]}}
-        )
-        chat_history.append({"role": "user", "content": user_message["text"]})
+    try:
+        if not chat_id:
+            try:
+                chat = ChatSession(userId=user_id, title="New Chat Session")
+                chat_id = chat.chatId
+                logging.info(f"New chat session created with chatId: {chat_id}, userId: {user_id}")
+                chat_sessions.insert_one(chat.model_dump())
+                user_message["chatId"], user_message["sequence"] = chat_id, 1
+                messages.insert_one(user_message)
+                chat_sessions.update_one(
+                    {"chatId": chat_id}, {"$push": {"messages": user_message["msgId"]}}
+                )
+                logging.info(f"User message inserted and updated. chatId: {chat_id}, messageId: {user_message['msgId']}")
+                chat_history.append({"role": "user", "content": user_message["text"]})
+            except Exception as e:
+                logging.error(f"Error in creating new chat session: {str(e)}")
+                raise HTTPException(status_code=500, detail="Error creating new chat session")
+        else:
+            try:
+                chat_session_data = chat_sessions.find_one({"chatId": chat_id})
+                if not chat_session_data:
+                    logging.error(f"Chat session {chat_id} not found")
+                    raise HTTPException(status_code=404, detail="Chat session not found")
+                chat = ChatSession(**chat_session_data)
+                user_message["sequence"] = messages.count_documents({"chatId": chat_id}) + 1
+                messages.insert_one(user_message)
+                logging.info(f"User message inserted. chatId: {chat_id}, messageId: {user_message['msgId']}, sequence: {user_message['sequence']}")
+                
+                for message in messages.find({"chatId": chat_id}).sort("sequence"):
+                    chat_history.append({
+                        "role": message["sender"],
+                        "content": f'{message["text"]} ModuleTitle: {modules.find_one({"moduleId": message["moduleId"]}, {"title": 1, "_id": 0}) if message["moduleId"] else None}',
+                    })
+                logging.info(f"Chat history updated for chatId: {chat_id}")
+            except Exception as e:
+                logging.error(f"Error in retrieving chat session: {str(e)}")
+                raise HTTPException(status_code=500, detail="Error retrieving chat session")
 
-    else:
-        chat_session_data = chat_sessions.find_one({"chatId": chat_id})
-        if not chat_session_data:
-            raise HTTPException(status_code=404, detail="Chat session not found")
-        chat_session = ChatSession(**chat_session_data)
-        user_message["sequence"] = len(list(messages.find({"chatId": chat_id}))) + 1
-        messages.insert_one(user_message)
-        chat_sessions.update_one(
-            {"chatId": chat_id}, {"$push": {"messages": user_message["msgId"]}}
-        )
+        try:
+            model_output = session.run("concierge_workflow", chat_history=chat_history, model=model)
+            if not model_output:
+                logging.error("Model output is empty")
+                raise HTTPException(status_code=500, detail="Model failed to generate output")
+            model_output = json.loads(model_output)
+            logging.info(f"Model output generated successfully. modelOutput: {model_output}")
+        except Exception as e:
+            logging.error(f"Error in model generation: {str(e)}")
+            raise HTTPException(status_code=500, detail="Error generating model output")
 
-        for message in list(messages.find({"chatId": chat_id}).sort("sequence")):
-            chat_history.append(
-                {
-                    "role": message["sender"],
-                    "content": message["text"]
-                    + f"""Module Details:is the above message a Module: {True if message["moduleId"] else False},Title of above module: {modules.find_one({"moduleId": message["moduleId"]}, {"title": 1}) if message["moduleId"] else None}""",
+        if not chat.currentModule and model_output["moduleTitle"]:
+            try:
+                module = Module(
+                    chatId=chat_id,
+                    title=model_output["moduleTitle"],
+                    sequence=modules.count_documents({"chatId": chat_id}) + 1,
+                )
+                modules.insert_one(module.model_dump())
+                modules.update_one(
+                    {"moduleId": module.moduleId}, {"$push": {"messages": user_message["msgId"]}}
+                )
+                messages.update_one(
+                    {"msgId": user_message["msgId"]}, {"$set": {"moduleId": module.moduleId}}
+                )
+                logging.info(f"Module created and updated. moduleId: {module.moduleId}, messageId: {user_message['msgId']}")
+                
+                bot_message = Message(
+                    chatId=chat_id,
+                    moduleId=module.moduleId,
+                    sender="bot",
+                    text=model_output["response"],
+                    model=model,
+                    sequence=messages.count_documents({"chatId": chat_id}) + 1,
+                )
+                messages.insert_one(bot_message.model_dump())
+                modules.update_one(
+                    {"moduleId": module.moduleId}, {"$push": {"messages": bot_message.msgId}}
+                )
+                chat_sessions.update_one(
+                    {"chatId": chat_id},
+                    {
+                        "$set": {"currentModule": module.moduleId},
+                        "$push": {"modules": module.moduleId},
+                    },
+                )
+                logging.info(f"Bot message inserted for new module. botMessageId: {bot_message.msgId}, moduleId: {module.moduleId}")
+                
+                response = {
+                    "module": {
+                        "moduleId": module.moduleId,
+                        "messages": [bot_message.model_dump()],
+                    }
                 }
-            )
+            except Exception as e:
+                logging.error(f"Error in creating/updating module: {str(e)}")
+                raise HTTPException(status_code=500, detail="Error processing module")
+        elif chat.currentModule:
+            try:
+                bot_message = Message(
+                    chatId=chat_id,
+                    moduleId=user_message["moduleId"],
+                    sender="bot",
+                    text=model_output["response"],
+                    model=model,
+                    sequence=messages.count_documents({"chatId": chat_id}) + 1,
+                )
+                messages.insert_one(bot_message.model_dump())
+                modules.update_one(
+                    {"moduleId": user_message["moduleId"]},
+                    {"$push": {"messages": bot_message.msgId}},
+                )
+                messages.update_one(
+                    {"msgId": user_message["msgId"]}, {"$set": {"moduleId": chat.currentModule}}
+                )
+                logging.info(f"Bot message inserted for existing module. botMessageId: {bot_message.msgId}, moduleId: {chat.currentModule}")
+                
+                response = {
+                    "module": {
+                        "moduleId": user_message["moduleId"],
+                        "messages": [bot_message.model_dump()],
+                    }
+                }
+                if not model_output["moduleTitle"]:
+                    chat_sessions.update_one(
+                        {"chatId": chat_id}, {"$unset": {"currentModule": ""}}
+                    )
+                    logging.info(f"Module completed for chat session {chat_id}")
+            except Exception as e:
+                logging.error(f"Error in updating module: {str(e)}")
+                raise HTTPException(status_code=500, detail="Error updating module")
+        else:
+            try:
+                bot_message = Message(
+                    userId=user_id,
+                    chatId=chat_id,
+                    sender="bot",
+                    text=model_output["response"],
+                    model=model,
+                    sequence=messages.count_documents({"chatId": chat_id}) + 1,
+                )
+                messages.insert_one(bot_message.model_dump())
+                chat_sessions.update_one(
+                    {"chatId": chat_id}, {"$push": {"messages": bot_message.msgId}}
+                )
+                logging.info(f"Bot message inserted for chat session without module. botMessageId: {bot_message.msgId}, chatId: {chat_id}")
+                
+                response = {"message": bot_message.model_dump()}
+            except Exception as e:
+                logging.error(f"Error in inserting bot message: {str(e)}")
+                raise HTTPException(status_code=500, detail="Error inserting bot message")
+        
+        return response
 
-    model_output = session.run(
-        "concierge_workflow", chat_history=chat_history, model=model
-    )
-    model_output = json.loads(model_output)
+    except Exception as e:
+        logging.error(f"Overall error occurred: {str(e)}")
+        return {"message": {
+            "text":f"Overall error occurred: {str(e)}",
+            "msgId": None,
+            "chatId": chat_id,
+            "moduleId": None,
+            "userId": user_id,
+            "sender": "bot",
+        }}
 
-    if not getattr(chat_session, "currentModule", None) and bool(
-        model_output["isModule"]
-    ):
-        module = Module(
-            chatId=chat_id,
-            title=model_output["moduleTitle"],
-            sequence=len(list(modules.find({"chatId": chat_id}))) + 1,
-        )
-        modules.insert_one(module.model_dump())
-        current_module = module.moduleId
-
-        bot_message = Message(
-            chatId=chat_id,
-            moduleId=current_module,
-            sender="bot",
-            text=model_output["response"],
-            model=model,
-            sequence=len(list(messages.find({"chatId": chat_id}))) + 1,
-        )
-        messages.insert_one(bot_message.model_dump())
-        modules.update_one(
-            {"moduleId": current_module}, {"$push": {"messages": bot_message.msgId}}
-        )
-        chat_sessions.update_one(
-            {"chatId": chat_id}, {"$push": {"modules": current_module}}
-        )
-        chat_sessions.update_one(
-            {"chatId": chat_id}, {"$set": {"currentModule": module.moduleId}}
-        )
-
-        response = {
-            "module": {
-                "moduleId": current_module,
-                "status": model_output["isModule"],
-                "messages": [bot_message.model_dump()],
-            }
-        }
-
-    elif getattr(chat_session, "currentModule", None):
-        bot_message = Message(
-            chatId=chat_id,
-            moduleId=user_message["moduleId"],
-            sender="bot",
-            text=model_output["response"],
-            model=model,
-            sequence=len(list(messages.find({"chatId": chat_id}))) + 1,
-        )
-        messages.insert_one(bot_message.model_dump())
-        modules.update_one(
-            {"moduleId": user_message["moduleId"]},
-            {"$push": {"messages": bot_message.msgId}},
-        )
-        chat_sessions.update_one(
-            {"chatId": chat_id}, {"$push": {"modules": bot_message.msgId}}
-        )
-        response = {
-            "module": {
-                "moduleId": user_message["moduleId"],
-                "status": model_output["isModule"],
-                "messages": [bot_message.model_dump()],
-            }
-        }
-
-        if not bool(model_output["isModule"]):
-            chat_sessions.update_one(
-                {"chatId": chat_id}, {"$unset": {"currentModule": ""}}
-            )
-
-    else:
-        bot_message = Message(
-            userId=user_id,
-            chatId=chat_id,
-            sender="bot",
-            text=model_output["response"],
-            model=model,
-            sequence=len(list(messages.find({"chatId": chat_id}))) + 1,
-        )
-        messages.insert_one(bot_message.model_dump())
-        chat_sessions.update_one(
-            {"chatId": chat_id}, {"$push": {"messages": bot_message.msgId}}
-        )
-        response = {"message": bot_message.model_dump()}
-
-    return response
 
 
 @app.get("/chats/{user_id}")
@@ -179,17 +223,17 @@ def get_chats(user_id: str):
     )
 
 
-@app.get("/modules")
+@app.get("/modules/{module_id}")
 def get_chats(module_id: str):
-    return list(modules.find({"moduleId": module_id}))
+    return list(modules.find({"moduleId": module_id},{"_id":0}))
 
 
 @app.get("/chat/{chat_id}/module-titles")
 def get_module_titles(chat_id: str):
-    chat_session = chat_sessions.find_one({"chatId": chat_id}, {"modules": 1})
-    if not chat_session:
+    chat = chat_sessions.find_one({"chatId": chat_id}, {"modules": 1, "_id": 0})
+    if not chat:
         return {"error": "Chat session not found"}
-    module_ids = chat_session.get("modules", [])
+    module_ids = chat.get("modules", [])
     _modules = modules.find({"moduleId": {"$in": module_ids}}, {"title": 1, "_id": 0})
     # print(list(_modules))
     return {"moduleTitles": [module["title"] for module in _modules]}
@@ -199,8 +243,22 @@ def get_module_titles(chat_id: str):
 def get_available_models():
     return {"available_models": available_models}
 
+@app.get("/wipe_db")
+def wipe_db():
+
+    print(f"Deleting Chats: {chat_sessions.count_documents({})}")
+    chat_sessions.delete_many({})
+    
+    print(f"Deleting Modules: {modules.count_documents({})}")
+    modules.delete_many({})
+
+    print(f"Deleting Messages: {messages.count_documents({})}")
+    messages.delete_many({})
+    return {}
 
 if __name__ == "__main__":
     import uvicorn
 
+
     uvicorn.run(app, host="0.0.0.0", port=5000)
+

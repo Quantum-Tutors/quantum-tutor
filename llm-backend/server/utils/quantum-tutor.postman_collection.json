@@ -1,0 +1,183 @@
+{
+	"info": {
+		"_postman_id": "ab8802ff-a134-4453-8724-64c9a86756e4",
+		"name": "quantum-tutor",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28123785"
+	},
+	"item": [
+		{
+			"name": "chat",
+			"item": [
+				{
+					"name": "init-hi-learn-ds",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sender\": \"user\",\n    \"text\": \"Hii, I wanna learn Data structures?\"\n    // ,\"chatId\": \"\"\n    ,\"chatId\": null\n    // ,\"userId\": \"\"\n    // ,\"userId\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:5000/chat",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "5000",
+							"path": [
+								"chat"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2nd-ik-arrays",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sender\": \"user\",\n    \"text\": \"I heard a few things about arrays\"\n    ,\"chatId\": \"chat_2367af\"\n    ,\"userId\": \"usr_2a0daf\"\n    // ,\"chatId\": null\n    // ,\"userId\": \"usr_cc525b\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:5000/chat",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "5000",
+							"path": [
+								"chat"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3rd-idk-list-stack-etc",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sender\": \"user\",\n    \"text\": \"I haven't heard of list, stack etc, could you list the basics to freshen up the things I am familiar with?\",\n        \"userId\": \"usr_12ad4d\",\n        \"chatId\": \"chat_b8896f\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:5000/chat",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "5000",
+							"path": [
+								"chat"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4th-msg",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sender\": \"user\",\n    \"text\": \"Yes, I do. x[0]=3, x[1:], x[-1]. I think, Im good in this topic shall we move on to next one?\",\n    \"userId\": \"usr_8b7efc9109\",\n    \"chatId\": \"chat_796649385e\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:5000/chat",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "5000",
+							"path": [
+								"chat"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "available_models",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:5000/available_models",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "5000",
+					"path": [
+						"available_models"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "available_models Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:5000/available_models",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "5000",
+					"path": [
+						"available_models"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
