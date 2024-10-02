@@ -12,7 +12,7 @@ const UserQuery = ({ propmt }: { propmt : string}) => {
   return (
     <div className={styles.userQuery}>
       <img
-        src={session.data?.user?.image || assets.User}
+        src={session.data?.user?.image || assets.User.src}
         alt=''
         width={32}
         height={32}
