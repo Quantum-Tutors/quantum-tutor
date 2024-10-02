@@ -38,7 +38,7 @@ const LeftNav = ({ toggleTheme }: Props) => {
   React.useEffect(() => {
     const getChats = async () => {
       const response = await fetch(
-        `http://localhost:5000/chats/${session.data?.user?.id}`,
+        `${process.env.LLM_SERVER_URL}/chats/${session.data?.user?.id}`,
         {
           mode: 'cors',
           headers: {

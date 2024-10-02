@@ -52,7 +52,7 @@ export default function Layout({
     // setIsLoading(true);
     setUserPrompt(prompt);
     try {
-      const response = await fetch('http://localhost:5000/chat', {
+      const response = await fetch(`${process.env.LLM_SERVER_URL}/chat`, {
         method: 'POST',
         mode: 'cors',
         headers: {
