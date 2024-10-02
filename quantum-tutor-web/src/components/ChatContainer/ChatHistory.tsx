@@ -16,7 +16,7 @@ export default function ChatHistory({ data }: { data: MessageT[] }) {
 
   const renderChatMessages = (messages: MessageT[]) => {
     let result = [];
-    let moduleGroup = [];
+    let moduleGroup: any[] = [];
 
     for (let i = 0; i < messages.length; i++) {
       const currentMessage = messages[i];
