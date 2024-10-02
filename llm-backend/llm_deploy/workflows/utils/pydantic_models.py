@@ -1,5 +1,6 @@
 from typing import Optional, Any
 from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field
 from llama_index.core.workflow import Event
 
 class InitializeEvent(Event):
@@ -10,5 +11,4 @@ class ConciergeEvent(Event):
     
 class ModelResponse(BaseModel):
     response: str
-    isModule: bool = False
-    moduleTitle: str 
+    moduleTitle: str
