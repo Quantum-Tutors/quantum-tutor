@@ -13,7 +13,7 @@ function App() {
     if (session?.socket.connected) {
       return;
     }
-    fetch("http://localhost:5000/custom-auth")
+    fetch("http://192.168.1.112:5000/custom-auth")
       .then((res) => {
         return res.json();
       })

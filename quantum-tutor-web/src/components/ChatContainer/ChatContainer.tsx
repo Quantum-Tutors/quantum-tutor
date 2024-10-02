@@ -1,6 +1,5 @@
 'use client';
 import React, { useContext, useEffect } from 'react';
-import Module from '../Module';
 import { PromptContext } from '@/app/app/layout';
 import SingleExchange from '../Exchange/SingelExchange';
 import ChatHistory from './ChatHistory';

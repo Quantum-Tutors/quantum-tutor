@@ -17,19 +17,16 @@ export async function GetChatSession(Chatid: string) {
 			const messages = await Promise.all(allMessages);
 
 			if (messages?.length) moduleMessages.push(...messages);
-			console.log(chatHistory.modules);
 			
 			const allModules = chatHistory.modules?.map((module: string) =>
         Module.findOne({ moduleId: module }, { _id: 0 }).lean()
       );
 			const modules = await Promise.all(allModules);
 			// messages
-			console.log(modules);
 			
 			let messagesListForModules = modules.map((mod)=> mod?.messages);
 			messagesListForModules = [].concat(...messagesListForModules);
 
-			console.log(messagesListForModules);
 			
 			const allModulesMessages = messagesListForModules?.map((messageId: string) =>
         Message.findOne({"msgId": messageId},{_id: 0}).lean()
@@ -41,7 +38,6 @@ export async function GetChatSession(Chatid: string) {
 			if (allModuleMessages?.length) moduleMessages.push(...allModuleMessages);
 		}
 		
-		console.log(moduleMessages);
 		return moduleMessages;
 	}
 	catch(err){

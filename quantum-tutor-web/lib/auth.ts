@@ -4,6 +4,8 @@ import { MongoDBAdapter } from "@auth/mongodb-adapter"
 import client from "./mongodb";
 import { redirect } from "next/navigation";
 import getServerSession from "next-auth"; 
+import connectDB from "@/lib/db";
+import User from "@/lib/models/User";
 
 const authOptions: NextAuthConfig = {
   adapter: MongoDBAdapter(client),
@@ -12,7 +14,20 @@ const authOptions: NextAuthConfig = {
   ],
   pages: {
     error: "/"
-  }
+  },
+  callbacks:{
+    session: async({ session}) => {
+      await connectDB();
+      const user = await User.findOne({ email : session.user.email});
+      console.log(user);
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user._id.toString(),
+        },
+      };
+  }},
 }
 
 export {authOptions}

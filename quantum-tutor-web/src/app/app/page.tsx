@@ -50,7 +50,7 @@ const Page = () => {
             variant='h2'
             className={styles.greeting}
           >
-            {`Hello ${session.data?.user?.name}`}
+            {`Hello ${session.data?.user?.name ?? "...."}`}
             <Typography
               sx={{ fontWeight: '700' }}
               component={'div'}

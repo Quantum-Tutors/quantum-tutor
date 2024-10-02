@@ -98,8 +98,18 @@ def chat_with_bot(user_message: Message):
             logging.error(f"Error in model generation: {str(e)}")
             raise HTTPException(status_code=500, detail="Error generating model output")
 
-        if not chat.currentModule and model_output["moduleTitle"]:
-            try:
+        if chat.currentModule:
+            current_module_title = modules.find_one({"moduleId":chat.currentModule},{"title":1, "_id":0})
+            print(current_module_title, model_output["moduleTitle"])
+            if current_module_title != model_output["moduleTitle"]:
+                chat_sessions.update_one(
+                        {"chatId": chat_id}, 
+                        {"$unset": {"currentModule": ""}}
+                    )
+                chat.currentModule = None
+            
+        if not chat.currentModule == "" and model_output["moduleTitle"]:
+            try :
                 module = Module(
                     chatId=chat_id,
                     title=model_output["moduleTitle"],
