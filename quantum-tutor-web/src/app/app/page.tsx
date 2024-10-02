@@ -1,5 +1,5 @@
 'use client';
-import { Explore, Lightbulb, School } from '@mui/icons-material';
+import { Explore, Lightbulb, School, LocalLibrary } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -43,7 +43,7 @@ const Page = () => {
     { text: 'Learn about socratic learning', Icon: Explore },
     { text: 'Learn DSA', Icon: Lightbulb },
     { text: 'Learn about Object Oriented Programming', Icon: School },
-    { text: 'Learn the fundamentals of Programming', Icon: Explore },
+    { text: 'Learn the fundamentals of Programming', Icon: LocalLibrary },
   ];
   const theme = useTheme();
 
