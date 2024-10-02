@@ -1,118 +1,114 @@
-from logging import getLogger
-from llama_index.core import SimpleDirectoryReader, VectorStoreIndex
-from llama_index.core.node_parser import SemanticSplitterNodeParser, SentenceSplitter
+from llama_index.core import VectorStoreIndex
 from llama_index.core.response_synthesizers import CompactAndRefine
+from llama_index.core import SimpleDirectoryReader
+from llama_index.core import SimpleDirectoryReader, VectorStoreIndex
+from llama_index.core.response_synthesizers import CompactAndRefine
+from llama_index.core.postprocessor.llm_rerank import LLMRerank
 from llama_index.core.workflow import (
     Context,
-    Event,
     Workflow,
     StartEvent,
     StopEvent,
     step,
 )
-from llama_index.core.schema import NodeWithScore
-from llama_index.embeddings.openai import OpenAIEmbedding
-from llama_index.llms.openai import OpenAI
-from llama_index.postprocessor.rankgpt_rerank import RankGPTRerank
-from llama_index.vector_stores.qdrant import QdrantVectorStore
-from qdrant_client import QdrantClient, AsyncQdrantClient
 
-logger = getLogger(__name__)
+from llama_deploy import (
+    deploy_workflow,
+    WorkflowServiceConfig,
+    ControlPlaneConfig,
+)
 
-
-class RetrieverEvent(Event):
-    """Result of running retrieval"""
-
-    nodes: list[NodeWithScore]
-
-
-class RerankEvent(Event):
-    """Result of running reranking on retrieved nodes"""
-
-    nodes: list[NodeWithScore]
-
+from llm_deploy.workflows.utils.pydantic_models import RetrieverEvent, RerankEvent 
+from llm_deploy.workflows.utils.llms import models
 
 class RAGWorkflow(Workflow):
-    def __init__(self, index: VectorStoreIndex, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.index = index
+    
+    @step
+    async def ingest(self, ctx: Context, ev: StartEvent) -> StopEvent | None:
+        """Entry point to ingest a document, triggered by a StartEvent with `dirname`."""
+        dirname = ev.get("dirname")
+        if not dirname:
+            return None
+        embeddings_model = models["BAAI/bge-small-en-v1.5"]
+        documents = SimpleDirectoryReader(dirname).load_data()
+        index = VectorStoreIndex.from_documents(
+            documents=documents,
+            embed_model=embeddings_model,
+        )
+        return StopEvent(result=index)
 
     @step
-    async def retrieve(self, ctx: Context, ev: StartEvent) -> RetrieverEvent | None:
+    async def retrieve(
+        self, ctx: Context, ev: StartEvent
+    ) -> RetrieverEvent | None:
         "Entry point for RAG, triggered by a StartEvent with `query`."
-        logger.info(f"Retrieving nodes for query: {ev.get('query')}")
         query = ev.get("query")
-        top_k = ev.get("top_k", 5)
-        top_n = ev.get("top_n", 3)
-
+        index = ev.get("index")
+        ctx.data["model"] = ev.get("model")
         if not query:
-            raise ValueError("Query is required!")
+            return None
 
-        # store the settings in the global context
+        print(f"Query the database with: {query}")
+
+        # store the query in the global context
         await ctx.set("query", query)
-        await ctx.set("top_k", top_k)
-        await ctx.set("top_n", top_n)
 
-        retriever = self.index.as_retriever(similarity_top_k=top_k)
+        # get the index from the global context
+        if index is None:
+            print("Index is empty, load some documents before querying!")
+            return None
+
+        retriever = index.as_retriever(similarity_top_k=2)
         nodes = await retriever.aretrieve(query)
+        print(f"Retrieved {len(nodes)} nodes.")
         return RetrieverEvent(nodes=nodes)
 
     @step
     async def rerank(self, ctx: Context, ev: RetrieverEvent) -> RerankEvent:
         # Rerank the nodes
-        top_n = await ctx.get("top_n")
-        query = await ctx.get("query")
-
-        ranker = RankGPTRerank(top_n=top_n, llm=OpenAI(model="gpt-4o"))
-
-        try:
-            new_nodes = ranker.postprocess_nodes(ev.nodes, query_str=query)
-        except Exception:
-            # Handle errors in the LLM response
-            new_nodes = ev.nodes
+        ranker = LLMRerank(
+            choice_batch_size=5, top_n=3, 
+            # llm=Groq(model="llama-3.1-70b-versatile"),
+            llm=models[ctx.data["model"]]
+        )
+        print(await ctx.get("query", default=None), flush=True)
+        new_nodes = ranker.postprocess_nodes(
+            ev.nodes, query_str=await ctx.get("query", default=None)
+        )
+        print(f"Reranked nodes to {len(new_nodes)}")
         return RerankEvent(nodes=new_nodes)
 
     @step
     async def synthesize(self, ctx: Context, ev: RerankEvent) -> StopEvent:
-        """Return a response using reranked nodes."""
-        llm = OpenAI(model="gpt-4o-mini")
-        synthesizer = CompactAndRefine(llm=llm)
+        """Return a streaming response using reranked nodes."""
+        llm = models[ctx.data["model"]]
+        summarizer = CompactAndRefine(llm=llm, streaming=True, verbose=True)
         query = await ctx.get("query", default=None)
 
-        response = await synthesizer.asynthesize(query, nodes=ev.nodes)
-
-        return StopEvent(result=str(response))
+        response = await summarizer.asynthesize(query, nodes=ev.nodes)
+        return StopEvent(result=response)
 
 
 def build_rag_workflow() -> RAGWorkflow:
-    # host points to qdrant in docker-compose.yml
-    client = QdrantClient(host="qdrant", port=6333)
-    aclient = AsyncQdrantClient(host="qdrant", port=6333)
-    vector_store = QdrantVectorStore(
-        collection_name="papers",
-        client=client,
-        aclient=aclient,
+    return RAGWorkflow(timeout=180, verbose=True)
+
+
+async def deploy_rag_workflow():
+    rag_workflow = build_rag_workflow()
+
+    await deploy_workflow(
+        rag_workflow,
+        workflow_config=WorkflowServiceConfig(
+            host="0.0.0.0",
+            port=8003, 
+            service_name="rag_workflow"
+        ),
+        control_plane_config=ControlPlaneConfig(host="0.0.0.0"),
     )
 
-    index = VectorStoreIndex.from_vector_store(
-        vector_store=vector_store,
-        embed_model=OpenAIEmbedding(model_name="text-embedding-3-small"),
-    )
+if __name__ == "__main__":
+    import asyncio, time
 
-    # ensure the index exists
-    if not client.collection_exists("papers"):
-        documents = SimpleDirectoryReader("data").load_data()
+    time.sleep(5)
 
-        # Double pass chunking
-        first_node_parser = SemanticSplitterNodeParser(
-            embed_model=OpenAIEmbedding(model_name="text-embedding-3-small"),
-        )
-        second_node_parser = SentenceSplitter(chunk_size=1024, chunk_overlap=128)
-        nodes = first_node_parser(documents)
-
-        # Second pass chunking ensures that the nodes are not too large
-        nodes = second_node_parser(nodes)
-
-        index.insert_nodes(nodes)
-
-    return RAGWorkflow(index=index, timeout=120.0)
+    asyncio.run(deploy_rag_workflow())

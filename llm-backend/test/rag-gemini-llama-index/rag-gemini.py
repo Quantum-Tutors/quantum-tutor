@@ -17,7 +17,7 @@ from llama_index.llms.groq import Groq
 # Settings.embed_model = GeminiEmbedding(
 #     model_name="models/embedding-001", api_key=os.getenv('GOOGLE_API_KEY')
 # )
-# Settings.llm = Gemini(api_key=os.getenv('GOOGLE_API_KEY'))
+Settings.llm = Gemini(api_key=os.getenv('GOOGLE_API_KEY'))
 
 Settings.llm = Ollama(model=os.environ['OLLAMA_LLM_MODEL'], base_url=os.environ['OLLAMA_BASE_URL'],
                     request_timeout=600)

@@ -1,7 +1,3 @@
-import os
-from dotenv import load_dotenv
-load_dotenv(os.path.join('./llm_deploy/workflows/','.env'))
-
 from llama_index.core.workflow import (
     step, 
     Context, 

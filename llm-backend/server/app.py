@@ -33,7 +33,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-llama_deploy_aclient = LlamaDeployClient(ControlPlaneConfig())
+llama_deploy_aclient = LlamaDeployClient(ControlPlaneConfig(), timeout=180)
 
 
 
