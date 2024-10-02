@@ -18,4 +18,6 @@ export interface IPromptContext {
   setData: (data: any) => void;
   moduleList: string[];
   currentModuleId: string;
+  converse: (prompt: string) => void;
+  setIsLoading: (loading: boolean) => void;
 }
