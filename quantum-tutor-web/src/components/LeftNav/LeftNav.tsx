@@ -19,6 +19,7 @@ import * as React from 'react';
 import styles from '@/styles/LeftNav.module.scss';
 import { useRouter } from 'next/navigation';
 import { useTheme } from '@mui/material/styles';
+import ModuleList from '../ModuleList';
 import { useSession } from 'next-auth/react';
 
 interface Props {
@@ -59,7 +60,7 @@ const LeftNav = ({ toggleTheme }: Props) => {
   const theme = useTheme();
 
   const DrawerList = (
-    <Box sx={{ width: 250 }} role='presentation' onClick={toggleDrawer(false)}>
+    <Box sx={{ width: 250 }} role='presentation'>
       <Typography
         className={styles.chatHeader}
         color={theme.palette.secondary.light}
@@ -86,15 +87,7 @@ const LeftNav = ({ toggleTheme }: Props) => {
         <List>
           <ListItem key={'Help'} disablePadding></ListItem>
           <ListItem key={'settings'} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <SettingsIcon />
-              </ListItemIcon>
-              <ListItemText
-                sx={{ color: theme.palette.secondary.main }}
-                primary={'Settings'}
-              />
-            </ListItemButton>
+            <ModuleList expanded={false} modules={["Module1","Module2","Module3","Module4"]}/>
           </ListItem>
         </List>
       </div>
@@ -115,10 +108,10 @@ const LeftNav = ({ toggleTheme }: Props) => {
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.primary.main,
           },
-          '& .MuiBackdrop-root': {
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.primary.main,
-          },
+          // '& .MuiBackdrop-root': {
+          //   backgroundColor: theme.palette.primary.main,
+          //   color: theme.palette.primary.main,
+          // },
           '& .MuiDrawer-paper': {
             backgroundColor: '#0e0c16', // Custom color
             color: 'grey', // Text color inside the drawer

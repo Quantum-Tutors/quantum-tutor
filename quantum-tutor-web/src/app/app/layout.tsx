@@ -8,6 +8,7 @@ import { IPromptContext } from '@/types';
 import ChatBottom from '@/components/ChatBottom';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import PromptField from '@/components/PromptField';
 
 
 export const PromptContext = React.createContext<IPromptContext>({
@@ -129,6 +130,7 @@ export default function Layout({
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{
+        backgroundColor:"#0e0c16"
       }}>
         <LeftNav toggleTheme={toggleTheme} />
         <PromptContext.Provider
@@ -144,7 +146,7 @@ export default function Layout({
         >
           {children}
         </PromptContext.Provider>
-        <ChatBottom setUserPropmt={makeConversation} />
+        <PromptField setUserPropmt={makeConversation} />
         <Button
         onClick={async () => {
           await signOut();
