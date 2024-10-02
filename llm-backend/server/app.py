@@ -74,6 +74,10 @@ def chat_with_bot(user_message: Message):
                 chat = ChatSession(**chat_session_data)
                 user_message["sequence"] = messages.count_documents({"chatId": chat_id}) + 1
                 messages.insert_one(user_message)
+                chat_sessions.update_one(
+                    {"chatId": chat_id},
+                    {"$push": {"modules": module.moduleId}},
+                )
                 logging.info(f"User message inserted. chatId: {chat_id}, messageId: {user_message['msgId']}, sequence: {user_message['sequence']}")
                 
                 for message in messages.find({"chatId": chat_id}).sort("sequence"):

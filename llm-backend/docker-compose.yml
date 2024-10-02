@@ -35,9 +35,9 @@ services:
       start_period: 5s
       timeout: 10s
       
-  concierge_workflow:
-    image: concierge_workflow:latest
-    command: sh -c "python -m workflows.concierge"
+  tutor_workflow:
+    image: tutor_workflow:latest
+    command: sh -c "python -m workflows.tutor"
     # env_file:
     #   - ./llm_deploy/workflows/.env
     network_mode: "host"
