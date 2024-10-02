@@ -7,13 +7,13 @@ import { useTheme } from '@mui/material/styles';
 const ChatBottom = ({ setUserPropmt }: { setUserPropmt : (value: string)=> void}) => {
   const theme = useTheme();
   return (
-    <div
-      className={
-        styles.bottom
-      }
-    >
+    // <div
+    //   className={
+    //     styles.bottom
+    //   }
+    // >
       <PromptField setUserPropmt={setUserPropmt} />
-    </div>
+    // </div>
   );
 };
 
