@@ -31,6 +31,7 @@ interface Props {
   setRag: (ragState: boolean) => void;
   ragEnabled: boolean;
   setData: (data: any) => void;
+  setchatId: (dat: string) => void;
 }
 
 const CustomSwitch = styled(Switch)(({ theme }) => ({
@@ -54,7 +55,8 @@ const LeftNav = ({
   ragEnabled,
   setModel,
   model,
-  setData
+  setData,
+  setchatId
 }: Props) => {
   const [open, setOpen] = React.useState(false);
   const [chats, setchats] = React.useState<any[]>([]);
@@ -191,7 +193,7 @@ const LeftNav = ({
         </IconButton>
         <Button
           onClick={() => {
-            router.push(`/app`);
+            router.push(`/app/newchat`);
             setData([]);
             setOpen(false);
           }}

@@ -6,21 +6,27 @@ import ChatHistory from './ChatHistory';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
-const ChatContainer = ({ chatSession }: { chatSession: any }) => {
+const ChatContainer = ({ chatSession, chatId }: { chatSession: any, chatId: string }) => {
   const dataContext = useContext(PromptContext);
   const session = useSession();
   const router = useRouter();
   console.log(dataContext, chatSession);
-  const { data, isLoading, setData, currentModuleId } = dataContext;
+  const { data, setData, setChatId, setIsLoading } = dataContext;
 
-  if(session.status === "unauthenticated")
-  {
-    router.push("/")
+  if (session.status === 'unauthenticated') {
+    router.push('/');
   }
-  
+
   useEffect(() => {
     let parsedSession = JSON.parse(chatSession?.value);
     if (parsedSession && data.length === 0) setData(parsedSession);
+    console.log(chatId, "chatId");
+    setChatId(chatId);
+    if(chatId === "newchat") {
+      setChatId("")
+      router.push("/app")
+      setIsLoading(false);
+    }
   }, []);
 
   return <ChatHistory data={data} />;

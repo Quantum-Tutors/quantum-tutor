@@ -18,7 +18,7 @@ const ModelResponse = ({text, isLoading}: {text: string, isLoading: boolean}) =>
         <Image src={assets.GeminiIcon} alt='gemini icon' width={30} height={30} />
         {isLoading ?
           <Loader /> :
-          <Typography variant="body1" gutterBottom>
+          <Typography color={"white"} variant="body1" gutterBottom>
             {text}
           </Typography>
         }

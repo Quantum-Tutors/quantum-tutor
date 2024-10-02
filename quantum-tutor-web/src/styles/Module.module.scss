@@ -1,9 +1,11 @@
 .module {
-  width: 34.375rem;
-  padding: 0.5rem;
+  width: max-content;
+  padding: 1rem;
   background-color: #222638;
+  border-radius: 10%;
 }
 
 .exchange {
   width: 33rem;
+  padding: 1rem;
 }
