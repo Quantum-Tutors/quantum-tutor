@@ -39,7 +39,7 @@ const PromptField = ({
 
   const uploadFile = async (base64String: string) => {
     try {
-      const response = await fetch(`${process.env.LLM_SERVER_URL}/upload`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_LLM_SERVER_URL}/upload`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
