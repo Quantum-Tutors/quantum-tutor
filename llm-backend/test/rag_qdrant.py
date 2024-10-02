@@ -109,6 +109,6 @@ async def deploy_rag_workflow():
 if __name__ == "__main__":
     import asyncio, time
 
-    time.sleep(5)
+    time.sleep(3)
 
     asyncio.run(deploy_rag_workflow())

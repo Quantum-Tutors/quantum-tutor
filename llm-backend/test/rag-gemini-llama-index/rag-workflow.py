@@ -131,6 +131,7 @@ async def run():
     async for chunk in result.async_response_gen():
         print(chunk, end="", flush=True)
     # draw_most_recent_execution(w, filename="rag_flow_recent.html")
+from llama_index.core.schema import Document
 
 import asyncio
 

@@ -1,7 +1,7 @@
 from typing import Optional, Any
 from llama_index.core.workflow import Event
 from pydantic import BaseModel, Field
-from typing import Optional, List, Any
+from typing import Optional, List, Dict
 
 from server.utils.funcs import *
 
@@ -13,6 +13,7 @@ class Message(BaseModel):
     sender: str
     text: str
     model: str
+    isRag: Optional[bool] = False
     createdAt: Optional[str] = Field(default_factory=lambda: current_timestamp())
     sequence: Optional[int] = None
 
@@ -32,3 +33,4 @@ class ChatSession(BaseModel):
     messages: List[str] = Field(default_factory=list)
     modules: List[str] = Field(default_factory=list)
     currentModule: Optional[str] = None
+    files: Optional[List[str]] = Field(default_factory=list)
