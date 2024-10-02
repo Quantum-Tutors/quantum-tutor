@@ -4,7 +4,6 @@ from llama_deploy import (
     SimpleMessageQueueConfig,
 )
 
-
 async def main():
     await deploy_core(
         control_plane_config=ControlPlaneConfig(host='0.0.0.0'),

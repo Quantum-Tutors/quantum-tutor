@@ -5,17 +5,16 @@ from llama_deploy import (
     ControlPlaneConfig,
 )
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
 from server.data.mongo_client import get_mongo_client
 
 from server.utils.pydantic_models import ChatSession, Message, Module
-from server.utils.funcs import generate_id
+from server.utils.funcs import extract_text_from_pdf
 from server.utils.constants import available_models
 
-import json
-import logging
+import json, logging
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +32,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-llama_deploy_aclient = LlamaDeployClient(ControlPlaneConfig())
+llama_deploy_aclient = LlamaDeployClient(ControlPlaneConfig(), timeout=180)
 
 
 
@@ -88,7 +87,13 @@ def chat_with_bot(user_message: Message):
                 raise HTTPException(status_code=500, detail="Error retrieving chat session")
 
         try:
-            model_output = session.run("concierge_workflow", chat_history=chat_history, model=model)
+            docs = None
+            # print(user_message)
+            if user_message["isRag"]:
+                docs = chat_sessions.find_one({"chatId":chat.chatId},{"files":1,"_id":0})
+                print(docs['files'])
+                
+            model_output = session.run("tutor_workflow", chat_history=chat_history, model=model, docs=docs)
             if not model_output:
                 logging.error("Model output is empty")
                 raise HTTPException(status_code=500, detail="Model failed to generate output")
@@ -97,10 +102,10 @@ def chat_with_bot(user_message: Message):
         except Exception as e:
             logging.error(f"Error in model generation: {str(e)}")
             raise HTTPException(status_code=500, detail="Error generating model output")
-
+ 
         if chat.currentModule:
             current_module_title = modules.find_one({"moduleId":chat.currentModule},{"title":1, "_id":0})
-            print(current_module_title, model_output["moduleTitle"])
+            
             if current_module_title != model_output["moduleTitle"]:
                 chat_sessions.update_one(
                         {"chatId": chat_id}, 
@@ -108,7 +113,7 @@ def chat_with_bot(user_message: Message):
                     )
                 chat.currentModule = None
             
-        if not chat.currentModule == "" and model_output["moduleTitle"]:
+        if chat.currentModule == None and model_output["moduleTitle"]:
             try :
                 module = Module(
                     chatId=chat_id,
@@ -130,6 +135,7 @@ def chat_with_bot(user_message: Message):
                     sender="bot",
                     text=model_output["response"],
                     model=model,
+                    isRag=user_message["isRag"],
                     sequence=messages.count_documents({"chatId": chat_id}) + 1,
                 )
                 messages.insert_one(bot_message.model_dump())
@@ -162,6 +168,7 @@ def chat_with_bot(user_message: Message):
                     sender="bot",
                     text=model_output["response"],
                     model=model,
+                    isRag=user_message["isRag"],
                     sequence=messages.count_documents({"chatId": chat_id}) + 1,
                 )
                 messages.insert_one(bot_message.model_dump())
@@ -196,6 +203,7 @@ def chat_with_bot(user_message: Message):
                     sender="bot",
                     text=model_output["response"],
                     model=model,
+                    isRag=user_message["isRag"],
                     sequence=messages.count_documents({"chatId": chat_id}) + 1,
                 )
                 messages.insert_one(bot_message.model_dump())
@@ -223,7 +231,6 @@ def chat_with_bot(user_message: Message):
         }}
 
 
-
 @app.get("/chats/{user_id}")
 def get_chats(user_id: str):
     return list(
@@ -232,7 +239,18 @@ def get_chats(user_id: str):
         )
     )
 
+@app.post("/rag/upload-pdf/{chat_id}")
+async def upload_pdf(chat_id: str, file: UploadFile):
 
+    if file.content_type != "application/pdf":
+        raise HTTPException(status_code=400, detail="Invalid file type. Only PDF files are allowed.")
+
+    text = await extract_text_from_pdf(file)
+    chat_sessions.update_one(
+        {"chatId": chat_id}, {"$push": {"files": text}}
+    )
+    return {"message": "File Upload successful"}
+    
 @app.get("/modules/{module_id}")
 def get_chats(module_id: str):
     return list(modules.find({"moduleId": module_id},{"_id":0}))
