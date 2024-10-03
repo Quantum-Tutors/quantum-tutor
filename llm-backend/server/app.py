@@ -29,7 +29,7 @@ chat_sessions, messages, modules = get_mongo_client()
 app = FastAPI()
 
 origins = [os.getenv("FRONTEND_URL")]
-
+print('origins', origins)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
