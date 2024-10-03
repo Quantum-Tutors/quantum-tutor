@@ -1,6 +1,6 @@
 FROM python:3.12-slim AS runtime
 
-EXPOSE 8000 8001 8002
+EXPOSE 8000
 
 WORKDIR /
 
