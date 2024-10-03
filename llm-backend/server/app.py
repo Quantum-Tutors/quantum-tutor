@@ -74,10 +74,15 @@ def chat_with_bot(user_message: Message):
                 chat = ChatSession(**chat_session_data)
                 user_message["sequence"] = messages.count_documents({"chatId": chat_id}) + 1
                 messages.insert_one(user_message)
-                chat_sessions.update_one(
-                    {"chatId": chat_id},
-                    {"$push": {"modules": module.moduleId}},
-                )
+                if chat.currentModule:
+                    modules.update_one(
+                        {"moduleId": chat.currentModule}, {"$push": {"messages": user_message["msgId"]}}
+                    )
+                else:
+                    chat_sessions.update_one(
+                        {"chatId": chat_id},
+                        {"$push": {"messages": user_message.msgId}},
+                    )
                 logging.info(f"User message inserted. chatId: {chat_id}, messageId: {user_message['msgId']}, sequence: {user_message['sequence']}")
                 
                 for message in messages.find({"chatId": chat_id}).sort("sequence"):
@@ -95,7 +100,7 @@ def chat_with_bot(user_message: Message):
             # print(user_message)
             if user_message["isRag"]:
                 docs = chat_sessions.find_one({"chatId":chat.chatId},{"files":1,"_id":0})
-                print(docs['files'])
+                # print(docs['files'])
                 
             model_output = session.run("tutor_workflow", chat_history=chat_history, model=model, docs=docs)
             if not model_output:
