@@ -12,6 +12,7 @@ const authOptions: NextAuthConfig = {
   providers: [
    Google
   ],
+  trustHost: true,
   pages: {
     error: "/"
   },
