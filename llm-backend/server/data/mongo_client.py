@@ -2,7 +2,7 @@ import os
 from pymongo import MongoClient
 from dotenv import load_dotenv
 
-load_dotenv(os.path.join('./server/config','.env'))
+load_dotenv(os.path.join('./','.env'))
 
 def get_mongo_client():
     MONGODB_CONN_STR = os.getenv('MONGODB_CONN_STR')

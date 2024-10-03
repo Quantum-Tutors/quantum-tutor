@@ -1,3 +1,13 @@
+from llama_deploy import (
+    deploy_core,
+    ControlPlaneConfig,
+    SimpleMessageQueueConfig,
+)
+
+import os
+from dotenv import load_dotenv
+load_dotenv(os.path.join('./','.env'))
+
 from llama_index.core.workflow import (
     step, 
     Context, 
@@ -54,7 +64,16 @@ def build_tutor_workflow() -> TutorWorkflow:
     return TutorWorkflow(timeout=180, verbose=True)
 
 
+async def core_systems():
+    await deploy_core(
+        control_plane_config=ControlPlaneConfig(host='0.0.0.0'),
+        message_queue_config=SimpleMessageQueueConfig(host='0.0.0.0'),
+    )
+
+
 async def deploy_agentic_workflow():
+    await asyncio.sleep(5)
+    
     tutor_workflow = build_tutor_workflow()
 
     await deploy_workflow(
@@ -64,17 +83,14 @@ async def deploy_agentic_workflow():
             port=8002, 
             service_name="tutor_workflow"
         ),
-        control_plane_config=ControlPlaneConfig(host="http://little-larissa-quantum-tutor-4ecfef4f.koyeb.app"),
-        # control_plane_config=ControlPlaneConfig(host=str(os.getenv("CONTROL_PLANE_URL"))),
+        control_plane_config=ControlPlaneConfig(host="0.0.0.0"),
     )
 
+
+import asyncio
+
+async def main():
+    await asyncio.gather(core_systems(), deploy_agentic_workflow())
+
 if __name__ == "__main__":
-    import os
-    from dotenv import load_dotenv
-    load_dotenv(os.path.join('./','.env'))
-    print(str(os.getenv("CONTROL_PLANE_URL")))
-    import asyncio, time
-
-    time.sleep(5)
-
-    asyncio.run(deploy_agentic_workflow())
+    asyncio.run(main())

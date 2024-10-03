@@ -1,6 +1,6 @@
 FROM python:3.12-slim AS runtime
 
-EXPOSE 8000
+EXPOSE 8000 8001 8002
 
 WORKDIR /
 
@@ -13,8 +13,9 @@ RUN apt-get update && \
 # Set up a non-root user
 RUN groupadd -r appuser && useradd --no-create-home -g appuser -r appuser
 
-# Copy the core_systems code to the working directory
+# Copy the workflows code to the working directory
 COPY . .
+COPY ./gcloud /root/.config/gcloud
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
@@ -22,5 +23,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Switch to the non-root user
 USER appuser
 
-# Default command to run the Control Plane
+# Default command to run the Tutor Workflow
 CMD ["python", "-m", "main"]

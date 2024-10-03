@@ -1,3 +1,8 @@
+import os
+from dotenv import load_dotenv
+load_dotenv(os.path.join('./config/','.env'))
+print(str(os.getenv("CONTROL_PLANE_URL")))
+
 from llama_deploy import LlamaDeployClient
 from llama_deploy import (
     LlamaDeployClient,
@@ -5,14 +10,15 @@ from llama_deploy import (
     ControlPlaneConfig,
 )
 
+
 from fastapi import FastAPI, HTTPException, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
-from server.data.mongo_client import get_mongo_client
+from data.mongo_client import get_mongo_client
 
-from server.utils.pydantic_models import ChatSession, Message, Module
-from server.utils.funcs import extract_text_from_pdf
-from server.utils.constants import available_models
+from utils.pydantic_models import ChatSession, Message, Module
+from utils.funcs import extract_text_from_pdf
+from utils.constants import available_models
 
 import json, logging
 
@@ -22,7 +28,7 @@ chat_sessions, messages, modules = get_mongo_client()
 
 app = FastAPI()
 
-origins = ["http://localhost:3000"]
+origins = [os.getenv("FRONTEND_URL")]
 
 app.add_middleware(
     CORSMiddleware,
@@ -32,7 +38,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-llama_deploy_aclient = LlamaDeployClient(ControlPlaneConfig(), timeout=180)
+llama_deploy_aclient = LlamaDeployClient(ControlPlaneConfig(host=str(os.getenv("CONTROL_PLANE_URL"))), timeout=180)
 
 
 

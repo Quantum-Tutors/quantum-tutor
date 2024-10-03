@@ -3,7 +3,7 @@ from llama_index.core.workflow import Event
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict
 
-from server.utils.funcs import *
+from utils.funcs import *
 
 class Message(BaseModel):
     msgId: str = Field(default_factory=lambda: generate_id("msg"))
