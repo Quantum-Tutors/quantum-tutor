@@ -104,7 +104,7 @@ const LeftNav = ({
       setmodels(responseJson?.available_models);
     };
 
-    if (!chats.length) getChats();
+    if (!chats.length && session.data?.user?.id) getChats();
     getModels();
   }, [session.data?.user?.id]);
 
