@@ -1,6 +1,6 @@
 services:
   server:
-    image: server:latest
+    image: namachu036/server:latest
     command: sh -c "python -m server.app"
     # env_file:
     #   - ./server/config/.env
@@ -21,7 +21,7 @@ services:
       timeout: 10s
 
   control_plane:
-    image: control_plane:latest
+    image: namachu036/control_plane:latest
     command: sh -c "python -m core_systems.main"
     volumes:
       - ./llm_deploy/core_systems:/core_systems
@@ -40,7 +40,7 @@ services:
       timeout: 10s
       
   tutor_workflow:
-    image: tutor_workflow:latest
+    image: namachu036/tutor_workflow:latest
     command: sh -c "python -m workflows.tutor"
     # env_file:
     #   - ./llm_deploy/workflows/.env
