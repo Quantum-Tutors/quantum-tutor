@@ -5,12 +5,14 @@ import styles from './page.module.scss'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation';
 import { TypeAnimation } from "react-type-animation";
+import MaintenanceBanner from '@/components/MaintenanceBanner';
 
 
 const Dashboard = () => {
     const session = useSession()
     const router = useRouter()
     const [typingStatus, setTypingStatus] = useState("human1");
+    const [appUnderMaintenance, setAppUnderMaintenace] = useState(true);
 
     console.log(`Login status of user ${session.status} and user email id ${session.data?.user?.email}`)
 
@@ -21,6 +23,9 @@ const Dashboard = () => {
     return (
         <div className={styles.homepage}>
             {/* <img src="/orbital.png" alt="" className="orbital" /> */}
+            {appUnderMaintenance &&
+                <MaintenanceBanner />
+            }
             <div className={styles.left}>
                 <h1 className={styles.header}>Quantum Tutors</h1>
                 <h2>Socratic AI teacher</h2>
