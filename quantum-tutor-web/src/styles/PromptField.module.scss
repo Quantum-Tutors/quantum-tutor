@@ -10,6 +10,9 @@
   background-color: #e9eef6;
   padding: 10px 20px;
   border-radius: 50px;
+  position: fixed !important;
+  left: 50%;
+  transform: translate(-50%);
 }
 
 .promptField input{

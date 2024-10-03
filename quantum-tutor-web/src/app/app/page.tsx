@@ -1,74 +1,98 @@
 'use client';
-import { Explore, Lightbulb, School } from '@mui/icons-material';
-import { Box, Button, Typography, useTheme } from '@mui/material';
-import React, { useContext, useEffect } from 'react';
+import { Explore, Lightbulb, School, LocalLibrary } from '@mui/icons-material';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Typography,
+  useTheme,
+} from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react';
 import styles from './page.module.scss';
 import FeatureBoxList from '@/components/FeatureBoxList';
-import ChatBottom from '@/components/ChatBottom';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { PromptContext } from './layout';
+import { usePathname } from 'next/navigation';
 
 const Page = () => {
   const session = useSession();
   const router = useRouter();
+  const pathname = usePathname();
 
-  if (session.status == "unauthenticated") {
-    router.push("/")
+  if (session.status == 'unauthenticated') {
+    router.push('/');
   }
-
-   const dataContext = useContext(PromptContext);
-   console.log("home page Data Context =", dataContext);
-   const { chatId } = dataContext;
+  const dataContext = useContext(PromptContext);
+  const { chatId, isLoading, setIsLoading } = dataContext;
 
   useEffect(() => {
-    if (chatId) router.push(`/app/${chatId}`);
+    if (chatId) {
+      setIsLoading(true);
+      router.push(`/app/${chatId}`);
+    }
   }, [chatId]);
+
+  useEffect(() => {
+    const isAppPageWithId = /^\/app\/\d+$/.test(pathname);
+    if(isAppPageWithId) setIsLoading(false);
+  }, [pathname])
+  
 
   const featureBoxList = [
     { text: 'Learn about socratic learning', Icon: Explore },
     { text: 'Learn DSA', Icon: Lightbulb },
     { text: 'Learn about Object Oriented Programming', Icon: School },
-    { text: 'Learn the fundamentals of Programming', Icon: Explore },
+    { text: 'Learn the fundamentals of Programming', Icon: LocalLibrary },
   ];
   const theme = useTheme();
+
   return (
     <Box
       className={styles.wrapper_container}
-      sx={{ backgroundColor: "#0e0c16"  }}
+      sx={{ backgroundColor: '#0e0c16' }}
     >
-      <Box className={styles.container}>
-        <Box className={styles.welcome_text}>
-          <Typography
-            sx={{
-              fontWeight: '700',
-              background: 'linear-gradient(to bottom,  #217bfe, #e55571)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-            component={'div'}
-            variant='h2'
-            className={styles.greeting}
-          >
-            {`Hello ${session.data?.user?.name ?? "...."}`}
-            <Typography
-              sx={{ fontWeight: '700' }}
-              component={'div'}
-              variant='h3'
-              className={styles._subtext}
-            >
-              Ready To Learn?
-            </Typography>
-          </Typography>
+      {isLoading ? (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <CircularProgress sx={{ color: 'white' }} />
         </Box>
-        <FeatureBoxList featureBoxList={featureBoxList} />
-      </Box>
-      
-      {/* <Button onClick={async () => {
-                    await signOut("google")
-                }} sx={{ background: '#53c28b', color: 'white', padding: '10px 15px', border: 'none', fontSize: '1.5', borderRadius: '20px' }} className={styles.button}>
-                    SignOut
-                </Button> */}
+      ) : (
+        <Box className={styles.container}>
+          <Box className={styles.welcome_text}>
+            <Typography
+              sx={{
+                fontWeight: '700',
+                background: 'linear-gradient(to bottom,  #217bfe, #e55571)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+              component={'div'}
+              variant='h2'
+              className={styles.greeting}
+            >
+              {`Hello ${session.data?.user?.name ?? '....'}`}
+              <Typography
+                sx={{ fontWeight: '700' }}
+                component={'div'}
+                variant='h3'
+                className={styles._subtext}
+              >
+                Ready To Learn?
+              </Typography>
+            </Typography>
+          </Box>
+          <FeatureBoxList
+            setIsLoading={setIsLoading}
+            featureBoxList={featureBoxList}
+          />
+        </Box>
+      )}
     </Box>
   );
 };

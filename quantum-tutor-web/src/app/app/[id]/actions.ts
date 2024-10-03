@@ -4,6 +4,17 @@ import ChatSessionModel from '@/lib/models/ChatSession';
 import Message from '@/lib/models/Message';
 import Module from '@/lib/models/Module';
 
+const removeDuplicates = (arr: any[]) => {
+  const uniqueMap = new Map();
+
+  arr.forEach((item) => {
+    uniqueMap.set(item.msgId, item);
+  });
+
+  // Convert the map back to an array
+  return Array.from(uniqueMap.values());
+};
+
 export async function GetChatSession(Chatid: string) {
 	try{
 		await connectDB();
@@ -37,8 +48,10 @@ export async function GetChatSession(Chatid: string) {
 			
 			if (allModuleMessages?.length) moduleMessages.push(...allModuleMessages);
 		}
+		console.log(moduleMessages);
 		
-		return moduleMessages;
+		const uniqueArray = removeDuplicates(moduleMessages);
+		return uniqueArray;
 	}
 	catch(err){
 		console.error(err);

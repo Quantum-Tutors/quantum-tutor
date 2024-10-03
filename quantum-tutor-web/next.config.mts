@@ -6,6 +6,9 @@ const nextConfig = {
   sassOptions: {
     includePaths: ['src'],
   },
+  images: {
+    domains: ['lh3.googleusercontent.com'],
+  },
 };
 
 export default nextConfig;

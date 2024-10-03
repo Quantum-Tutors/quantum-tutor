@@ -1,0 +1,656 @@
+2024-09-12 00:29:13,461 DEBUG    root            Metrics collector initialized...
+2024-09-12 00:29:13,462 DEBUG    root            Loaded Command Group: ['gcloud', 'components']
+2024-09-12 00:29:13,466 DEBUG    root            Loaded Command Group: ['gcloud', 'components', 'list']
+2024-09-12 00:29:13,468 DEBUG    root            Running [gcloud.components.list] with arguments: [--quiet: "True"]
+2024-09-12 00:29:13,513 DEBUG    urllib3.connectionpool Starting new HTTPS connection (1): dl.google.com:443
+2024-09-12 00:29:14,313 DEBUG    urllib3.connectionpool https://dl.google.com:443 "GET /dl/cloudsdk/channels/rapid/components-2.json HTTP/1.1" 200 227002
+2024-09-12 00:29:14,568 INFO     ___FILE_ONLY___ 
+Your current Google Cloud CLI version is: 492.0.0
+
+2024-09-12 00:29:14,568 INFO     ___FILE_ONLY___ The latest available version is: 492.0.0
+
+2024-09-12 00:29:14,568 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,569 DEBUG    root            Chosen display Format:table[box,title="Components"](state.name:label=Status,name:label=Name,id:label=ID,size.size(zero="",min=1048576):label=Size:align=right)
+2024-09-12 00:29:14,569 INFO     root            Display format: "table[box,title="Components"](state.name:label=Status,name:label=Name,id:label=ID,size.size(zero="",min=1048576):label=Size:align=right)"
+2024-09-12 00:29:14,626 INFO     ___FILE_ONLY___ ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+2024-09-12 00:29:14,626 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,626 INFO     ___FILE_ONLY___ │                                                    Components                                                   │
+2024-09-12 00:29:14,626 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,626 INFO     ___FILE_ONLY___ ├───────────────┬──────────────────────────────────────────────────────┬──────────────────────────────┬───────────┤
+2024-09-12 00:29:14,626 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,626 INFO     ___FILE_ONLY___ │     Status    │                         Name                         │              ID              │    Size   │
+2024-09-12 00:29:14,626 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,626 INFO     ___FILE_ONLY___ ├───────────────┼──────────────────────────────────────────────────────┼──────────────────────────────┼───────────┤
+2024-09-12 00:29:14,626 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,626 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,626 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,626 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,627 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,627 INFO     ___FILE_ONLY___ App Engine Go Extensions                            
+2024-09-12 00:29:14,627 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,627 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,627 INFO     ___FILE_ONLY___ app-engine-go               
+2024-09-12 00:29:14,627 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,627 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,627 INFO     ___FILE_ONLY___   4.7 MiB
+2024-09-12 00:29:14,627 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,627 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,627 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,627 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,627 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,627 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,627 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,627 INFO     ___FILE_ONLY___ Appctl                                              
+2024-09-12 00:29:14,627 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,627 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,627 INFO     ___FILE_ONLY___ appctl                      
+2024-09-12 00:29:14,627 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,627 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,628 INFO     ___FILE_ONLY___  21.0 MiB
+2024-09-12 00:29:14,628 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,628 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,628 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,628 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,628 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,628 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,628 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,628 INFO     ___FILE_ONLY___ Artifact Registry Go Module Package Helper          
+2024-09-12 00:29:14,628 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,628 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,628 INFO     ___FILE_ONLY___ package-go-module           
+2024-09-12 00:29:14,628 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,628 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,628 INFO     ___FILE_ONLY___   < 1 MiB
+2024-09-12 00:29:14,628 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,628 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,628 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,628 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,628 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,629 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,629 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,629 INFO     ___FILE_ONLY___ Cloud Bigtable Command Line Tool                    
+2024-09-12 00:29:14,629 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,629 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,629 INFO     ___FILE_ONLY___ cbt                         
+2024-09-12 00:29:14,629 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,629 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,629 INFO     ___FILE_ONLY___  18.4 MiB
+2024-09-12 00:29:14,629 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,629 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,629 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,629 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,629 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,629 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,629 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,629 INFO     ___FILE_ONLY___ Cloud Bigtable Emulator                             
+2024-09-12 00:29:14,629 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,629 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,629 INFO     ___FILE_ONLY___ bigtable                    
+2024-09-12 00:29:14,629 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,629 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,630 INFO     ___FILE_ONLY___   7.3 MiB
+2024-09-12 00:29:14,630 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,630 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,630 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,630 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,630 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,630 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,630 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,630 INFO     ___FILE_ONLY___ Cloud Datastore Emulator                            
+2024-09-12 00:29:14,630 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,630 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,630 INFO     ___FILE_ONLY___ cloud-datastore-emulator    
+2024-09-12 00:29:14,630 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,630 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,630 INFO     ___FILE_ONLY___  36.2 MiB
+2024-09-12 00:29:14,630 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,630 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,630 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,630 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,630 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,630 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,631 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,631 INFO     ___FILE_ONLY___ Cloud Firestore Emulator                            
+2024-09-12 00:29:14,631 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,631 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,631 INFO     ___FILE_ONLY___ cloud-firestore-emulator    
+2024-09-12 00:29:14,631 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,631 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,631 INFO     ___FILE_ONLY___  46.3 MiB
+2024-09-12 00:29:14,631 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,631 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,631 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,631 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,631 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,631 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,631 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,631 INFO     ___FILE_ONLY___ Cloud Pub/Sub Emulator                              
+2024-09-12 00:29:14,631 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,631 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,631 INFO     ___FILE_ONLY___ pubsub-emulator             
+2024-09-12 00:29:14,631 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,631 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,631 INFO     ___FILE_ONLY___  63.7 MiB
+2024-09-12 00:29:14,632 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,632 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,632 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,632 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,632 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,632 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,632 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,632 INFO     ___FILE_ONLY___ Cloud Run Proxy                                     
+2024-09-12 00:29:14,632 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,632 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,632 INFO     ___FILE_ONLY___ cloud-run-proxy             
+2024-09-12 00:29:14,632 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,632 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,632 INFO     ___FILE_ONLY___  13.3 MiB
+2024-09-12 00:29:14,632 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,632 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,632 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,632 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,632 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,632 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,632 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,632 INFO     ___FILE_ONLY___ Cloud SQL Proxy v2                                  
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___ cloud-sql-proxy             
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___  13.8 MiB
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___ Cloud Spanner Emulator                              
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___ cloud-spanner-emulator      
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___  37.1 MiB
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,633 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,634 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,634 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,634 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,634 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,634 INFO     ___FILE_ONLY___ Cloud Spanner Migration Tool                        
+2024-09-12 00:29:14,634 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,634 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,634 INFO     ___FILE_ONLY___ harbourbridge               
+2024-09-12 00:29:14,634 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,634 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,634 INFO     ___FILE_ONLY___  20.9 MiB
+2024-09-12 00:29:14,634 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,634 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,634 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,634 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,634 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,634 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,634 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,634 INFO     ___FILE_ONLY___ Google Container Registry's Docker credential helper
+2024-09-12 00:29:14,634 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,634 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,635 INFO     ___FILE_ONLY___ docker-credential-gcr       
+2024-09-12 00:29:14,635 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,635 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,635 INFO     ___FILE_ONLY___   1.8 MiB
+2024-09-12 00:29:14,635 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,635 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,635 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,635 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,635 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,635 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,635 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,635 INFO     ___FILE_ONLY___ Kustomize                                           
+2024-09-12 00:29:14,635 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,635 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,635 INFO     ___FILE_ONLY___ kustomize                   
+2024-09-12 00:29:14,635 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,635 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,635 INFO     ___FILE_ONLY___   4.3 MiB
+2024-09-12 00:29:14,635 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,635 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,635 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,635 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,636 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,636 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,636 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,636 INFO     ___FILE_ONLY___ Log Streaming                                       
+2024-09-12 00:29:14,636 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,636 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,636 INFO     ___FILE_ONLY___ log-streaming               
+2024-09-12 00:29:14,636 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,636 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,636 INFO     ___FILE_ONLY___  13.9 MiB
+2024-09-12 00:29:14,636 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,636 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,636 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,636 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,636 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,636 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,636 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,636 INFO     ___FILE_ONLY___ Managed Flink Client                                
+2024-09-12 00:29:14,636 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,636 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,636 INFO     ___FILE_ONLY___ managed-flink-client        
+2024-09-12 00:29:14,636 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,637 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,637 INFO     ___FILE_ONLY___ 383.4 MiB
+2024-09-12 00:29:14,637 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,637 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,637 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,637 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,637 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,637 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,637 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,637 INFO     ___FILE_ONLY___ Minikube                                            
+2024-09-12 00:29:14,637 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,637 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,637 INFO     ___FILE_ONLY___ minikube                    
+2024-09-12 00:29:14,637 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,637 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,637 INFO     ___FILE_ONLY___  34.4 MiB
+2024-09-12 00:29:14,637 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,637 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,637 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,637 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,637 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___ Nomos CLI                                           
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___ nomos                       
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___  31.2 MiB
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___ On-Demand Scanning API extraction helper            
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___ local-extract               
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,638 INFO     ___FILE_ONLY___  24.6 MiB
+2024-09-12 00:29:14,639 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,639 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,639 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,639 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,639 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,639 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,639 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,639 INFO     ___FILE_ONLY___ Skaffold                                            
+2024-09-12 00:29:14,639 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,639 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,639 INFO     ___FILE_ONLY___ skaffold                    
+2024-09-12 00:29:14,639 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,639 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,639 INFO     ___FILE_ONLY___  24.2 MiB
+2024-09-12 00:29:14,639 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,639 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,639 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,639 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,639 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,639 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,639 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,639 INFO     ___FILE_ONLY___ Spanner migration tool                              
+2024-09-12 00:29:14,640 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,640 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,640 INFO     ___FILE_ONLY___ spanner-migration-tool      
+2024-09-12 00:29:14,640 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,640 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,640 INFO     ___FILE_ONLY___  24.5 MiB
+2024-09-12 00:29:14,640 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,640 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,640 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,640 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,640 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,640 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,640 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,640 INFO     ___FILE_ONLY___ Terraform Tools                                     
+2024-09-12 00:29:14,640 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,640 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,640 INFO     ___FILE_ONLY___ terraform-tools             
+2024-09-12 00:29:14,640 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,640 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,640 INFO     ___FILE_ONLY___  66.1 MiB
+2024-09-12 00:29:14,640 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,641 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,641 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,641 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,641 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,641 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,641 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,641 INFO     ___FILE_ONLY___ anthos-auth                                         
+2024-09-12 00:29:14,641 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,641 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,641 INFO     ___FILE_ONLY___ anthos-auth                 
+2024-09-12 00:29:14,641 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,641 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,641 INFO     ___FILE_ONLY___  22.0 MiB
+2024-09-12 00:29:14,641 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,641 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,641 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,641 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,641 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,641 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,641 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,641 INFO     ___FILE_ONLY___ config-connector                                    
+2024-09-12 00:29:14,641 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,642 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,642 INFO     ___FILE_ONLY___ config-connector            
+2024-09-12 00:29:14,642 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,642 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,642 INFO     ___FILE_ONLY___  91.1 MiB
+2024-09-12 00:29:14,642 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,642 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,642 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,642 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,642 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,642 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,642 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,642 INFO     ___FILE_ONLY___ enterprise-certificate-proxy                        
+2024-09-12 00:29:14,642 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,642 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,642 INFO     ___FILE_ONLY___ enterprise-certificate-proxy
+2024-09-12 00:29:14,642 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,642 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,642 INFO     ___FILE_ONLY___   8.6 MiB
+2024-09-12 00:29:14,642 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,642 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,642 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,643 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,643 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,643 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,643 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,643 INFO     ___FILE_ONLY___ gcloud Alpha Commands                               
+2024-09-12 00:29:14,643 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,643 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,643 INFO     ___FILE_ONLY___ alpha                       
+2024-09-12 00:29:14,643 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,643 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,643 INFO     ___FILE_ONLY___   < 1 MiB
+2024-09-12 00:29:14,643 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,643 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,643 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,643 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,643 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,643 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,643 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,643 INFO     ___FILE_ONLY___ gcloud Beta Commands                                
+2024-09-12 00:29:14,643 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,643 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,643 INFO     ___FILE_ONLY___ beta                        
+2024-09-12 00:29:14,644 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,644 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,644 INFO     ___FILE_ONLY___   < 1 MiB
+2024-09-12 00:29:14,644 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,644 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,644 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,644 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,644 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,644 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,644 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,644 INFO     ___FILE_ONLY___ gcloud app Java Extensions                          
+2024-09-12 00:29:14,644 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,644 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,644 INFO     ___FILE_ONLY___ app-engine-java             
+2024-09-12 00:29:14,644 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,644 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,644 INFO     ___FILE_ONLY___ 127.8 MiB
+2024-09-12 00:29:14,644 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,644 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,644 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,644 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,644 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,645 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,645 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,645 INFO     ___FILE_ONLY___ gcloud app Python Extensions                        
+2024-09-12 00:29:14,645 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,645 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,645 INFO     ___FILE_ONLY___ app-engine-python           
+2024-09-12 00:29:14,645 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,645 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,645 INFO     ___FILE_ONLY___   5.0 MiB
+2024-09-12 00:29:14,645 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,645 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,645 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,645 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,645 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,645 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,645 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,645 INFO     ___FILE_ONLY___ gcloud app Python Extensions (Extra Libraries)      
+2024-09-12 00:29:14,645 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,645 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,645 INFO     ___FILE_ONLY___ app-engine-python-extras    
+2024-09-12 00:29:14,645 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,645 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,646 INFO     ___FILE_ONLY___   < 1 MiB
+2024-09-12 00:29:14,646 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,646 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,646 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,646 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,646 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,646 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,646 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,646 INFO     ___FILE_ONLY___ gke-gcloud-auth-plugin                              
+2024-09-12 00:29:14,646 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,646 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,646 INFO     ___FILE_ONLY___ gke-gcloud-auth-plugin      
+2024-09-12 00:29:14,646 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,646 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,646 INFO     ___FILE_ONLY___   4.0 MiB
+2024-09-12 00:29:14,646 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,646 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,646 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,646 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,646 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,646 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,647 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,647 INFO     ___FILE_ONLY___ istioctl                                            
+2024-09-12 00:29:14,647 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,647 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,647 INFO     ___FILE_ONLY___ istioctl                    
+2024-09-12 00:29:14,647 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,647 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,647 INFO     ___FILE_ONLY___  24.0 MiB
+2024-09-12 00:29:14,647 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,647 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,647 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,647 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,647 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,647 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,647 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,647 INFO     ___FILE_ONLY___ kpt                                                 
+2024-09-12 00:29:14,647 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,647 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,647 INFO     ___FILE_ONLY___ kpt                         
+2024-09-12 00:29:14,647 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,647 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,647 INFO     ___FILE_ONLY___  15.1 MiB
+2024-09-12 00:29:14,648 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,648 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,648 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,648 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,648 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,648 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,648 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,648 INFO     ___FILE_ONLY___ kubectl                                             
+2024-09-12 00:29:14,648 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,648 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,648 INFO     ___FILE_ONLY___ kubectl                     
+2024-09-12 00:29:14,648 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,648 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,648 INFO     ___FILE_ONLY___   < 1 MiB
+2024-09-12 00:29:14,648 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,648 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,648 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,648 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,648 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,648 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,648 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,648 INFO     ___FILE_ONLY___ kubectl-oidc                                        
+2024-09-12 00:29:14,649 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,649 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,649 INFO     ___FILE_ONLY___ kubectl-oidc                
+2024-09-12 00:29:14,649 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,649 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,649 INFO     ___FILE_ONLY___  22.0 MiB
+2024-09-12 00:29:14,649 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,649 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,649 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,649 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,649 INFO     ___FILE_ONLY___ Not Installed
+2024-09-12 00:29:14,649 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,649 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,649 INFO     ___FILE_ONLY___ pkg                                                 
+2024-09-12 00:29:14,649 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,649 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,649 INFO     ___FILE_ONLY___ pkg                         
+2024-09-12 00:29:14,649 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,649 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,649 INFO     ___FILE_ONLY___          
+2024-09-12 00:29:14,649 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,649 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,650 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,650 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,650 INFO     ___FILE_ONLY___ Installed    
+2024-09-12 00:29:14,650 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,650 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,650 INFO     ___FILE_ONLY___ BigQuery Command Line Tool                          
+2024-09-12 00:29:14,650 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,650 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,650 INFO     ___FILE_ONLY___ bq                          
+2024-09-12 00:29:14,650 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,650 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,650 INFO     ___FILE_ONLY___   1.7 MiB
+2024-09-12 00:29:14,650 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,650 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,650 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,650 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,650 INFO     ___FILE_ONLY___ Installed    
+2024-09-12 00:29:14,650 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,650 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,650 INFO     ___FILE_ONLY___ Bundled Python 3.11                                 
+2024-09-12 00:29:14,650 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,650 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,651 INFO     ___FILE_ONLY___ bundled-python3-unix        
+2024-09-12 00:29:14,651 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,651 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,651 INFO     ___FILE_ONLY___  74.2 MiB
+2024-09-12 00:29:14,651 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,651 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,651 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,651 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,651 INFO     ___FILE_ONLY___ Installed    
+2024-09-12 00:29:14,651 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,651 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,651 INFO     ___FILE_ONLY___ Cloud Storage Command Line Tool                     
+2024-09-12 00:29:14,651 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,651 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,651 INFO     ___FILE_ONLY___ gsutil                      
+2024-09-12 00:29:14,651 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,651 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,651 INFO     ___FILE_ONLY___  11.3 MiB
+2024-09-12 00:29:14,651 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,651 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,651 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,651 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,652 INFO     ___FILE_ONLY___ Installed    
+2024-09-12 00:29:14,652 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,652 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,652 INFO     ___FILE_ONLY___ Google Cloud CLI Core Libraries                     
+2024-09-12 00:29:14,652 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,652 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,652 INFO     ___FILE_ONLY___ core                        
+2024-09-12 00:29:14,652 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,652 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,652 INFO     ___FILE_ONLY___  19.9 MiB
+2024-09-12 00:29:14,652 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,652 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,652 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,652 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,652 INFO     ___FILE_ONLY___ Installed    
+2024-09-12 00:29:14,652 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,652 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,652 INFO     ___FILE_ONLY___ Google Cloud CRC32C Hash Tool                       
+2024-09-12 00:29:14,652 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,653 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,653 INFO     ___FILE_ONLY___ gcloud-crc32c               
+2024-09-12 00:29:14,653 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,653 INFO     ___FILE_ONLY___ │ 
+2024-09-12 00:29:14,653 INFO     ___FILE_ONLY___   1.3 MiB
+2024-09-12 00:29:14,653 INFO     ___FILE_ONLY___  
+2024-09-12 00:29:14,653 INFO     ___FILE_ONLY___ │
+2024-09-12 00:29:14,653 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,653 INFO     ___FILE_ONLY___ └───────────────┴──────────────────────────────────────────────────────┴──────────────────────────────┴───────────┘
+2024-09-12 00:29:14,653 INFO     ___FILE_ONLY___ 
+
+2024-09-12 00:29:14,653 INFO     ___FILE_ONLY___ To install or remove components at your current SDK version [492.0.0], run:
+  $ gcloud components install COMPONENT_ID
+  $ gcloud components remove COMPONENT_ID
+
+To update your SDK installation to the latest version [492.0.0], run:
+  $ gcloud components update
+
+

@@ -12,7 +12,7 @@ const page = ({ params }: { params: { id: string } }) => {
       className={styles.wrapper_container}
       style={{ backgroundColor: '#0e0c16' }}
     >
-      <ChatContainer chatSession={chatSession} />
+      <ChatContainer chatSession={chatSession} chatId={params.id} />
     </div>
   );
 };

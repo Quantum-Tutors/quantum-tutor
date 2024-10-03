@@ -1,20 +1,21 @@
+"use client";
 import React from 'react'
-import Image from 'next/image';
 import { assets } from '../../../assets';
 import styles from '../../styles/UserQuery.module.scss';
 import Typography from '@mui/material/Typography';
 
-const UserQuery = ({ propmt }: { propmt : string}) => {
+const UserQuery = ({ propmt, imgUrl }: { propmt: string; imgUrl: string }) => {
+  
   return (
     <div className={styles.userQuery}>
-      <Image
-        src={assets.User}
+      <img
+        src={imgUrl || assets.User.src}
         alt=''
         width={32}
         height={32}
         style={{ borderRadius: '20px' }}
       />
-      <Typography variant='body1' gutterBottom>
+      <Typography color={"white"} variant='body1' gutterBottom>
         {propmt}
       </Typography>
     </div>
