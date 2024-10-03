@@ -6,7 +6,6 @@ import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import { Box, Button, Theme } from '@mui/material';
 import { IPromptContext } from '@/types';
 import { signOut, useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import PromptField from '@/components/PromptField';
 
 export const PromptContext = React.createContext<IPromptContext>({
@@ -26,7 +25,7 @@ export const PromptContext = React.createContext<IPromptContext>({
   prompt: '',
   chatId: '',
   isLoading: false,
-  setIsLoading: function  (loading: boolean): void {
+  setIsLoading: function (loading: boolean): void {
     throw new Error('Function not implemented.');
   },
   currentModuleId: '',
@@ -34,6 +33,9 @@ export const PromptContext = React.createContext<IPromptContext>({
     throw new Error('Function not implemented.' + propmt);
   },
   setData: function (): void {
+    throw new Error('Function not implemented.');
+  },
+  setChatId: function (id: string): void {
     throw new Error('Function not implemented.');
   },
 });
@@ -44,12 +46,11 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   const session = useSession();
-  const router = useRouter();
   const [theme, setTheme] = React.useState<Theme>(darkTheme);
   const [userPrompt, setUserPrompt] = React.useState<string>('');
   const [isLoading, setIsLoading] = React.useState(false);
   const [data, setData] = React.useState<any[]>([]);
-  const [userChatId, setUserChatId] = React.useState(null);
+  const [userChatId, setUserChatId] = React.useState<string>("");
   const [moduleIds, setmoduleIds] = React.useState<string[]>([]);
   const [moduleId, setCurrentModuleId] = React.useState('');
   const [currentModel, setcurrentModel] = React.useState(
@@ -157,6 +158,7 @@ export default function Layout({
           ragEnabled={ragEnabled}
           setRag={setRagState}
           setData={setData}
+          setchatId={setUserChatId}
         />
         <PromptContext.Provider
           value={{
@@ -164,17 +166,18 @@ export default function Layout({
             prompt: userPrompt,
             setData: setData,
             isLoading: isLoading,
-            chatId: userChatId || '',
+            chatId: userChatId,
             moduleList: moduleIds,
             currentModuleId: moduleId,
             converse: makeConversation,
             setIsLoading: setIsLoading,
+            setChatId : setUserChatId
           }}
         >
           {children}
         </PromptContext.Provider>
         <PromptField
-          chatId={userChatId || ''}
+          chatId={userChatId}
           setUserPropmt={makeConversation}
         />
         <Button

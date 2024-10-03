@@ -30,7 +30,7 @@ const FeatureBoxList: React.FC<FeatureBoxListProps> = ({
           key={index}
           onClick={() => {
             setIsLoading(true);
-            converse('I want to learn' + feature.text);
+            converse('I want to ' + feature.text);
           }}
         >
           <FeatureBox text={feature.text} Icon={feature.Icon} />

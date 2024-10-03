@@ -20,4 +20,5 @@ export interface IPromptContext {
   currentModuleId: string;
   converse: (prompt: string) => void;
   setIsLoading: (loading: boolean) => void;
+  setChatId: (id: string) => void;
 }
