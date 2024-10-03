@@ -4,15 +4,17 @@ services:
     command: sh -c "python -m server.app"
     # env_file:
     #   - ./server/config/.env
-    network_mode: "host"
     volumes:
       - ./server:/server
     platform: linux/amd64
+    ports:
+      - "5000:5000"
+    network_mode: "host"
     build:
       context: .
       dockerfile: ./server/Dockerfile
     healthcheck:
-      test: wget --no-verbose --tries=1 http://localhost:5000/ || exit 1  # Use localhost
+      test: wget --no-verbose --tries=1 http://0.0.0.0:5000/ || exit 1  # Use 0.0.0.0
       interval: 30s
       retries: 5
       start_period: 15s
@@ -21,15 +23,17 @@ services:
   control_plane:
     image: control_plane:latest
     command: sh -c "python -m core_systems.main"
-    network_mode: "host"
     volumes:
       - ./llm_deploy/core_systems:/core_systems
     platform: linux/amd64
+    ports:
+      - "8000:8000"  
+    network_mode: "host"
     build:
       context: .
       dockerfile: ./llm_deploy/core_systems/Dockerfile
     healthcheck:
-      test: wget --no-verbose --tries=1 http://localhost:8000/ || exit 1  # Use localhost
+      test: wget --no-verbose --tries=1 http://0.0.0.0:8000/ || exit 1  # Use 0.0.0.0
       interval: 30s
       retries: 5
       start_period: 5s
@@ -40,11 +44,13 @@ services:
     command: sh -c "python -m workflows.tutor"
     # env_file:
     #   - ./llm_deploy/workflows/.env
-    network_mode: "host"
     volumes:
       - ./llm_deploy/workflows:/workflows
-      - ~/.config/gcloud:/root/.config/gcloud
+      - ./llm_deploy/workflows/gcloud:/root/.config/gcloud
     platform: linux/amd64
+    ports:
+      - "8002:8002"  
+    network_mode: "host"
     # depends_on:
     #   control_plane:
     #     condition: service_healthy
@@ -52,7 +58,7 @@ services:
       context: .
       dockerfile: ./llm_deploy/workflows/Dockerfile
     healthcheck:
-      test: wget --no-verbose --tries=1 http://localhost:8002/ || exit 1  # Use localhost
+      test: wget --no-verbose --tries=1 http://0.0.0.0:8002/ || exit 1  # Use 0.0.0.0
       interval: 30s
       retries: 5
       start_period: 20s
