@@ -64,8 +64,7 @@ async def deploy_agentic_workflow():
             port=8002, 
             service_name="tutor_workflow"
         ),
-        control_plane_config=ControlPlaneConfig(host="http://little-larissa-quantum-tutor-4ecfef4f.koyeb.app"),
-        # control_plane_config=ControlPlaneConfig(host=str(os.getenv("CONTROL_PLANE_URL"))),
+        control_plane_config=ControlPlaneConfig(host=str(os.getenv("CONTROL_PLANE_URL")),port=None),
     )
 
 if __name__ == "__main__":

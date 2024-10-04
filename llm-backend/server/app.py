@@ -28,7 +28,7 @@ chat_sessions, messages, modules = get_mongo_client()
 
 app = FastAPI()
 
-origins = [os.getenv("FRONTEND_URL")]
+origins = ["*"]
 print('origins', origins)
 app.add_middleware(
     CORSMiddleware,
@@ -38,12 +38,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-llama_deploy_aclient = LlamaDeployClient(ControlPlaneConfig(host=str(os.getenv("CONTROL_PLANE_URL"))), timeout=180)
+llama_deploy_aclient = LlamaDeployClient(ControlPlaneConfig(host=str(os.getenv("CONTROL_PLANE_URL")),port=None), timeout=180)
 
 
 
 @app.post("/chat")
 def chat_with_bot(user_message: Message):
+    print('req received at /chat')
     user_message = user_message.model_dump()
     chat_id, user_id, model = (
         user_message["chatId"],
@@ -109,6 +110,7 @@ def chat_with_bot(user_message: Message):
                 # print(docs['files'])
                 
             model_output = session.run("tutor_workflow", chat_history=chat_history, model=model, docs=docs)
+            print(model_output)
             if not model_output:
                 logging.error("Model output is empty")
                 raise HTTPException(status_code=500, detail="Model failed to generate output")
