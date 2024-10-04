@@ -1,5 +1,4 @@
 from typing import Optional, Any
-from llama_index.core.workflow import Event
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict
 
