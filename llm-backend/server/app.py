@@ -293,9 +293,17 @@ def wipe_db():
     messages.delete_many({})
     return {}
 
-if __name__ == "__main__":
+async def start_fastapi_server():
     import uvicorn
+    await uvicorn.run(app, host="0.0.0.0", port=5000)
 
 
-    uvicorn.run(app, host="0.0.0.0", port=5000)
-
+if __name__ == "__main__":
+    import asyncio, time
+    from server.llm_deploy.workflows.tutor import deploy_tutor_workflow
+    from server.llm_deploy.core_systems.main import deploy_core_systems
+    
+    async def main():
+        asyncio.gather(deploy_core_systems(), deploy_tutor_workflow(), start_fastapi_server())
+    
+    asyncio.run(main())

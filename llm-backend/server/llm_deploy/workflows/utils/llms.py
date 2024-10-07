@@ -1,12 +1,12 @@
 import os
 from dotenv import load_dotenv
-load_dotenv(os.path.join('./llm_deploy/workflows/','.env'))
+load_dotenv(os.path.join('./server/llm_deploy/workflows/','.env'))
 
 from llama_index.llms.gemini import Gemini
 from llama_index.llms.groq import Groq
 
-from llm_deploy.workflows.utils.pydantic_models import ModelResponse
-from llm_deploy.workflows.utils.constants import response_schema, generation_config
+from server.llm_deploy.workflows.utils.pydantic_models import ModelResponse
+from server.llm_deploy.workflows.utils.constants import response_schema, generation_config
 # from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 
 models = {

@@ -13,10 +13,10 @@ from llama_deploy import (
     WorkflowServiceConfig,
     ControlPlaneConfig,
 )
-from llm_deploy.workflows.utils.llms import models
-from llm_deploy.workflows.utils.pydantic_models import TutorEvent
-from llm_deploy.workflows.utils.funcs import convert_to_chat_history
-from llm_deploy.workflows.utils.prompts import tutor_system_prompt
+from server.llm_deploy.workflows.utils.llms import models
+from server.llm_deploy.workflows.utils.pydantic_models import TutorEvent
+from server.llm_deploy.workflows.utils.funcs import convert_to_chat_history
+from server.llm_deploy.workflows.utils.prompts import tutor_system_prompt
 
 from colorama import Fore, Back, Style
 
@@ -54,7 +54,7 @@ def build_tutor_workflow() -> TutorWorkflow:
     return TutorWorkflow(timeout=180, verbose=True)
 
 
-async def deploy_agentic_workflow():
+async def deploy_tutor_workflow():
     tutor_workflow = build_tutor_workflow()
 
     await deploy_workflow(
@@ -67,9 +67,9 @@ async def deploy_agentic_workflow():
         control_plane_config=ControlPlaneConfig(host="0.0.0.0"),
     )
 
-if __name__ == "__main__":
-    import asyncio, time
+# if __name__ == "__main__":
+    # import asyncio, time
 
-    time.sleep(5)
+    # time.sleep(5)
 
-    asyncio.run(deploy_agentic_workflow())
+    # asyncio.run(deploy_tutor_workflow())

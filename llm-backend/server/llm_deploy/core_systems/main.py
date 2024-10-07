@@ -4,13 +4,13 @@ from llama_deploy import (
     SimpleMessageQueueConfig,
 )
 
-async def main():
+async def deploy_core_systems():
     await deploy_core(
         control_plane_config=ControlPlaneConfig(host='0.0.0.0'),
         message_queue_config=SimpleMessageQueueConfig(host='0.0.0.0'),
     )
 
 
-import asyncio
+# import asyncio
 
-asyncio.run(main())
+# asyncio.run(deploy_core_systems())
