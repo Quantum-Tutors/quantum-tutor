@@ -13,9 +13,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* &&\
     pip install -r ./requirements.txt 
 
-RUN chmod +x ./run-dev-server.sh
-
 RUN groupadd -r appuser && useradd --no-create-home -g appuser -r appuser
 USER appuser
 
-CMD ["./run-dev-server.sh"]
+CMD ["python","-m","server.app"]
