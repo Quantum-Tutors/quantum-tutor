@@ -5,7 +5,7 @@ from llama_deploy import (
     ControlPlaneConfig,
 )
 
-from fastapi import FastAPI, HTTPException, File, UploadFile
+from fastapi import FastAPI, HTTPException, Response, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
 from server.data.mongo_client import get_mongo_client
@@ -91,7 +91,7 @@ def chat_with_bot(user_message: Message):
                 else:
                     chat_sessions.update_one(
                         {"chatId": chat_id},
-                        {"$push": {"messages": user_message.msgId}},
+                        {"$push": {"messages": user_message["msgId"]}},
                     )
                 logging.info(
                     f"User message inserted. chatId: {chat_id}, messageId: {user_message['msgId']}, sequence: {user_message['sequence']}"
@@ -338,6 +338,10 @@ def wipe_db():
     messages.delete_many({})
     return {}
 
+@app.get("/stay_alive")
+async def stay_alive(response: Response):
+    response.status_code = 200
+    return {"status": "Server is alive"}
 
 async def start_fastapi_server():
     import uvicorn
