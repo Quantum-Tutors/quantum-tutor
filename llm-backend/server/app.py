@@ -22,7 +22,7 @@ chat_sessions, messages, modules = get_mongo_client()
 
 app = FastAPI()
 
-origins = ["http://localhost:3000"]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
