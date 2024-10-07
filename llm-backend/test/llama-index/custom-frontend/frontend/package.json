@@ -20,7 +20,8 @@
     "recoil": "^0.7.7",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "vite-project": "file:"
   },
   "devDependencies": {
     "@types/node": "^20.9.0",
