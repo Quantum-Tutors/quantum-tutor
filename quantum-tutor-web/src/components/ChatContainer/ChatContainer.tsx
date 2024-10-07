@@ -27,7 +27,7 @@ const ChatContainer = ({ chatSession, chatId }: { chatSession: any, chatId: stri
       router.push("/app")
       setIsLoading(false);
     }
-  }, []);
+  }, [chatSession]);
 
   return <ChatHistory data={data} />;
 };

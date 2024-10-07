@@ -12,7 +12,7 @@ const Dashboard = () => {
     const session = useSession()
     const router = useRouter()
     const [typingStatus, setTypingStatus] = useState("human1");
-    const [appUnderMaintenance, setAppUnderMaintenace] = useState(true);
+    const [appUnderMaintenance, setAppUnderMaintenace] = useState(false);
 
     console.log(`Login status of user ${session.status} and user email id ${session.data?.user?.email}`)
 
