@@ -338,10 +338,15 @@ def wipe_db():
     messages.delete_many({})
     return {}
 
-@app.get("/stay_alive", methods=["GET", "HEAD"])
-async def stay_alive(response: Response):
+@app.get("/stay_alive")
+async def get_stay_alive(response: Response):
     response.status_code = 200
     return {"status": "Server is alive"}
+
+@app.head("/up-time-robot")
+async def head_stay_alive(response: Response):
+    response.status_code = 200
+    return Response(status_code=200)
 
 async def start_fastapi_server():
     import uvicorn
