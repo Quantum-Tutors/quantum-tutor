@@ -338,7 +338,7 @@ def wipe_db():
     messages.delete_many({})
     return {}
 
-@app.get("/stay_alive")
+@app.get("/stay_alive", methods=["GET", "HEAD"])
 async def stay_alive(response: Response):
     response.status_code = 200
     return {"status": "Server is alive"}
