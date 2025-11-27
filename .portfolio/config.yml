@@ -1,0 +1,34 @@
+# .portfolio/config.yml
+name: Quantum Tutor - AI Teaching Assistant
+slug: quantum-tutor
+description: >
+  An AI-powered teaching assistant that uses the Socratic method to guide students through learning
+  Data Structures and Algorithms, with a specific focus on sorting algorithms. Features RAG capabilities
+  on user-provided documents, built with Next.js, FastAPI, LlamaIndex, and multiple LLMs.
+tech_stack:
+  - Next.js
+  - FastAPI
+  - LlamaIndex
+  - LlamaDeploy
+  - Gemini AI
+  - Groq LLM
+  - MongoDB
+  - Docker
+  - Python
+  - React
+  - TypeScript
+  - Material UI
+  - PDFPlumber
+tags:
+  - AI/ML
+  - Education
+  - Socratic Method
+  - RAG
+  - Full-Stack
+is_active: true
+readme_path: README.md
+repo_url: https://github.com/Namasivaayam-L/quantum-tutor
+thumbnail: https://raw.githubusercontent.com/Namasivaayam-L/quantum-tutor/main/.portfolio/cover.png
+created_at: 2025-11-27
+updated_at: 2025-11-27
+featured: false
