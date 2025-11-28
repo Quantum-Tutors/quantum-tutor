@@ -1,47 +1,121 @@
-# Quantum Tutor
+# ⚛️ Quantum Tutor: AI Socratic Teaching Assistant
 
-## Overview
+**Quantum Tutor** is an AI-powered teaching assistant utilizing the **Socratic method** to guide students through **Data Structures and Algorithms**, with a focus on sorting algorithms. It features **Retrieval-Augmented Generation (RAG)** on user-provided documents for a personalized learning experience.
 
-Quantum Tutor is an AI-powered teaching assistant that uses the Socratic method to guide students through learning Data Structures and Algorithms, with a specific focus on sorting algorithms. The system is capable of performing retrieval-augmented generation (RAG) on user-provided documents, making the learning experience tailored to individual needs. This project integrates Next.js, FastAPI, LlamaIndex, Gemini LLM, Groq open-source LLMs, MongoDB, and Docker, leveraging the strengths of these technologies to provide an efficient, scalable, and interactive platform for AI-driven Socratic learning.
+---
 
-## Tech Stack
+## ✨ Features
 
-- **Next.js**: For server-side rendering and building the frontend.
-- **FastAPI**: Lightweight Python-based backend for handling API requests.
-- **LlamaIndex**: For indexing and retrieving relevant document content.
-- **LlamaDeploy**: For deploying Llama-based models.
-- **Gemini LLM**: Large language model used for generating human-like responses.
-- **Groq LLM**: Open-source LLM for efficient language model processing.
-- **MongoDB**: A NoSQL database for storing user sessions and application data.
-- **Docker**: Containerization for the FastAPI server and Llama components.
+-   🧑‍🏫 **Socratic Learning**: Guides students through DSA concepts using interactive questioning.
+-   🧠 **RAG Personalization**: Tailors content by performing RAG on user-provided documents.
+-   📚 **DSA Focus**: Specialized in Data Structures and Algorithms, particularly sorting algorithms.
+-   🗣️ **Multiple LLMs**: Integrates Gemini LLM and Groq open-source LLMs for diverse AI interactions.
+-   🌐 **Full-Stack Architecture**: Built with Next.js (frontend) and FastAPI (backend).
 
-## Prerequisites
+---
 
-- Node.js >= 14.x
-- MongoDB >= 4.4
-- Python >= 3.8
-- Git
-- Docker
+## 🧰 Tech Stack
 
-## Installation
+| Component         | Tech                              |
+|-------------------|-----------------------------------|
+| Frontend          | Next.js                           |
+| Backend           | FastAPI, Python                   |
+| RAG Framework     | LlamaIndex                        |
+| LLMs              | Gemini LLM, Groq LLMs             |
+| Database          | MongoDB                           |
+| Containerization  | Docker                            |
+| Deployment        | LlamaDeploy (for LLM backend)     |
+| Language          | JavaScript/TypeScript, Python     |
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/Quantum-Tutors/quantum-tutor.git
-2. **Navigate to project**
-    ```bash
-    cd quantum-tutor-web
-    cd llm-backend
-### LLM SERVER & LLAMA DEPLOY
-3. **Install Docker**
-4. **Docker Compose**
-    ```bash
-    docker compose -f ./docker-compose.yml --project-directory ./ up --build -d --remove-orphans
+---
 
-5. **Install dependencies For frontend (Next.js):**
-    ```bash
-    cd quantum-tutor-web
-    npm install
-6. **Run the application Frontend:**
-    ```bash
-    npm run dev
+## 🚀 Setup Instructions
+
+This project consists of two main parts: the `llm-backend` (FastAPI) and `quantum-tutor-web` (Next.js frontend).
+
+### Prerequisites
+
+-   **Node.js** (>= 14.x)
+-   **MongoDB** (>= 4.4)
+-   **Python** (>= 3.8)
+-   **Git**
+-   **Docker**
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Quantum-Tutors/quantum-tutor.git # Replace with actual repo URL if different
+cd quantum-tutor
+```
+
+### 2. Set up LLM Backend (FastAPI with Docker)
+
+Navigate to the `llm-backend` directory and use Docker Compose:
+
+```bash
+cd llm-backend
+docker compose -f ./docker-compose.yml --project-directory ./ up --build -d --remove-orphans
+# This will start your FastAPI server and Llama components in Docker containers.
+cd ..
+```
+
+### 3. Set up Frontend (Next.js)
+
+Navigate to the `quantum-tutor-web` directory and install dependencies:
+
+```bash
+cd quantum-tutor-web
+npm install
+cd ..
+```
+
+### ⚙️ Configuration
+
+-   Ensure **MongoDB** is running and accessible.
+-   Set up any necessary environment variables (e.g., API keys for Gemini/Groq, MongoDB connection strings) in both `llm-backend` and `quantum-tutor-web` (typically via `.env` files).
+
+---
+
+## 🧑‍💻 Run the Application
+
+### 1. Start LLM Backend
+
+The backend should already be running via Docker Compose (from setup step 2).
+
+### 2. Start Frontend
+
+Navigate to the `quantum-tutor-web` directory and start the Next.js development server:
+
+```bash
+cd quantum-tutor-web
+npm run dev
+```
+
+The frontend application will typically be accessible at `http://localhost:3000`.
+
+---
+
+## 📂 Project Structure
+
+```
+.
+├── llm-backend/                # FastAPI backend for LLM integration and RAG
+│   ├── Dockerfile              # Dockerfile for backend
+│   ├── docker-compose.yml      # Docker Compose for services (FastAPI, Llama)
+│   ├── main.py                 # FastAPI application entry point
+│   ├── requirements.txt        # Python dependencies
+│   └── ...
+├── quantum-tutor-web/          # Next.js frontend application
+│   ├── public/                 # Static assets
+│   ├── src/                    # React components, pages, API integrations
+│   ├── package.json            # Frontend dependencies and scripts
+│   └── ...
+├── README.md                   # Project overview and documentation
+├── .gitignore                  # Git ignore rules
+├── start_llm_server.sh         # Convenience script for LLM backend
+└── start_next_server.sh        # Convenience script for Next.js frontend
+```
+
+---
+
+Built for **AI-powered Education**, **Socratic Learning**, and **Personalized Tutoring**.
